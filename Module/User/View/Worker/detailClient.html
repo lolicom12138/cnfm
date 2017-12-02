@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<th>姓名:</th>
+			<td>{$client.name}</td>
+			<th>身份证号码:</th>
+			<td>{$client.identity}</td>
+		</tr>
+		<tr>
+			<th>性别:</th>
+			<td>{$client.sex}</td>
+			<th>身份证号码:</th>
+			<td>{$client.identity}</td>
+		</tr>
+		<tr>
+			<th>地址:</th>
+			<td>{$client.adresse}</td>
+			<th>民族:</th>
+			<td>{$client.nation}</td>
+		</tr>
+		<tr>
+			<th>出生日期:</th>
+			<td>{$client.datebirth}</td>
+			<th>电话:</th>
+			<td>{$client.tel}</td>
+		</tr>
+		<tr>
+			<th>服务人:</th>
+			<td>{$client.serveur.name}</td>
+			<th>婚姻情况:</th>
+			<td>{$client.profile.marriage}</td>
+		</tr>
+		<tr>
+			<th>服务人:</th>
+			<td>{$client.serveur.name}</td>
+			<th>身高:</th>
+			<td>{$client.profile.tall}</td>
+		</tr>
+		<tr>
+			<th>每月消费:</th>
+			<td>{$client.profile.amountpermonth}</td>
+			<th>主要购买:</th>
+			<td>{$client.profile.majorareabuy}</td>
+		</tr>
+		<tr>
+			<th>常购物场所:</th>
+			<td>{$client.profile.majorlocationbuy}</td>
+			<th>儿子:</th>
+			<td>{$client.profile.son}</td>
+		</tr>
+		<tr>
+			<th>女儿:</th>
+			<td>{$client.profile.daughter}</td>
+			<th>居住方式:</th>
+			<td>{$client.profile.typelive}</td>
+		</tr>
+		<tr>
+			<th>政治情况:</th>
+			<td>{$client.profile.politicalstatus}</td>
+		</tr>
+	</table>
+	<p>会员卡持有情况</p>
+	<table>
+		<tr>
+			<th>卡号</th>
+		</tr>
+		<volist name='client.vip' id='cv'>
+			<tr>
+				<td>{$cv.cardnumber}</td>
+			</tr>
+		</volist>
+	</table>
+	<p>消费记录</p>
+	<table>
+		<tr>
+			<th>订单号</th>
+			<th>会员卡号</th>
+			<th>支付方式</th>
+			<th>总价</th>
+			<th>折后价</th>
+			<th>时间</th>
+			<th>状态</th>
+		</tr>
+		<volist name='client.order' id='l'>
+			<tr>
+				<td>{$l.idorder}</td>
+				<td>{$l.vip.cardnumber}</td>
+				<td>
+					<eq name='l.typepay' value='credit'>
+						储值
+					</eq>
+					<eq name='l.typepay' value='creditGive'>
+						赠送金额
+					</eq>
+					<eq name='l.typepay' value='pointConso'>
+						通用积分
+					</eq>
+					<eq name='l.typepay' value='pointHeal'>
+						调养/健康积分
+					</eq>
+					<eq name='l.typepay' value='pointTourism'>
+						旅游积分
+					</eq>
+				</td>
+				<td>{$l.price}</td>
+				<td>{$l.pricesold}</td>
+				<td>{$l.time}</td>
+				<td>{$l.status}</td>
+			</tr>
+		</volist>
+	</table>
+	<p>充值信息</p>
+	<table>
+		<tr>
+			<td>时间</td>
+			<td>金额</td>
+			<td>类型</td>
+			<td>原因</td>
+			<td>操作人</td>
+			<td>备注</td>
+		</tr>
+		<volist name="client.recharger" id="r">
+			<tr>
+				<td>{$r.time}</td>
+				<td>{$r.sum}</td>
+				<td>
+					<eq name="r.typerecharger" value="credit">
+						储值
+					</eq>
+					<eq name="r.typerecharger" value="creditGive">
+						赠送金额
+					</eq>
+					<eq name="r.typerecharger" value="pointRecharger">
+						储值积分
+					</eq>
+					<eq name="r.typerecharger" value="pointGive">
+						赠送积分
+					</eq>
+					<eq name="r.typerecharger" value="pointConso">
+						消费积分
+					</eq>
+					<eq name="r.typerecharger" value="pointTourism">
+						旅游积分
+					</eq>
+					<eq name="r.typerecharger" value="pointHeal">
+						调养积分
+					</eq>
+				</td>
+				<td>{$r.raison}</td>
+				<td>{$r.operator.name}</td>
+				<td>{$r.etc}</td>
+			</tr>
+		</volist>
+	</table>
+	<p>家访情况</p>
+	<table>
+		<tr>
+			<td>时间</td>
+			<td>类型</td>
+			<td>详情</td>
+		</tr>
+		<volist name="client.visit" id="v">
+			<tr>
+				<td>{$v.time}</td>
+				<td>{$v.type}</td>
+				<td>{$v.content}</td>
+			</tr>
+		</volist> 
+	</table>
+	<p>计次消费剩余</p>
+	<table>
+		<tr>
+			<td>商品</td>
+			<td>剩余次数</td>
+		</tr>
+		<volist name="client.fois" id="f">
+			<tr>
+				<td>{$f.product.name}</td>
+				<td>{$f.fois}</td>
+			</tr>
+		</volist>
+	</table>
+	<a href="{:U('/user/worker/reportClient',array('id'=>$client[id]))}">添加信息</a>&nbsp;<a href="{:U('/user/worker/visitClient',array('id'=>$client[id]))}">家访</a>
+	<!--<img src='__PUBLIC__/1.jpg'/>-->
+</html>

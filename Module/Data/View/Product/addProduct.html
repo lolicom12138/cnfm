@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>addProduct</title>
+<style>
+input, textarea, select {
+	height: 23px;
+	width: 120px;
+}
+
+.button_blue {
+	display: inline-block;
+	height: 27px;
+	border-radius: 4px;
+	background: #2795dc;
+	border: none;
+	cursor: pointer;
+	border-bottom: 3px solid #0078b3;
+	*border-bottom: none;
+	color: #fff;
+	font-size: 14px;
+	padding: 0px 10px;
+	*width: 140px;
+	text-align: center;
+	outline: none;
+	font-family: "Microsoft Yahei", Arial, Helvetica, sans-serif;
+	line-height: 25px;
+}
+
+input.button_blue:hover {
+	background: #0081c1;
+	border-bottom: 3px solid #006698;
+	*border-bottom: none;
+	color: #fff;
+	text-decoration: none;
+}
+</style>
+</head>
+<body>
+	<form action='' method='POST'>
+		<table width="399" height="323" border="0">
+			<tr>
+				<td width="179" height="28">商品名称：</td>
+				<td width="210"><input type="text" name='name'></td>
+			</tr>
+			<tr>
+				<td>商品分类：</td>
+				<td><select name='class'>
+						<option value=''>请选择……</option>
+						<volist name="class" id='c'>
+						<option value='{$c.id}'>{$c.class}</option>
+						</volist>
+				</select></td>
+			</tr>
+			<tr>
+				<td>商品供货商：</td>
+				<td><input type='text' name='supplier' list='supplierList' /></td>
+				<datalist id='supplierList'>
+					<volist name='supplier' id='s'>
+					<option value='{$s.name}' label='{$s.name}' />
+					</volist>
+				</datalist>
+			</tr>
+			<!-- 
+		<tr>
+			<td>商品供货商：</td>
+			<td><select name='class'>
+					<option value=''>请选择……</option>
+					<volist name="class" id='c'>
+						<option value='{$c.id}'>{$c.class}</option>
+					</volist>
+			</select></td>
+		</tr>
+		 -->
+			<tr>
+				<td>商品编码：</td>
+				<td><input type="text" name='code'></td>
+			</tr>
+			<tr>
+				<td>商品平台价：</td>
+				<td><input type="text" name='priceNormal'></td>
+			</tr>
+			<tr>
+				<td>商品会员价：</td>
+				<td><input type="text" name='priceOut'></td>
+			</tr>
+			<tr>
+				<td>商品使用会员价所需兑换积分：</td>
+				<td><input type="text" name='pointExchange'></td>
+			</tr>
+			<tr>
+				<td>商品纯积分兑换价格：</td>
+				<td><input type="text" name='pointOut'></td>
+			</tr>
+			<tr>
+				<td>是否计次:</td>
+				<td><input type='checkbox' name='ifFois' value='1'/></td>
+			</tr>
+			<tr>
+				<td>是否有自由卡折扣:</td>
+				<td><input type='checkbox' name='ifSold' value='1'/></td>
+			</tr>
+			<tr>
+				<td>规格:</td>
+				<td><input type="text" name="dimension"/>
+			</tr>
+			<tr>
+				<td>单位:</td>
+				<td><input type="text" name="unit"/>
+			</tr>
+			<tr>
+				<td>备注：</td>
+				<td><textarea name='etc'></textarea></td>
+			</tr>
+		</table>
+		<input type="submit" value="添加" style="width: 50px;"
+			class="button_blue" />
+	</form>
+
+
+</body>
+</html>

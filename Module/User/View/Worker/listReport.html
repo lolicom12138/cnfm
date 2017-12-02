@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<th>员工姓名</th>
+			<th>标题</th>
+			<th>时间</th>
+			<th>操作</th>
+		</tr>
+		<volist name='list' id='l'>
+			<tr>
+				<td>{$l.user.name}</td>
+				<td>{$l.title}</td>
+				<td>{$l.time}</td>
+				<td><a href="{:U('/user/worker/detailReport',array('id'=>$l[id]))}">详情</a></td>
+			</tr>
+		</volist>
+	</table>
+</body>
+</html>

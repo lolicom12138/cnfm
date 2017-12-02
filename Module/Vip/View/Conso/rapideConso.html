@@ -1,0 +1,163 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>rapidConso2</title>
+<style>
+input[type=text], textarea {
+	width: 160px;
+	height: 25px;
+}
+
+select {
+	height: 20px;
+}
+
+input[type=password] {
+	margin-right: 15px;
+	width: 100px;
+	height: 20px;
+}
+
+input[type="submit"] {
+	height: 27px;
+	font-size: 10pt;
+	color: #003399;
+	border: 1px #93bee2 solid;
+	width: 60px;
+	background-color: #e8f4ff;
+	line-height: 23px;
+	position: absolute;
+	font-weight: bold;
+	cursor: pointer;
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+	margin-top: 10px;
+	font-size: 16px;
+}
+
+table {
+	border-collapse: collapse;
+	text-align: center;
+	margin: 10px 0px;
+}
+
+td {
+	border: 1px solid #000;
+}
+</style>
+<script>
+	function getVip(){
+		var cardNumber = document.getElementById("number").value;
+		if(!cardNumber){
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("("+result+")");
+				if(result['status'] == "ok"){
+					formConso.cardNumber.value = cardNumber;
+					document.getElementById("cardNumber").innerHTML = cardNumber;
+					document.getElementById("name").innerHTML = result.name;
+					document.getElementById("card").innerHTML = result.card;
+					document.getElementById("credit").innerHTML = result.credit;
+					document.getElementById("creditGive").innerHTML = result.creditGive;
+					document.getElementById("pointRecharger").innerHTML = result.pointRecharger;
+					document.getElementById("pointGive").innerHTML = result.pointGive;
+					document.getElementById("pointConso").innerHTML = result.pointConso;
+					document.getElementById("pointHeal").innerHTML = result.pointHeal;
+					document.getElementById("pointTourism").innerHTML = result.pointTourism;
+					document.getElementById("dateCard").innerHTML = result.dateCard;
+					document.getElementById("dateActive").innerHTML = result.dateActive;
+					document.getElementById("dateExpire").innerHTML = result.dateExpire;
+				}else{
+					alert("未找到此会员卡号或此卡未激活");
+				}
+				
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/vip/getVip')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("cardNumber="+cardNumber);
+		
+	}
+</script>
+</head>
+<body>
+	会员卡号码输入:
+	<input type="text" id='number'/><button onclick='javascript:getVip()'>查找</button>
+<form action='' method='POST' id='formConso'>
+		<table width="1233" height="65" border="1" class="table1">
+			<tr>
+				<th width="200" height="47">会员卡号</th>
+				<th>姓名</th>
+				<th width='97'>会员卡类型</th>
+				<th width="86">储值</th>
+				<th width="86"><p>赠送金额</p></th>
+				<th width="86">储值积分</th>
+				<th width="86">赠送积分</th>
+				<th width="86">消费积分</th>
+				<th width="86">调养积分</th>
+				<th width="86">旅游积分</th>
+				<th width="86">开卡日期</th>
+				<th width="86">激活日期</th>
+				<th width="86">到期日期</th>
+			</tr>
+			<tr>
+				<td id='cardNumber'></td>
+				<td id='name'></td>
+				<td id='card'></td>
+				<td id='credit'></td>
+				<td id='creditGive'></td>
+				<td id='pointRecharger'></td>
+				<td id='pointGive'></td>
+				<td id='pointConso'></td>
+				<td id='pointHeal'></td>
+				<td id='pointTourism'></td>
+				<td id='dateCard'></td>
+				<td id='dateActive'></td>
+				<td id='dateExpire'></td>
+			</tr>
+		</table>
+		<table width="323" height="102" border="0">
+		  <tr>
+				<td width="125">消费价格：</td>
+				<td width="186"><input type='text' name='price'/></td>
+			</tr>
+			<tr>
+				<td width="125">消费内容输入：</td>
+				<td width="186"><input type='text' name='etc'/></td>
+			</tr>
+			<!--  
+			<tr>
+				<td width='125'>支付方式:</td>
+				<td width="186">
+					<select name='typePay'>
+						<option value=''>请选择</option>
+						<option value='credit'>储值</option>
+						<option value='creditGive'>赠送金额</option>
+						<option value='pointConso'>通用积分</option>
+						<option value='pointHeal'>调养/健康 积分</option>
+						<option value='pointTourism'>旅游积分</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td width='125'>支付密码:</td>
+				<td width="186"><input type='password' name='pwdPay' maxlength='6'/></td>
+			</tr>
+			-->
+		</table>
+		<input type='hidden' name='cardNumber' /> <input type="submit"
+			value="提交" />
+	</form>
+</body>
+</html>

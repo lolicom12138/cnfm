@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>添加活动</title>
+<style>
+a {
+	text-decoration: none;
+	font-weight: bold;
+}
+
+table {
+	text-align: left;
+}
+
+date, input {
+	width: 150px;
+	height: 20px;
+}
+
+select {
+	width: 150px;
+	height: 24px;
+}
+
+input[type="submit"] {
+	height: 23px;
+	font-size: 10pt;
+	color: #003399;
+	border: 1px #93bee2 solid;
+	width: 40px;
+	background-color: #e8f4ff;
+	line-height: 19px;
+	position: absolute;
+	font-weight: bold;
+	cursor: pointer;
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+</style>
+</head>
+<body>
+	<form action="" method="POST">
+		<table width="385" height="156" border="0">
+			<tr>
+				<td width="118">活动时间：</td>
+				<td width="257"><input type="datetime-local" name='time'/></td>
+			</tr>
+			<tr>
+				<td width="118">结束时间：</td>
+				<td width="257"><input type="datetime-local" name='timeEnd'/></td>
+			</tr>
+			<tr>
+				<td>活动名称：</td>
+				<td><input type="text" name='name'/></td>
+			</tr>
+			<tr>
+				<td>活动地点：</td>
+				<td><select name='position'>
+						<volist name='position' id='p'>
+							<option value='{$p.id}'>{$p.position}</option>
+						</volist>
+				</select></td>
+			</tr>
+			<!--  
+			<tr>
+				<td>活动类型：</td>
+				<td><script language="javascript">
+					function changeF() {
+						document.getElementById('makeupCo').value = document
+								.getElementById('makeupCoSe').options[document
+								.getElementById('makeupCoSe').selectedIndex].value;
+					}
+				</script>
+					<div style="height: 23px;">
+						<span
+							style="position: absolute; border: 1pt solid #c1c1c1; overflow: hidden; width: 148px; height: 19px; clip: rect(-1px, 150px, 150px, 130px);">
+							<select name="makeupCoSe" id="makeupCoSe"
+							style="width: 150px; height: 20px; margin: -2px;"
+							onChange="changeF();">
+								<option id='1' value='剪花裁纸'>剪花裁纸</option>
+								<option id='2' value='植树'>植树</option>
+								<option id='3' value='户外活动'>户外活动</option>
+
+						</select>
+						</span> <span
+							style="position: absolute; border-top: 1pt solid #c1c1c1; border-left: 1pt solid #c1c1c1; border-bottom: 1pt solid #c1c1c1; width: 130px; height: 19px;">
+							<input type="text" name="makeupCo" id="makeupCo" value="请选择或输入"
+							style="width: 130px; height: 15px; border: 0pt;">
+						</span>
+					</div></td>
+			</tr>
+			-->
+			<tr>
+				<td>活动类型：</td>
+				<td>
+					<input type='text' name='tag' />
+				</td>
+			</tr>
+			<tr>
+				<td>赠送积分:</td>
+				<td><input type='number' name='point' min='0' max='50' value='0'/></td>
+			</tr>
+		</table>
+		<input type="submit" name='confirm' value="添加">
+	</form>
+</body>
+</html>

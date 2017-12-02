@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<p>姓名:{$user.name}</p>
+	<p>登录名:{$user.login.login}</p>
+	<p>性别:{$user.sex}</p>
+	<p>民族:{$user.nation}</p>
+	<p>生日:{$user.datebirth}</p>
+	<p>部门:{$user.departement.departement}</p>
+	<p>职位:{$user.post.post}</p>
+	<p>拥有权限:</p>
+	<volist name='user.classified' id='uc'>
+		<p>{$uc.classified}</p>
+	</volist>
+</body>
+</html>

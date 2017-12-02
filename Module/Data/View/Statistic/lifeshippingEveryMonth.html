@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div style="clear:both;">
+	<p>配送统计:</p>
+	<volist name="statistic" id="s">
+		<p>{$s.value}元:{$s.number}</p>
+	</volist>
+	<p><a href="{:U('/data/statistic/lifeshipping')}">配送</a></p>
+	</div>
+	<div>
+	<volist name="list" id="l">
+		<p style="float:left;text-align:center;">卡号:{$l.vip.cardnumber}&nbsp;姓名:{$l.client.name}&nbsp;金额:{$l.lifeshipping}&nbsp;</p>
+	</volist>
+	</div>
+	
+</body>
+</html>

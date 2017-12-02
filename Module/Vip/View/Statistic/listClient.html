@@ -1,0 +1,341 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>listClient</title>
+<style>
+table {
+	border-collapse: collapse;
+	text-align: center;
+}
+a:hover{
+	color:red;
+}
+td {
+	border: 1px solid #000;
+}
+</style>
+<script>
+var name = "";
+var nation = "";
+var identity = "";
+var sex = "";
+var serveur = "";
+var page = 1;
+var xmlhttp;
+if (window.XMLHttpRequest) {
+	xmlhttp = new XMLHttpRequest();
+} else {
+	xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+}
+xmlhttp.onreadystatechange = function() {
+	if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+		var result = xmlhttp.responseText;
+		result = eval("(" + result + ")");
+		if (result['status'] = "ok") {
+			//alert(result['list'][0][0][0]['serveur'][0]['name']);
+			try{
+				var list = result['list'][0];
+				console.log(list);
+				var str = "";
+				str += "<table>";
+				str += "<tr><th>序号</th><th>会员姓名</th><th>身份证号码</th><th>地址</th><th>民族</th><th>出生日期</th><th>性别</th><th>电话</th><!--<th>服务人</th>--><th>备注</th><th>操作</th></tr>";
+				var i = 0;
+				while (list[i]) {
+					str += "<tr>";
+					str += "<td>" + (i+1) + "</td>";
+					str += "<td>" + list[i][0]['name'] + "</td>";
+					str += "<td>" + list[i][0]['identity'] + "</td>";
+					str += "<td>" + list[i][0]['adresse'] + "</td>";
+					str += "<td>" + list[i][0]['nation'] + "</td>";
+					str += "<td>" + list[i][0]['datebirth'] + "</td>";
+					str += "<td>" + list[i][0]['sex'] + "</td>";
+					str += "<td>" + list[i][0]['tel'] + "</td>";
+					//str += "<td>" + list[i][0]['serveur'][0]['name'] + "</td>";
+					//alert(list[i][0]['serveur'][0]['name']);
+					str += "<td>" + list[i][0]['etc'] + "</td>";
+					str += "<td><a href='{:U('/vip/client/detailClient/id')}/"+list[i][0]["id"]+"'>详情</a>&nbsp;<a href='{:U('/vip/client/changeClient/id')}/"+list[i][0]["id"]+"'>修改</a>&nbsp;<a href='{:U('/vip/client/deleteClient/id')}/"+list[i][0]["id"]+"'>删除</a></td>";
+					str += "</tr>";
+					i++;
+				}
+				str += "</table>";
+				if (!i) {
+					alert("无数据1");
+					document.getElementById("resultList").innerHTML = "";
+					var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button>";
+					document.getElementById("diVButton").innerHTML = strButton;
+					return;
+				}
+				document.getElementById("resultList").innerHTML = str;
+				var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button>";
+				document.getElementById("diVButton").innerHTML = strButton;
+			}catch(err){
+				console.log(err);
+				document.getElementById("resultList").innerHTML = "";
+				alert("无数据2");
+			}
+		} else {
+			document.getElementById("resultList").innerHTML = "";
+			alert("无数据");
+		}
+	}
+}
+xmlhttp.open("POST", "{:U('/api/statistic/statisticClient')}", true);
+xmlhttp.setRequestHeader("Content-type",
+		"application/x-www-form-urlencoded");
+xmlhttp.send(
+		"name="+name
+		+"&nation="+nation
+		+"&identity="+identity
+		+"&sex="+sex
+		+"&serveur="+serveur
+		+"&page="+page
+);
+function nextPage(){
+	page+=1;
+	var xmlhttp;
+	if (window.XMLHttpRequest) {
+		xmlhttp = new XMLHttpRequest();
+	} else {
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			var result = xmlhttp.responseText;
+			result = eval("(" + result + ")");
+			if (result['status'] = "ok") {
+				try{
+					var list = result['list'][0];
+					console.log(list);
+					var str = "";
+					str += "<table>";
+					str += "<tr><th>序号</th><th>会员姓名</th><th>身份证号码</th><th>地址</th><th>民族</th><th>出生日期</th><th>性别</th><th>电话</th><!--<th>服务人</th>--><th>备注</th><th>操作</th></tr>";
+					var i = 0;
+					while (list[i]) {
+						str += "<tr>";
+						str += "<td>" + (i+1) + "</td>";
+						str += "<td>" + list[i][0]['name'] + "</td>";
+						str += "<td>" + list[i][0]['identity'] + "</td>";
+						str += "<td>" + list[i][0]['adresse'] + "</td>";
+						str += "<td>" + list[i][0]['nation'] + "</td>";
+						str += "<td>" + list[i][0]['datebirth'] + "</td>";
+						str += "<td>" + list[i][0]['sex'] + "</td>";
+						str += "<td>" + list[i][0]['tel'] + "</td>";
+						//str += "<td>" + list[i][0]['serveur'][0]['name'] + "</td>";
+						str += "<td>" + list[i][0]['etc'] + "</td>";
+						str += "<td><a href='{:U('/vip/client/detailClient/id')}/"+list[i][0]["id"]+"'>详情</a>&nbsp;<a href='{:U('/vip/client/changeClient/id')}/"+list[i][0]["id"]+"'>修改</a>&nbsp;<a href='{:U('/vip/client/deleteClient/id')}/"+list[i][0]["id"]+"'>删除</a></td>";
+						str += "</tr>";
+						i++;
+					}
+					str += "</table>";
+					if (!i) {
+						alert("无数据1");
+						document.getElementById("resultList").innerHTML = "";
+						var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button>";
+						document.getElementById("diVButton").innerHTML = strButton;
+						return;
+					}
+					document.getElementById("resultList").innerHTML = str;
+					var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button>";
+					document.getElementById("diVButton").innerHTML = strButton;
+				}catch(err){
+					document.getElementById("resultList").innerHTML = "";
+					alert("无数据2");
+				}
+			} else {
+				document.getElementById("resultList").innerHTML = "";
+				alert("无数据");
+			}
+		}
+	}
+	xmlhttp.open("POST", "{:U('/api/statistic/statisticClient')}", true);
+	xmlhttp.setRequestHeader("Content-type",
+			"application/x-www-form-urlencoded");
+	xmlhttp.send(
+			"name="+name
+			+"&nation="+nation
+			+"&identity="+identity
+			+"&sex="+sex
+			+"&serveur="+serveur
+			+"&page="+page
+	);
+}
+function lastPage(){
+	page-=1;
+	if(page <= 0){
+		page = 1;
+		return;
+	}
+	var xmlhttp;
+	if (window.XMLHttpRequest) {
+		xmlhttp = new XMLHttpRequest();
+	} else {
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			var result = xmlhttp.responseText;
+			result = eval("(" + result + ")");
+			if (result['status'] = "ok") {
+				try{
+					var list = result['list'][0];
+					console.log(list);
+					var str = "";
+					str += "<table>";
+					str += "<tr><th>序号</th><th>会员姓名</th><th>身份证号码</th><th>地址</th><th>民族</th><th>出生日期</th><th>性别</th><th>电话</th><!--<th>服务人</th>--><th>备注</th><th>操作</th></tr>";
+					var i = 0;
+					while (list[i]) {
+						str += "<tr>";
+						str += "<td>" + (i+1) + "</td>";
+						str += "<td>" + list[i][0]['name'] + "</td>";
+						str += "<td>" + list[i][0]['identity'] + "</td>";
+						str += "<td>" + list[i][0]['adresse'] + "</td>";
+						str += "<td>" + list[i][0]['nation'] + "</td>";
+						str += "<td>" + list[i][0]['datebirth'] + "</td>";
+						str += "<td>" + list[i][0]['sex'] + "</td>";
+						str += "<td>" + list[i][0]['tel'] + "</td>";
+						//str += "<td>" + list[i][0]['serveur'][0]['name'] + "</td>";
+						str += "<td>" + list[i][0]['etc'] + "</td>";
+						str += "<td><a href='{:U('/vip/client/detailClient/id')}/"+list[i][0]["id"]+"'>详情</a>&nbsp;<a href='{:U('/vip/client/changeClient/id')}/"+list[i][0]["id"]+"'>修改</a>&nbsp;<a href='{:U('/vip/client/deleteClient/id')}/"+list[i][0]["id"]+"'>删除</a></td>";
+						str += "</tr>";
+						i++;
+					}
+					str += "</table>";
+					if (!i) {
+						alert("无数据1");
+						document.getElementById("resultList").innerHTML = "";
+						var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button>";
+						document.getElementById("diVButton").innerHTML = strButton;
+						return;
+					}
+					document.getElementById("resultList").innerHTML = str;
+					var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button>";
+					document.getElementById("diVButton").innerHTML = strButton;
+				}catch(err){
+					document.getElementById("resultList").innerHTML = "";
+					alert("无数据2");
+				}
+			} else {
+				document.getElementById("resultList").innerHTML = "";
+				alert("无数据");
+			}
+		}
+	}
+	xmlhttp.open("POST", "{:U('/api/statistic/statisticClient')}", true);
+	xmlhttp.setRequestHeader("Content-type",
+			"application/x-www-form-urlencoded");
+	xmlhttp.send(
+			"name="+name
+			+"&nation="+nation
+			+"&identity="+identity
+			+"&sex="+sex
+			+"&serveur="+serveur
+			+"&page="+page
+	);
+}
+function goSubmit(){
+	page=1;
+	name = document.getElementById("name").value;
+	nation = document.getElementById("nation").value;
+	identity = document.getElementById("identity").value;
+	sex = document.getElementById("sex").value;
+	serveur = document.getElementById("serveur").value;
+	var xmlhttp;
+	if (window.XMLHttpRequest) {
+		xmlhttp = new XMLHttpRequest();
+	} else {
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			var result = xmlhttp.responseText;
+			result = eval("(" + result + ")");
+			if (result['status'] = "ok") {
+				try{
+					var list = result['list'][0];
+					console.log(list);
+					var str = "";
+					str += "<table>";
+					str += "<tr><th>序号</th><th>会员姓名</th><th>身份证号码</th><th>地址</th><th>民族</th><th>出生日期</th><th>性别</th><th>电话</th><!--<th>服务人</th>--><th>备注</th><th>操作</th></tr>";
+					var i = 0;
+					while (list[i]) {
+						str += "<tr>";
+						str += "<td>" + (i+1) + "</td>";
+						str += "<td>" + list[i][0]['name'] + "</td>";
+						str += "<td>" + list[i][0]['identity'] + "</td>";
+						str += "<td>" + list[i][0]['adresse'] + "</td>";
+						str += "<td>" + list[i][0]['nation'] + "</td>";
+						str += "<td>" + list[i][0]['datebirth'] + "</td>";
+						str += "<td>" + list[i][0]['sex'] + "</td>";
+						str += "<td>" + list[i][0]['tel'] + "</td>";
+						//str += "<td>" + list[i][0]['serveur'][0]['name'] + "</td>";
+						str += "<td>" + list[i][0]['etc'] + "</td>";
+						str += "<td><a href='{:U('/vip/client/detailClient/id')}/"+list[i][0]["id"]+"'>详情</a>&nbsp;<a href='{:U('/vip/client/changeClient/id')}/"+list[i][0]["id"]+"'>修改</a>&nbsp;<a href='{:U('/vip/client/deleteClient/id')}/"+list[i][0]["id"]+"'>删除</a></td>";
+						str += "</tr>";
+						i++;
+					}
+					str += "</table>";
+					if (!i) {
+						alert("无数据1");
+						document.getElementById("resultList").innerHTML = "";
+						var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button>";
+						document.getElementById("diVButton").innerHTML = strButton;
+						return;
+					}
+					document.getElementById("resultList").innerHTML = str;
+					var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button>";
+					document.getElementById("diVButton").innerHTML = strButton;
+				}catch(err){
+					console.log(err);
+					document.getElementById("resultList").innerHTML = "";
+					alert("无数据2");
+				}
+			} else {
+				document.getElementById("resultList").innerHTML = "";
+				alert("无数据");
+			}
+		}
+	}
+	xmlhttp.open("POST", "{:U('/api/statistic/statisticClient')}", true);
+	xmlhttp.setRequestHeader("Content-type",
+			"application/x-www-form-urlencoded");
+	xmlhttp.send(
+			"name="+name
+			+"&nation="+nation
+			+"&identity="+identity
+			+"&sex="+sex
+			+"&serveur="+serveur
+			+"&page="+page
+	);
+}
+</script>
+</head>
+<body>
+	<table width="768" height="200">
+		<tr>
+			<td>姓名:</td>
+			<td><input type='text' id='name' /></td>
+			<td>民族:</td>
+			<td><input type='text' id='nation' /></td>
+		</tr>
+		<tr>
+			<td>身份证号码:</td>
+			<td><input type='text' id='identity' /></td>
+			<td>性别:</td>
+			<td><select id='sex'>
+					<option value=''>请选择……</option>
+					<option value='男'>男</option>
+					<option value='女'>女</option>
+			</select></td>
+		</tr>
+		<tr>
+			
+			<td>服务人:</td>
+			<td><input type='text' id='serveur' list='operatorlist' /></td>
+			<td colspan="4"><button onclick='javascript:goSubmit()'>查询</button></td>
+		</tr>
+	</table>
+	<div id='resultList'></div>
+	<div id="diVButton"></div>
+</body>
+</html>

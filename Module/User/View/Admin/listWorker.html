@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+table {
+	text-align: center;
+	border-collapse: collapse;
+}
+
+table td a {
+	margin-right: 20px;
+	text-decoration:underline;
+}
+
+table td a:hover{
+	color:red;
+}
+
+table td a:last-child {
+	margin-right: 0;
+}
+</style>
+</head>
+<body>
+	<table border="1">
+		<tr>
+			<th width="83" height="28">姓名</th>
+		    <th width="59">性别</th>
+			<th width="99">出生日期</th>
+			<th width="219">部门</th>
+			<th width="101">职务</th>
+			<th width="130">上级领导</th>
+			<th width="183">操作</th>
+		</tr>
+		<volist name='list' id='l'>
+			<tr>
+				<td height="26">{$l.name}</td>
+		    <td>{$l.sex}</td>
+				<td>{$l.datebirth}</td>
+				<td>{$l.departement.departement}</td>
+				<td>{$l.post.post}</td>
+				<td>{$l.boss.name}</td>
+				<td><a href="{:U('/user/admin/detailWorker',array('id'=>$l[id]))}">详情</a><a href="{:U('/user/admin/changeWorker',array('id'=>$l[id]))}">修改</a><a href="{:U('/user/admin/deleteWorker',array('id'=>$l[id]))}">删除</a></td>
+			</tr>
+		</volist>
+	</table>
+</body>
+</html>

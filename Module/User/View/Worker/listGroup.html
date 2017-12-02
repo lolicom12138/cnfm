@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>组列表</title>
+<style>
+table {
+	text-align: center;
+	border-collapse: collapse;
+}
+
+table td, table th {
+	border: 1px solid #999;
+}
+
+table td a {
+	margin-right: 20px;
+	text-decoration:underline;
+}
+
+table td a:hover{
+	color:red;
+}
+
+table td a:last-child {
+	margin-right: 0;
+}
+</style>
+<script>
+	function deleteGroup(id) {
+		if (!id) {
+			return;
+		}
+		var conf = confirm("是否要删除？");
+		if (!conf) {
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("(" + result + ")");
+				if (result['status'] == "ok") {
+					alert("删除成功");
+					history.go(0);
+				} else {
+					alert("失败");
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/user/deleteGroup')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("id=" + id);
+	}
+</script>
+</head>
+<body>
+	<table width="666" height="100" border="0">
+		<tr>
+			<th width="52">序号</th>
+			<th width="108">名称</th>
+			<th width="166">负责员工</th>
+			<th width="125">队长</th>
+			<th width="193">操作</th>
+		</tr>
+		<volist name='list' id='l'>
+		<tr>
+			<td>{$l.id}</td>
+			<td>{$l.name}</td>
+			<td>{$l.responsable.name}</td>
+			<td>{$l.leader.name}</td>
+			<!--  
+			<td><a
+				href="{:U('/user/worker/detailGroup',array('id'=>$l[id]))}">组详情</a><a
+				href="{:U('/user/worker/changeGroup',array('id'=>$l[id]))}">修改组</a><a
+				href="javascript:deleteGroup({$l.id})">删除组</a></td>
+				-->
+			<td><a
+				href="{:U('/user/worker/detailGroup',array('id'=>$l[id]))}">组详情</a><a
+				href="{:U('/user/worker/changeGroup',array('id'=>$l[id]))}">修改组</a><a
+				href="{:U('/user/worker/deleteGroup',array('id'=>$l[id]))}">删除组</a></td>
+		</tr>
+		</volist>
+	</table>
+
+
+</body>
+</html>

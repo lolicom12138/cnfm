@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<p>前一日办卡:积分成员 {$yestodayPointNumber}自由卡 {$yestodayLibertyNumber}生活卡{$yestodayLifeNumber} </p>
+	<p>自由卡储值低于40%</p>
+	<volist name="lessFourty" id="l">
+		<p>{$l.cardnumber}&nbsp;{$l.client.name}</p>
+	</volist>
+	<p>前一日商品销售</p>
+	<p>今日生日用户</p>
+	<volist name="listClientBirth" id="l">
+		<p>{$l.name} &nbsp;{$l.tel}</p>
+	</volist>
+	<p>前一日签到人数:{$numPresent}</p>
+	<p>前一日储值:{$totalCreditRecharger}</p>
+	<p>前一日赠送金额:{$totalCreditGiveRecharger}</p>
+	<p>前一日储值积分:{$totalPointRechargerRecharger}</p>
+	<p>前一日赠送积分:{$totalPointGiveRecharger}</p>
+	<p>前一日调养积分:{$totalPointHealRecharger}</p>
+	<p>前一日旅游积分:{$totalPointTourismRecharger}</p>
+	<p>前一日消费金额:{$totalConso.all}</p>
+	<p>其中:</p>
+	<p>储值:{$totalConso.credit}</p>
+	<p>赠送金额:{$totalConso.creditGive}</p>
+	<p>储值积分:{$totalConso.pointRecharger}</p>
+	<p>赠送积分:{$totalConso.pointGive}</p>
+	<p>消费积分:{$totalConso.pointConso}</p>
+	<p>旅游积分:{$totalConso.pointTourism}</p>
+	<p>调养积分:{$totalConso.pointHeal}</p>
+	<p>前一日计次消费</p>
+	<table>
+		<tr>
+			<td>姓名</td>
+			<td>项目</td>
+			<td>服务人</td>
+		</tr>
+		<volist name="listFois" id="l">
+			<tr>
+				<td>{$l.fois.client.name}</td>
+				<td>{$l.fois.product.name}</td>
+				<td>{$l.operator.name}</td>
+			</tr>
+		</volist>
+	</table>
+	<!-- 
+	<p>低于5个库存的商品</p>
+	 -->
+</body>
+</html>

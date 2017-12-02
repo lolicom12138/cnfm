@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	var dateCardBegin;
+	var dateCardEnd;
+	var dateActiveBegin;
+	var dateActiveEnd;
+	var dateExpireBegin;
+	var dateExpireEnd;
+	var creditMin;
+	var creditMax;
+	var creditGiveMin;
+	var creditGiveMax;
+	var pointRechargerMin;
+	var pointRechargerMax;
+	var pointGiveMin;
+	var pointGiveMax;
+	var pointConsoMin;
+	var pointConsoMax;
+	var pointHealMin;
+	var pointHealMax;
+	var pointTourismMin;
+	var pointTourismMax;
+	var cardNumber;
+	var client;
+	var card;
+	var active;
+	var departement;
+	var serveur;
+	var allPage = 0;
+	var page = 1;
+	function goSubmit() {
+		page = 1;
+		dateCardBegin = document.getElementById("dateCardBegin").value;
+		dateCardEnd = document.getElementById("dateCardEnd").value;
+		dateActiveBegin = document.getElementById("dateActiveBegin").value;
+		dateActiveEnd = document.getElementById("dateActiveEnd").value;
+		dateExpireBegin = document.getElementById("dateExpireBegin").value;
+		dateExpireEnd = document.getElementById("dateExpireEnd").value;
+		creditMin = document.getElementById("creditMin").value;
+		creditMax = document.getElementById("creditMax").value;
+		creditGiveMin = document.getElementById("creditGiveMin").value;
+		creditGiveMax = document.getElementById("creditGiveMax").value;
+		pointRechargerMin = document.getElementById("pointRechargerMin").value;
+		pointRechargerMax = document.getElementById("pointRechargerMax").value;
+		pointGiveMin = document.getElementById("pointGiveMin").value;
+		pointGiveMax = document.getElementById("pointGiveMax").value;
+		pointConsoMin = document.getElementById("pointConsoMin").value;
+		pointConsoMax = document.getElementById("pointConsoMax").value;
+		pointHealMin = document.getElementById("pointHealMin").value;
+		pointHealMax = document.getElementById("pointHealMax").value;
+		pointTourismMin = document.getElementById("pointTourismMin").value;
+		pointTourismMax = document.getElementById("pointTourismMax").value;
+		cardNumber = document.getElementById("cardNumber").value;
+		client = document.getElementById("client").value;
+		card = document.getElementById("card").value;
+		active = document.getElementById("active").value;
+		serveur = document.getElementById("serveur").value;
+		departement = document.getElementById("departement").value;
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("(" + result + ")");
+				if (result['status'] == "ok") {
+					var list = result['list'][0];
+					console.log(list);
+					var str = "";
+					str += "<table>";
+					str += "<tr><th>序号</th><th>卡号</th><th>卡类型</th><th>会员姓名</th><th>储值</th><th>赠送金额</th><th>储值积分</th><th>赠送积分</th><th>消费积分</th><th>调养/健康积分</th><th>旅游积分</th><th>办卡日期</th><th>激活日期</th><th>到期日期</th><th>是否激活</th><th>备注</th></tr>";
+					var i = 0;
+					while (list[i]) {
+						str += "<tr>";
+						str += "<td>" + (i+1) + "</td>";
+						str += "<td>" + list[i][0]['cardnumber'] + "</td>";
+						str += "<td>" + list[i][0]['card'][0]['name'] + "</td>";
+						try{
+							str += "<td>" + list[i][0]['client'][0]['name'] + "</td>";
+						}catch(e){
+							str += "<td></td>";
+						}
+						str += "<td>" + list[i][0]['credit'] + "</td>";
+						str += "<td>" + list[i][0]['creditgive'] + "</td>";
+						str += "<td>" + list[i][0]['pointrecharger'] + "</td>";
+						str += "<td>" + list[i][0]['pointgive'] + "</td>";
+						str += "<td>" + list[i][0]['pointconso'] + "</td>";
+						str += "<td>" + list[i][0]['pointheal'] + "</td>";
+						str += "<td>" + list[i][0]['pointtourism'] + "</td>";
+						str += "<td>" + list[i][0]['datecard'] + "</td>";
+						str += "<td>" + list[i][0]['dateactive'] + "</td>";
+						str += "<td>" + list[i][0]['dateexpire'] + "</td>";
+						switch (list[i][0]['active']) {
+						case "1":
+							str += "<td>已激活</td>";
+							break;
+						default:
+							str += "<td>未激活</td>";
+						}
+						str += "<td>" + list[i][0]['etc'] + "</td>";
+						str += "</tr>";
+						i++;
+					}
+					str += "</table>";
+					if (!i) {
+						alert("无数据");
+						document.getElementById("resultList").innerHTML = "";
+						var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button><button onclick='javascript:finishPage()'>末页</button>";
+						document.getElementById("diVButton").innerHTML = strButton;
+						document.getElementById("resume").innerHTML = "";
+						return;
+					}
+					document.getElementById("resultList").innerHTML = str;
+					var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button><button onclick='javascript:finishPage()'>末页</button>";
+					document.getElementById("diVButton").innerHTML = strButton;
+					allPage = result.allPage;
+					var resume = "<p>总条数:"+result['total']+"</p>";
+					resume += "<p>总页数:"+result['allPage']+"</p>";
+					resume += "<p>总储值:"+result['totalMoney'][0]['credit']+"</p>";
+					resume += "<p>总赠送金额:"+result['totalMoney'][0]['creditGive']+"</p>";
+					resume += "<p>总储值积分:"+result['totalMoney'][0]['pointRecharger']+"</p>";
+					resume += "<p>总赠送积分:"+result['totalMoney'][0]['pointGive']+"</p>";
+					resume += "<p>总消费积分:"+result['totalMoney'][0]['pointConso']+"</p>";
+					resume += "<p>总旅游积分:"+result['totalMoney'][0]['pointTourism']+"</p>";
+					resume += "<p>总健康积分:"+result['totalMoney'][0]['pointHeal']+"</p>";
+					document.getElementById("resume").innerHTML = resume;
+				} else {
+					document.getElementById("resume").innerHTML = "";
+					document.getElementById("resultList").innerHTML = "";
+					alert("无数据");
+				}
+
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/statistic/statisticVip')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("dateCardBegin=" + dateCardBegin + "&dateCardEnd="
+				+ dateCardEnd + "&dateActiveBegin=" + dateActiveBegin
+				+ "&dateActiveEnd=" + dateActiveEnd + "&dateExpireBegin="
+				+ dateExpireBegin + "&dateExpireEnd=" + dateExpireEnd
+				+ "&creditMin=" + creditMin + "&creditMax=" + creditMax
+				+ "&creditGiveMin=" + creditGiveMin + "&creditGiveMax="
+				+ creditGiveMax + "&pointRechargerMin=" + pointRechargerMin
+				+ "&pointRechargerMax=" + pointRechargerMax + "&pointGiveMin="
+				+ pointGiveMin + "&pointGiveMax=" + pointGiveMax
+				+ "&pointConsoMin=" + pointConsoMin + "&pointConsoMax="
+				+ pointConsoMax + "&pointHealMin=" + pointHealMin
+				+ "&pointHealMax=" + pointHealMax + "&pointTourismMin="
+				+ pointTourismMin + "&pointTourismMax=" + pointTourismMax
+				+ "&cardNumber=" + cardNumber + "&client=" + client + "&card="+ card
+				+ "&departement=" + departement +"&serveur=" + serveur
+				+ "&active=" + active + "&page=" + page);
+	}
+	function lastPage() {
+		page -= 1;
+		if (page <= 0) {
+			page = 1;
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("(" + result + ")");
+				if (result['status'] == "ok") {
+					var list = result['list'][0];
+					console.log(list);
+					var str = "";
+					str += "<table>";
+					str += "<tr><th>序号</th><th>卡号</th><th>卡类型</th><th>会员姓名</th><th>储值</th><th>赠送金额</th><th>储值积分</th><th>赠送积分</th><th>消费积分</th><th>调养/健康积分</th><th>旅游积分</th><th>办卡日期</th><th>激活日期</th><th>到期日期</th><th>是否激活</th><th>备注</th></tr>";
+					var i = 0;
+					while (list[i]) {
+						str += "<tr>";
+						str += "<td>" + (i+1) + "</td>";
+						str += "<td>" + list[i][0]['cardnumber'] + "</td>";
+						str += "<td>" + list[i][0]['card'][0]['name'] + "</td>";
+						try{
+							str += "<td>" + list[i][0]['client'][0]['name'] + "</td>";
+						}catch(e){
+							str += "<td></td>";
+						}
+						str += "<td>" + list[i][0]['credit'] + "</td>";
+						str += "<td>" + list[i][0]['creditgive'] + "</td>";
+						str += "<td>" + list[i][0]['pointrecharger'] + "</td>";
+						str += "<td>" + list[i][0]['pointgive'] + "</td>";
+						str += "<td>" + list[i][0]['pointconso'] + "</td>";
+						str += "<td>" + list[i][0]['pointheal'] + "</td>";
+						str += "<td>" + list[i][0]['pointtourism'] + "</td>";
+						str += "<td>" + list[i][0]['datecard'] + "</td>";
+						str += "<td>" + list[i][0]['dateactive'] + "</td>";
+						str += "<td>" + list[i][0]['dateexpire'] + "</td>";
+						switch (list[i][0]['active']) {
+						case "1":
+							str += "<td>已激活</td>";
+							break;
+						default:
+							str += "<td>未激活</td>";
+						}
+						str += "<td>" + list[i][0]['etc'] + "</td>";
+						str += "</tr>";
+						i++;
+					}
+					str += "</table>";
+					if (!i) {
+						alert("无数据");
+						document.getElementById("resultList").innerHTML = "";
+						var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button><button onclick='javascript:finishPage()'>末页</button>";
+						document.getElementById("diVButton").innerHTML = strButton;
+						document.getElementById("resume").innerHTML = "";
+						return;
+					}
+					document.getElementById("resultList").innerHTML = str;
+					var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button><button onclick='javascript:finishPage()'>末页</button>";
+					document.getElementById("diVButton").innerHTML = strButton;
+					allPage = result.allPage;
+					var resume = "<p>总条数:"+result['total']+"</p>";
+					resume += "<p>总页数:"+result['allPage']+"</p>";
+					resume += "<p>总储值:"+result['totalMoney'][0]['credit']+"</p>";
+					resume += "<p>总赠送金额:"+result['totalMoney'][0]['creditGive']+"</p>";
+					resume += "<p>总储值积分:"+result['totalMoney'][0]['pointRecharger']+"</p>";
+					resume += "<p>总赠送积分:"+result['totalMoney'][0]['pointGive']+"</p>";
+					resume += "<p>总消费积分:"+result['totalMoney'][0]['pointConso']+"</p>";
+					resume += "<p>总旅游积分:"+result['totalMoney'][0]['pointTourism']+"</p>";
+					resume += "<p>总健康积分:"+result['totalMoney'][0]['pointHeal']+"</p>";
+					document.getElementById("resume").innerHTML = resume;
+				} else {
+					document.getElementById("resume").innerHTML = "";
+					document.getElementById("resultList").innerHTML = "";
+					alert("无数据");
+				}
+
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/statistic/statisticVip')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("dateCardBegin=" + dateCardBegin + "&dateCardEnd="
+				+ dateCardEnd + "&dateActiveBegin=" + dateActiveBegin
+				+ "&dateActiveEnd=" + dateActiveEnd + "&dateExpireBegin="
+				+ dateExpireBegin + "&dateExpireEnd=" + dateExpireEnd
+				+ "&creditMin=" + creditMin + "&creditMax=" + creditMax
+				+ "&creditGiveMin=" + creditGiveMin + "&creditGiveMax="
+				+ creditGiveMax + "&pointRechargerMin=" + pointRechargerMin
+				+ "&pointRechargerMax=" + pointRechargerMax + "&pointGiveMin="
+				+ pointGiveMin + "&pointGiveMax=" + pointGiveMax
+				+ "&pointConsoMin=" + pointConsoMin + "&pointConsoMax="
+				+ pointConsoMax + "&pointHealMin=" + pointHealMin
+				+ "&pointHealMax=" + pointHealMax + "&pointTourismMin="
+				+ pointTourismMin + "&pointTourismMax=" + pointTourismMax
+				+ "&cardNumber=" + cardNumber + "&client=" + client + "&card="+ card
+				+ "&departement=" + departement +"&serveur=" + serveur
+				+ "&active=" + active + "&page=" + page);
+	}
+	function nextPage() {
+		page += 1;
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("(" + result + ")");
+				if (result['status'] == "ok") {
+					var list = result['list'][0];
+					console.log(list);
+					var str = "";
+					str += "<table>";
+					str += "<tr><th>序号</th><th>卡号</th><th>卡类型</th><th>会员姓名</th><th>储值</th><th>赠送金额</th><th>储值积分</th><th>赠送积分</th><th>消费积分</th><th>调养/健康积分</th><th>旅游积分</th><th>办卡日期</th><th>激活日期</th><th>到期日期</th><th>是否激活</th><th>备注</th></tr>";
+					var i = 0;
+					while (list[i]) {
+						str += "<tr>";
+						str += "<td>" + (i+1) + "</td>";
+						str += "<td>" + list[i][0]['cardnumber'] + "</td>";
+						str += "<td>" + list[i][0]['card'][0]['name'] + "</td>";
+						try{
+							str += "<td>" + list[i][0]['client'][0]['name'] + "</td>";
+						}catch(e){
+							str += "<td></td>";
+						}
+						str += "<td>" + list[i][0]['credit'] + "</td>";
+						str += "<td>" + list[i][0]['creditgive'] + "</td>";
+						str += "<td>" + list[i][0]['pointrecharger'] + "</td>";
+						str += "<td>" + list[i][0]['pointgive'] + "</td>";
+						str += "<td>" + list[i][0]['pointconso'] + "</td>";
+						str += "<td>" + list[i][0]['pointheal'] + "</td>";
+						str += "<td>" + list[i][0]['pointtourism'] + "</td>";
+						str += "<td>" + list[i][0]['datecard'] + "</td>";
+						str += "<td>" + list[i][0]['dateactive'] + "</td>";
+						str += "<td>" + list[i][0]['dateexpire'] + "</td>";
+						switch (list[i][0]['active']) {
+						case "1":
+							str += "<td>已激活</td>";
+							break;
+						default:
+							str += "<td>未激活</td>";
+						}
+						str += "<td>" + list[i][0]['etc'] + "</td>";
+						str += "</tr>";
+						i++;
+					}
+					str += "</table>";
+					if (!i) {
+						alert("无数据");
+						document.getElementById("resultList").innerHTML = "";
+						var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button><button onclick='javascript:finishPage()'>末页</button>";
+						document.getElementById("diVButton").innerHTML = strButton;
+						console.log(list);
+						document.getElementById("resume").innerHTML = "";
+						return;
+					}
+					document.getElementById("resultList").innerHTML = str;
+					var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button><button onclick='javascript:finishPage()'>末页</button>";
+					document.getElementById("diVButton").innerHTML = strButton;
+					allPage = result.allPage;
+					var resume = "<p>总条数:"+result['total']+"</p>";
+					resume += "<p>总页数:"+result['allPage']+"</p>";
+					resume += "<p>总储值:"+result['totalMoney'][0]['credit']+"</p>";
+					resume += "<p>总赠送金额:"+result['totalMoney'][0]['creditGive']+"</p>";
+					resume += "<p>总储值积分:"+result['totalMoney'][0]['pointRecharger']+"</p>";
+					resume += "<p>总赠送积分:"+result['totalMoney'][0]['pointGive']+"</p>";
+					resume += "<p>总消费积分:"+result['totalMoney'][0]['pointConso']+"</p>";
+					resume += "<p>总旅游积分:"+result['totalMoney'][0]['pointTourism']+"</p>";
+					resume += "<p>总健康积分:"+result['totalMoney'][0]['pointHeal']+"</p>";
+					document.getElementById("resume").innerHTML = resume;
+				} else {
+					document.getElementById("resume").innerHTML = "";
+					document.getElementById("resultList").innerHTML = "";
+					alert("无数据");
+				}
+
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/statistic/statisticVip')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("dateCardBegin=" + dateCardBegin + "&dateCardEnd="
+				+ dateCardEnd + "&dateActiveBegin=" + dateActiveBegin
+				+ "&dateActiveEnd=" + dateActiveEnd + "&dateExpireBegin="
+				+ dateExpireBegin + "&dateExpireEnd=" + dateExpireEnd
+				+ "&creditMin=" + creditMin + "&creditMax=" + creditMax
+				+ "&creditGiveMin=" + creditGiveMin + "&creditGiveMax="
+				+ creditGiveMax + "&pointRechargerMin=" + pointRechargerMin
+				+ "&pointRechargerMax=" + pointRechargerMax + "&pointGiveMin="
+				+ pointGiveMin + "&pointGiveMax=" + pointGiveMax
+				+ "&pointConsoMin=" + pointConsoMin + "&pointConsoMax="
+				+ pointConsoMax + "&pointHealMin=" + pointHealMin
+				+ "&pointHealMax=" + pointHealMax + "&pointTourismMin="
+				+ pointTourismMin + "&pointTourismMax=" + pointTourismMax
+				+ "&cardNumber=" + cardNumber + "&client=" + client + "&card=" + card
+				+ "&departement=" + departement +"&serveur=" + serveur
+				+ "&active=" + active + "&page=" + page);
+	}
+	function finishPage() {
+		page = allPage;
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("(" + result + ")");
+				if (result['status'] == "ok") {
+					var list = result['list'][0];
+					console.log(list);
+					var str = "";
+					str += "<table>";
+					str += "<tr><th>序号</th><th>卡号</th><th>卡类型</th><th>会员姓名</th><th>储值</th><th>赠送金额</th><th>储值积分</th><th>赠送积分</th><th>消费积分</th><th>调养/健康积分</th><th>旅游积分</th><th>办卡日期</th><th>激活日期</th><th>到期日期</th><th>是否激活</th><th>备注</th></tr>";
+					var i = 0;
+					while (list[i]) {
+						str += "<tr>";
+						str += "<td>" + (i+1) + "</td>";
+						str += "<td>" + list[i][0]['cardnumber'] + "</td>";
+						str += "<td>" + list[i][0]['card'][0]['name'] + "</td>";
+						try{
+							str += "<td>" + list[i][0]['client'][0]['name'] + "</td>";
+						}catch(e){
+							str += "<td></td>";
+						}
+						str += "<td>" + list[i][0]['credit'] + "</td>";
+						str += "<td>" + list[i][0]['creditgive'] + "</td>";
+						str += "<td>" + list[i][0]['pointrecharger'] + "</td>";
+						str += "<td>" + list[i][0]['pointgive'] + "</td>";
+						str += "<td>" + list[i][0]['pointconso'] + "</td>";
+						str += "<td>" + list[i][0]['pointheal'] + "</td>";
+						str += "<td>" + list[i][0]['pointtourism'] + "</td>";
+						str += "<td>" + list[i][0]['datecard'] + "</td>";
+						str += "<td>" + list[i][0]['dateactive'] + "</td>";
+						str += "<td>" + list[i][0]['dateexpire'] + "</td>";
+						switch (list[i][0]['active']) {
+						case "1":
+							str += "<td>已激活</td>";
+							break;
+						default:
+							str += "<td>未激活</td>";
+						}
+						str += "<td>" + list[i][0]['etc'] + "</td>";
+						str += "</tr>";
+						i++;
+					}
+					str += "</table>";
+					if (!i) {
+						alert("无数据");
+						document.getElementById("resultList").innerHTML = "";
+						var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button><button onclick='javascript:finishPage()'>末页</button>";
+						document.getElementById("diVButton").innerHTML = strButton;
+						console.log(list);
+						document.getElementById("resume").innerHTML = "";
+						return;
+					}
+					document.getElementById("resultList").innerHTML = str;
+					var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button><button onclick='javascript:finishPage()'>末页</button>";
+					document.getElementById("diVButton").innerHTML = strButton;
+					allPage = result.allPage;
+					var resume = "<p>总条数:"+result['total']+"</p>";
+					resume += "<p>总页数:"+result['allPage']+"</p>";
+					resume += "<p>总储值:"+result['totalMoney'][0]['credit']+"</p>";
+					resume += "<p>总赠送金额:"+result['totalMoney'][0]['creditGive']+"</p>";
+					resume += "<p>总储值积分:"+result['totalMoney'][0]['pointRecharger']+"</p>";
+					resume += "<p>总赠送积分:"+result['totalMoney'][0]['pointGive']+"</p>";
+					resume += "<p>总消费积分:"+result['totalMoney'][0]['pointConso']+"</p>";
+					resume += "<p>总旅游积分:"+result['totalMoney'][0]['pointTourism']+"</p>";
+					resume += "<p>总健康积分:"+result['totalMoney'][0]['pointHeal']+"</p>";
+					document.getElementById("resume").innerHTML = resume;
+				} else {
+					document.getElementById("resume").innerHTML = "";
+					document.getElementById("resultList").innerHTML = "";
+					alert("无数据");
+				}
+
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/statistic/statisticVip')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("dateCardBegin=" + dateCardBegin + "&dateCardEnd="
+				+ dateCardEnd + "&dateActiveBegin=" + dateActiveBegin
+				+ "&dateActiveEnd=" + dateActiveEnd + "&dateExpireBegin="
+				+ dateExpireBegin + "&dateExpireEnd=" + dateExpireEnd
+				+ "&creditMin=" + creditMin + "&creditMax=" + creditMax
+				+ "&creditGiveMin=" + creditGiveMin + "&creditGiveMax="
+				+ creditGiveMax + "&pointRechargerMin=" + pointRechargerMin
+				+ "&pointRechargerMax=" + pointRechargerMax + "&pointGiveMin="
+				+ pointGiveMin + "&pointGiveMax=" + pointGiveMax
+				+ "&pointConsoMin=" + pointConsoMin + "&pointConsoMax="
+				+ pointConsoMax + "&pointHealMin=" + pointHealMin
+				+ "&pointHealMax=" + pointHealMax + "&pointTourismMin="
+				+ pointTourismMin + "&pointTourismMax=" + pointTourismMax
+				+ "&cardNumber=" + cardNumber + "&client=" + client + "&card=" + card
+				+ "&departement=" + departement +"&serveur=" + serveur
+				+ "&active=" + active + "&page=" + page);
+	}
+</script>
+<style>
+input[type=text], select, input[type="date"]{
+	width: 160px;
+	height: 23px;
+}
+select{
+	height: 25px;
+}
+table button {
+	height: 25px;
+	font-size: 12pt;
+	color: #003399;
+	border: 1px #93bee2 solid;
+	width: 60px;
+	background-color: #e8f4ff;
+	line-height: 18px;
+	position: absolute;
+	font-weight: bold;
+	cursor: pointer;
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+#resultList table{
+	margin-top:10px;
+	border-collapse: collapse;
+	text-align: center;
+	border:1px solid black;
+}
+
+#resultList table th,#resultList table td{
+	border:1px solid black;
+}
+
+#diVButton{
+	margin-top:20px;
+}
+</style>
+</head>
+<body>
+	<table width="768" height="372">
+		<tr>
+			<td width="177">办卡日期起始:</td>
+			<td width="189"><input type='date' id='dateCardBegin' /></td>
+			<td width="203">办卡日期结束:</td>
+			<td width="179"><input type='date' id='dateCardEnd' /></td>
+		</tr>
+		<tr>
+			<td>激活日期起始:</td>
+			<td><input type='date' id='dateActiveBegin' /></td>
+			<td>激活日期结束:</td>
+			<td><input type='date' id='dateActiveEnd' /></td>
+		</tr>
+		<tr>
+			<td>过期日期起始:</td>
+			<td><input type='date' id='dateExpireBegin' /></td>
+			<td>过期日期结束:</td>
+			<td><input type='date' id='dateExpireEnd' /></td>
+		</tr>
+		<tr>
+			<td>储值最小值:</td>
+			<td><input type='text' id='creditMin' /></td>
+			<td>储值最大值:</td>
+			<td><input type='text' id='creditMax' /></td>
+		</tr>
+		<tr>
+			<td>赠送金额最小值:</td>
+			<td><input type='text' id='creditGiveMin' /></td>
+			<td>赠送金额最大值:</td>
+			<td><input type='text' id='creditGiveMax' /></td>
+		</tr>
+		<tr>
+			<td>储值积分最小值:</td>
+			<td><input type='text' id='pointRechargerMin' /></td>
+			<td>储值积分最大值:</td>
+			<td><input type='text' id='pointRechargerMax' /></td>
+		</tr>
+		<tr>
+			<td>赠送积分最小值:</td>
+			<td><input type='text' id='pointGiveMin' /></td>
+			<td>赠送积分最大值:</td>
+			<td><input type='text' id='pointGiveMax' /></td>
+		</tr>
+		<tr>
+			<td>消费积分最小值:</td>
+			<td><input type='text' id='pointConsoMin' /></td>
+			<td>消费积分最大值:</td>
+			<td><input type='text' id='pointConsoMax' /></td>
+		</tr>
+		<tr>
+			<td>健康/调养积分最小值:</td>
+			<td><input type='text' id='pointHealMin' /></td>
+			<td>健康/调养积分最大值:</td>
+			<td><input type='text' id='pointHealMax' /></td>
+		</tr>
+		<tr>
+			<td>旅游积分最小值:</td>
+			<td><input type='text' id='pointTourismMin' /></td>
+			<td>旅游积分最大值:</td>
+			<td><input type='text' id='pointTourismMax' /></td>
+		</tr>
+		<tr>
+			<td>会员卡号码:</td>
+			<td><input type='text' id='cardNumber' /></td>
+			<td>会员姓名或身份证号码:</td>
+			<td><input type='text' id='client' /></td>
+		</tr>
+		<tr>
+			<td>会员卡类型:</td>
+			<td><select id='card'>
+					<option value=''>请选择……</option>
+					<volist name='list' id='l'>
+					<option value='{$l.id}'>{$l.name}{$l.level}</option>
+					</volist>
+			</select></td>
+			<td>是否激活:</td>
+			<td><select id='active'>
+					<option value=''>请选择……</option>
+					<option value='1'>已激活</option>
+					<option value='0'>未激活</option>
+			</select></td>
+		</tr>
+		<tr>
+			<td>部门</td>
+			<td><input type="text" id="departement"/></td>
+			<td>服务人</td>
+			<td><input type="text" id="serveur"/></td>
+		</tr>
+		<tr>
+			<td colspan="4"><button onclick='javascript:goSubmit()'>查询</button></td>
+		</tr>
+	</table>
+	<div id="resume"></div>
+<div id='resultList' style="margin-top:30px;"></div>
+<div id='diVButton'></div>
+<div id="resume"></div>
+</body>
+</html>

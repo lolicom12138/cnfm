@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="" method="POST">
+		<p>商品:<input type="text" name="product"/></p>
+		<p>数量:<input type="number" name="sum"/></p>
+		<p>出库店铺:<select name="shopOut">
+			<option value="">--</option>
+			<volist name="shop" id="s">
+				<option value="{$s.id}">{$s.name}</option>
+			</volist>
+		</select></p>
+		<p>入库店铺:<select name="shopIn">
+			<option value="">--</option>
+			<volist name="shop" id="s">
+				<option value="{$s.id}">{$s.name}</option>
+			</volist>
+		</select></p>
+		<p>核查人:<input type="text" name="confirmer"/></p>
+		<p><input type="submit" value="确定"/></p>
+	</form>
+</body>
+</html>

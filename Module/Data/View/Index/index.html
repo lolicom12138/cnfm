@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>商品后台管理系统</title>
+<link rel="stylesheet" href="__PUBLIC__/css/index.css" />
+<link rel="stylesheet" href="__PUBLIC__/css/easyui.css" />
+<link rel="stylesheet" href="__PUBLIC__/css/left/font-awesome.css" />
+<link rel="stylesheet" href="__PUBLIC__/css/left/index.css" />
+<script type="text/javascript" src="__PUBLIC__/js/sum/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/sum/jquery.easyui.min.1.2.2.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/left/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/left/style.js"></script>
+</head>
+<body class="easyui-layout" style="overflow-y: hidden" scroll="no">
+
+	<!--head开始-->
+	<div class="head" region="north" split="true" border="false"
+		style="overflow: hidden; height: 140px; background: url(__PUBLIC__/images/1.jpg)">
+		<div class="top">
+        	<img src="__PUBLIC__/images/4.jpg"/><a href="{:U('/vip')}">会员管理</a>
+        	<img src="__PUBLIC__/images/6.jpg"/><a href="{:U('/data')}">商品管理</a>
+        	<img src="__PUBLIC__/images/5.jpg"/><a href="{:U('/user')}">员工管理</a>
+        	<img src="__PUBLIC__/images/7.jpg"/><a href="{:U('/statistique')}">大数据</a>
+			<img src="__PUBLIC__/images/2.jpg" /><a href="{:U('/data')}">首页</a> 
+            <img src="__PUBLIC__/images/3.jpg" /><a href="{:U('/data/login/logout')}">退出</a>
+		</div>
+	</div>
+	<!--head结束-->
+	<!--***************************************************content开始*************************************-->
+	<!--**********************************left开始*********************************************************-->
+	<div region="west" hide="true" split="true" title="导航菜单"
+		style="width: 200px;" id="west">
+		<!-- ************* 导航内容****** -->
+		<div id="nav" class="easyui-accordion" fit="true" border="false"
+			style="border: 2px solid #99BBE8; border-top: 0px; background: url(__PUBLIC__/images/beijing.png);">
+			<div class="layout">
+				<div class="left_layout">
+					<!-- 财务处理 -->
+					<div class="financial_management menu_color">
+						<div class="menu fa">
+							<span>店铺管理</span>
+						</div>
+						<ul class="leftmenu hide">
+							<a href="{:U('/data/product/addShop')}" target='frameContent'><li class="fa fa-plus-square-o">店铺添加</li></a>
+							<a href="{:U('/data/product/listShop')}" target='frameContent'><li class="fa fa-plus-square-o">店铺列表</li></a>
+							<a href="{:U('/data/product/detailSelfShop')}" target='frameContent'><li class="fa fa-plus-square-o">所属店铺详情</li></a>
+						</ul>
+					</div>
+					<!-- 开票流水查询 -->
+					<div class="invoice_flow_inquiry menu_color">
+						<div class="menu fa">
+							<span>供应商管理</span>
+						</div>
+						<ul class="leftmenu hide">
+							<a href="{:U('/data/product/addSupplier')}" target='frameContent'><li class="fa fa-plus-square-o">供应商添加</li></a>
+							<a href="{:U('/data/product/listSupplier')}" target='frameContent'><li class="fa fa-plus-square-o">供应商列表</li></a>
+						</ul>
+					</div>
+					<!-- 批量管理 -->
+					<div class="batch_management menu_color">
+						<div class="menu fa">
+							<span>商品管理</span>
+						</div>
+						<ul class="leftmenu hide">
+							<a href="{:U('/data/product/addProductClass')}" target='frameContent'><li class="fa fa-plus-square-o">分类添加</li></a>
+							<a href="{:U('/data/product/listProductClass')}" target='frameContent'><li class="fa fa-plus-square-o">分类列表</li></a>
+							<a href="{:U('/data/product/addProduct')}" target='frameContent'><li class="fa fa-plus-square-o">商品添加</li></a>
+							<a href="{:U('/data/product/listProduct')}" target='frameContent'><li class="fa fa-plus-square-o">商品列表</li></a>
+							<a href="{:U('/data/product/storageProduct')}" target='frameContent'><li class="fa fa-plus-square-o">出入库</li></a>
+							<a href="{:U('/data/product/allocationProduct')}" target='frameContent'><li class="fa fa-plus-square-o">商品调拨</li></a>
+							<a href="{:U('/data/product/listinventoryin')}" target='frameContent'><li class="fa fa-plus-square-o">入库记录</li></a>
+							<a href="{:U('/data/product/listinventoryinself')}" target='frameContent'><li class="fa fa-plus-square-o">个人入库记录</li></a>
+							<a href="{:U('/data/product/listinventoryout')}" target='frameContent'><li class="fa fa-plus-square-o">出库记录</li></a>
+							<a href="{:U('/data/product/listinventoryoutself')}" target='frameContent'><li class="fa fa-plus-square-o">个人出库记录</li></a>
+							<a href="{:U('/data/product/listallocation')}" target='frameContent'><li class="fa fa-plus-square-o">调拨记录</li></a>
+						</ul>
+					</div>
+					<div class="batch_management menu_color">
+						<div class="menu fa">
+							<span>政策管理</span>
+						</div>
+						<ul class="leftmenu hide">
+							<a href="{:U('/data/statistic/lifeshippingEveryMonth')}" target='frameContent'><li class="fa fa-plus-square-o">当月配送</li></a>
+							<a href="{:U('/data/statistic/pointgiveEveryMonth')}" target='frameContent'><li class="fa fa-plus-square-o">当月送分</li></a>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--**********************************left结束*********************************************************-->
+	<!--*****************************************************************************************right开始-->
+	<div id="mainPanle" region="center"
+		style="background: #d2e0f2; overflow-y: hidden;">
+		<iframe name='frameContent' id='frameContent' src='' height='100%' width='99%' style="background:#eee;"></iframe>
+	</div>
+	<!--*******************************************************************************************right结束-->
+	<!--*************************************************content结束****************************************-->
+	<!--footer开始-->
+	<div region="south" split="true"
+		style="height: 30px; background: #1a7eba;">
+		<div class="footer">版权所所有（A）河北驰宇网络科技有限公司</div>
+	</div>
+	<!--footer结束-->
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

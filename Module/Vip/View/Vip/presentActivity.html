@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	function presentActivity(){
+		var activity = document.getElementById("activity").value;
+		var cardNumber = document.getElementById("cardNumber").value;
+		if(!activity){
+			alert("请选择活动");
+			return;
+		}
+		if(!cardNumber){
+			alert("请输入会员卡号码");
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("("+result+")");
+				switch(result['status']){
+				case "ok":
+					alert("成功");
+					break;
+				case "already":
+					alert("今天已经签到过了");
+					break;
+				case "not enough":
+					alert("还不够30分钟，如果一定要签退，请点击强制签退");
+					break;
+				case "no card number":
+					alert("请输入卡号");
+					break;
+				case "card not found":
+					alert("卡号未找到");
+					break;
+				case "card type invalid":
+					alert("只有生活卡可以签到");
+					break;
+				case "not active":
+					alert("卡未激活");
+					break;
+				case "expire":
+					alert("已过期");
+					break;
+				case "early":
+					alert("未开始");
+					break;
+				default:
+					alert("失败");
+					break;
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/vip/presentActivity')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("cardNumber="+cardNumber+"&activity="+activity);
+		
+	}
+</script>
+</head>
+<body>
+	<div>
+		<p>选择活动:<select id='activity'>
+			<option value=''>请选择……</option>
+			<volist name='list' id='l'>
+				<option value='{$l.id}'>{$l.name}</option>
+			</volist>
+		</select></p>
+	</div>
+	<div>
+		<p>会员卡号码:<input type='text' id='cardNumber'/><button onclick='javascript:presentActivity()'>签到</button></p>
+	</div>
+</body>
+</html>

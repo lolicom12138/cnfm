@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		operator = {$user.id};
+		page = 1;
+		timeBegin =$("#timeBegin").val();
+		timeEnd =$("#timeEnd").val();
+		sumMin =$("#sumMin").val();
+		sumMax =$("#sumMax").val();
+		typeRecharger =$("#typeRecharger").val();
+		cardNumber =$("#cardNumber").val();
+		client =$("#client").val();
+		$.ajax({
+			url:"{:U('/api/statistic/statisticRecharger')}",
+			type:"POST",
+			async:false,
+			dataType:"JSON",
+			data:{
+				operator:operator,
+				page:page,
+				timeBegin:timeBegin,
+				timeEnd:timeEnd,
+				sumMin:sumMin,
+				sumMax:sumMax,
+				typeRecharger:typeRecharger,
+				cardNumber:cardNumber,
+				client:client
+			},
+			success:function(data){
+				$("#result").html("");
+				result = eval("("+data+")");
+				if(result['status'] != "ok"){
+					alert("错误");
+					return;
+				}
+				list = result['list'][0];
+				$("#result").append("<table>");
+				$("#result").append("<tr><th>序号</th><th>卡号</th><th>时间</th><th>金额</th><th>类型</th><th>充值原因</th><th>操作员</th><th>备注</th></tr>");
+				for(i = 0;list[i];i++){
+					$("#result").append("<tr>");
+					$("#result").append("<td>" + (i+1) + "</td>");
+					try{
+						$("#result").append("<td>"+list[i][0]['vip'][0]['cardnumber']+"</td>");
+					}catch(e){
+						$("#result").append("<td></td>");
+					}
+					$("#result").append("<td>"+list[i][0]['time']+"</td>");
+					$("#result").append("<td>"+list[i][0]['sum']+"</td>");
+					switch(list[i][0]['typerecharger']){
+					case "credit":
+						$("#result").append("<td>储值</td>");
+						break;
+					case "creditGive":
+						$("#result").append("<td>赠送金额</td>");
+						break;
+					case "pointRecharger":
+						$("#result").append("<td>储值积分</td>");
+						break;
+					case "pointGive":
+						$("#result").append("<td>赠送积分</td>");
+						break;
+					case "pointHeal":
+						$("#result").append("<td>健康积分</td>");
+						break;
+					case "pointTourism":
+						$("#result").append("<td>旅游积分积分</td>");
+						break;
+					}
+					$("#result").append("<td>"+list[i][0]['raison']+"</td>");
+					try{
+						$("#result").append("<td>"+list[i][0]['operator'][0]['name']+"</td>");
+					}catch(e){
+						$("#result").append("<td></td>");
+					}
+					$("#result").append("<td>"+list[i][0]['etc']+"</td>");
+					$("#result").append("</tr>");
+				}
+				$("#result").append("</table>");
+				$("#numberPage").append(page);
+			}
+		});
+		$("#goSubmit").click(function(){
+			$("#numberPage").html("");
+			page = 1;
+			timeBegin =$("#timeBegin").val();
+			timeEnd =$("#timeEnd").val();
+			sumMin =$("#sumMin").val();
+			sumMax =$("#sumMax").val();
+			typeRecharger =$("#typeRecharger").val();
+			cardNumber =$("#cardNumber").val();
+			client =$("#client").val();
+			$.ajax({
+				url:"{:U('/api/statistic/statisticRecharger')}",
+				type:"POST",
+				async:false,
+				dataType:"JSON",
+				data:{
+					operator:operator,
+					page:page,
+					timeBegin:timeBegin,
+					timeEnd:timeEnd,
+					sumMin:sumMin,
+					sumMax:sumMax,
+					typeRecharger:typeRecharger,
+					cardNumber:cardNumber,
+					client:client
+				},
+				success:function(data){
+					$("#result").html("");
+					result = eval("("+data+")");
+					if(result['status'] != "ok"){
+						alert("错误");
+						return;
+					}
+					list = result['list'][0];
+					$("#result").append("<table>");
+					$("#result").append("<tr><th>序号</th><th>卡号</th><th>时间</th><th>金额</th><th>类型</th><th>充值原因</th><th>操作员</th><th>备注</th></tr>");
+					for(i = 0;list[i];i++){
+						$("#result").append("<tr>");
+						$("#result").append("<td>" + (i+1) + "</td>");
+						try{
+							$("#result").append("<td>"+list[i][0]['vip'][0]['cardnumber']+"</td>");
+						}catch(e){
+							$("#result").append("<td></td>");
+						}
+						$("#result").append("<td>"+list[i][0]['time']+"</td>");
+						$("#result").append("<td>"+list[i][0]['sum']+"</td>");
+						switch(list[i][0]['typerecharger']){
+						case "credit":
+							$("#result").append("<td>储值</td>");
+							break;
+						case "creditGive":
+							$("#result").append("<td>赠送金额</td>");
+							break;
+						case "pointRecharger":
+							$("#result").append("<td>储值积分</td>");
+							break;
+						case "pointGive":
+							$("#result").append("<td>赠送积分</td>");
+							break;
+						case "pointHeal":
+							$("#result").append("<td>健康积分</td>");
+							break;
+						case "pointTourism":
+							$("#result").append("<td>旅游积分积分</td>");
+							break;
+						}
+						$("#result").append("<td>"+list[i][0]['raison']+"</td>");
+						try{
+							$("#result").append("<td>"+list[i][0]['operator'][0]['name']+"</td>");
+						}catch(e){
+							$("#result").append("<td></td>");
+						}
+						$("#result").append("<td>"+list[i][0]['etc']+"</td>");
+						$("#result").append("</tr>");
+					}
+					$("#result").append("</table>");
+					$("numberPage").append(page);
+				}
+			});
+		});
+		$("#nextPage").click(function(){
+			$("#numberPage").html("");
+			page += 1;
+			$.ajax({
+				url:"{:U('/api/statistic/statisticRecharger')}",
+				type:"POST",
+				async:false,
+				dataType:"JSON",
+				data:{
+					operator:operator,
+					page:page,
+					timeBegin:timeBegin,
+					timeEnd:timeEnd,
+					sumMin:sumMin,
+					sumMax:sumMax,
+					typeRecharger:typeRecharger,
+					cardNumber:cardNumber,
+					client:client
+				},
+				success:function(data){
+					$("#result").html("");
+					result = eval("("+data+")");
+					if(result['status'] != "ok"){
+						alert("错误");
+						return;
+					}
+					list = result['list'][0];
+					$("#result").append("<table>");
+					$("#result").append("<tr><th>序号</th><th>卡号</th><th>时间</th><th>金额</th><th>类型</th><th>充值原因</th><th>操作员</th><th>备注</th></tr>");
+					for(i = 0;list[i];i++){
+						$("#result").append("<tr>");
+						$("#result").append("<td>" + (i+1) + "</td>");
+						try{
+							$("#result").append("<td>"+list[i][0]['vip'][0]['cardnumber']+"</td>");
+						}catch(e){
+							$("#result").append("<td></td>");
+						}
+						$("#result").append("<td>"+list[i][0]['time']+"</td>");
+						$("#result").append("<td>"+list[i][0]['sum']+"</td>");
+						switch(list[i][0]['typerecharger']){
+						case "credit":
+							$("#result").append("<td>储值</td>");
+							break;
+						case "creditGive":
+							$("#result").append("<td>赠送金额</td>");
+							break;
+						case "pointRecharger":
+							$("#result").append("<td>储值积分</td>");
+							break;
+						case "pointGive":
+							$("#result").append("<td>赠送积分</td>");
+							break;
+						case "pointHeal":
+							$("#result").append("<td>健康积分</td>");
+							break;
+						case "pointTourism":
+							$("#result").append("<td>旅游积分积分</td>");
+							break;
+						}
+						$("#result").append("<td>"+list[i][0]['raison']+"</td>");
+						try{
+							$("#result").append("<td>"+list[i][0]['operator'][0]['name']+"</td>");
+						}catch(e){
+							$("#result").append("<td></td>");
+						}
+						$("#result").append("<td>"+list[i][0]['etc']+"</td>");
+						$("#result").append("</tr>");
+					}
+					$("#result").append("</table>");
+					$("#numberPage").append(page);
+				}
+			});
+		});
+		$("#lastPage").click(function(){
+			$("#numberPage").html("");
+			page -= 1;
+			if(page <= 0){
+				page = 1;
+				return;
+			}
+			$.ajax({
+				url:"{:U('/api/statistic/statisticRecharger')}",
+				type:"POST",
+				async:false,
+				dataType:"JSON",
+				data:{
+					operator:operator,
+					page:page,
+					timeBegin:timeBegin,
+					timeEnd:timeEnd,
+					sumMin:sumMin,
+					sumMax:sumMax,
+					typeRecharger:typeRecharger,
+					cardNumber:cardNumber,
+					client:client
+				},
+				success:function(data){
+					$("#result").html("");
+					result = eval("("+data+")");
+					if(result['status'] != "ok"){
+						alert("错误");
+						return;
+					}
+					list = result['list'][0];
+					$("#result").append("<table>");
+					$("#result").append("<tr><th>序号</th><th>卡号</th><th>时间</th><th>金额</th><th>类型</th><th>充值原因</th><th>操作员</th><th>备注</th></tr>");
+					for(i = 0;list[i];i++){
+						$("#result").append("<tr>");
+						$("#result").append("<td>" + (i+1) + "</td>");
+						try{
+							$("#result").append("<td>"+list[i][0]['vip'][0]['cardnumber']+"</td>");
+						}catch(e){
+							$("#result").append("<td></td>");
+						}
+						$("#result").append("<td>"+list[i][0]['time']+"</td>");
+						$("#result").append("<td>"+list[i][0]['sum']+"</td>");
+						switch(list[i][0]['typerecharger']){
+						case "credit":
+							$("#result").append("<td>储值</td>");
+							break;
+						case "creditGive":
+							$("#result").append("<td>赠送金额</td>");
+							break;
+						case "pointRecharger":
+							$("#result").append("<td>储值积分</td>");
+							break;
+						case "pointGive":
+							$("#result").append("<td>赠送积分</td>");
+							break;
+						case "pointHeal":
+							$("#result").append("<td>健康积分</td>");
+							break;
+						case "pointTourism":
+							$("#result").append("<td>旅游积分积分</td>");
+							break;
+						}
+						$("#result").append("<td>"+list[i][0]['raison']+"</td>");
+						try{
+							$("#result").append("<td>"+list[i][0]['operator'][0]['name']+"</td>");
+						}catch(e){
+							$("#result").append("<td></td>");
+						}
+						$("#result").append("<td>"+list[i][0]['etc']+"</td>");
+						$("#result").append("</tr>");
+					}
+					$("#result").append("</table>");
+					$("#numberPage").append(page);
+				}
+			});
+		});
+	});
+</script>
+<style>
+input[type=text], select, input[type="date"]{
+	width: 160px;
+	height: 23px;
+}
+select{
+	height: 25px;
+}
+table button {
+	height: 25px;
+	font-size: 12pt;
+	color: #003399;
+	border: 1px #93bee2 solid;
+	width: 60px;
+	background-color: #e8f4ff;
+	line-height: 18px;
+	position: absolute;
+	font-weight: bold;
+	cursor: pointer;
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+#resultList table{
+	margin-top:30px;
+	border-collapse: collapse;
+	text-align: center;
+	border:1px solid black;
+	width:730px;
+}
+
+#resultList table th,#resultList table td{
+	border:1px solid black;
+}
+
+#diVButton{
+	margin-top:20px;
+}
+</style>
+</head>
+<body>
+	<table width="702" height="116">
+		<tr>
+			<td>开始日期:</td>
+			<td><input type='date' id='timeBegin'/></td>
+			<td>结束日期:</td>
+			<td><input type='date' id='timeEnd'/></td>
+		</tr>
+		<tr>
+			<td>最小金额:</td>
+			<td><input type='text' id='sumMin'/></td>
+			<td>最大金额:</td>
+			<td><input type='text' id='sumMax'/></td>
+		</tr>
+		<tr>
+			<td>会员卡号码:</td>
+			<td><input type='text' id='cardNumber'/></td>
+			<td>会员姓名或身份证号码:</td>
+			<td><input type='text' id='client'/></td>
+		</tr>
+		<tr>
+			<td>充值类型:</td>
+			<td><select id='typeRecharger'>
+				<option value=''>请选择……</option>
+				<option value='credit'>储值</option>
+				<option value='creditGive'>赠送金额</option>
+				<option value='pointRecharger'>储值积分</option>
+				<option value='pointGive'>赠送积分</option>
+				<option value='pointConso'>消费积分</option>
+				<option value='pointHeal'>调养/健康积分</option>
+				<option value='pointTourism'>旅游积分</option>
+			</select></td>
+			<td colspan="2"><button id="goSubmit">查询</button></td>
+		</tr>
+	</table>
+	<p></p>
+	<p></p>
+	<div id="resume"></div>
+	<div id="result"></div>
+	<div id="button"><button id="lastPage">上一页</button>&nbsp;<span id="numberPage"></span>&nbsp;<button id="nextPage">下一页</button></div>
+</body>
+</html>

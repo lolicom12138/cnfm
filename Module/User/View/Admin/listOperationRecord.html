@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.js"></script>
+<script>
+	/*
+	var user = "";
+	var operation = "";
+	var content = "";
+	var timeBegin = "";
+	var timEnd = "";
+	var page = 1;
+	var xmlhttp;
+	if (window.XMLHttpRequest) {
+		xmlhttp = new XMLHttpRequest();
+	} else {
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			var result = xmlhttp.responseText;
+			result = eval("(" + result + ")");
+			if (result['status'] = "ok") {
+				var list = result['list'][0];
+				console.log(list);
+				var str = "";
+				str += "<table>";
+				str += "<tr><th>序号</th><th>操作人</th><th>操作</th><th>操作内容</th><th>时间</th><th>ip</th></tr>";
+				var i = 0;
+				while (list[i]) {
+					str += "<tr>";
+					str += "<td>" + (i + 1) + "</td>";
+					str += "<td>" + list[i][0]['operator'][0]['name'] + "</td>";
+					str += "<td>" + list[i][0]['operation'] + "</td>";
+					str += "<td>" + list[i][0]['content'] + "</td>";
+					str += "<td>" + list[i][0]['time'] + "</td>";
+					str += "<td>" + list[i][0]['ip'] + "</td>";
+					str += "</tr>";
+					i++;
+				}
+				str += "</table>";
+				if (!i) {
+					alert("无数据1");
+					document.getElementById("resultList").innerHTML = "";
+					var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"
+							+ page
+							+ "&nbsp;<button onclick='javascript:nextPage()'>下一页</button>";
+					document.getElementById("diVButton").innerHTML = strButton;
+					return;
+				}
+				document.getElementById("resultList").innerHTML = str;
+				var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"
+						+ page
+						+ "&nbsp;<button onclick='javascript:nextPage()'>下一页</button>";
+				document.getElementById("diVButton").innerHTML = strButton;
+			} else {
+				document.getElementById("resultList").innerHTML = "";
+				alert("无数据2");
+			}
+
+		}
+	}
+	xmlhttp.open("POST", "{:U('/api/user/listoperation')}", true);
+	xmlhttp.setRequestHeader("Content-type",
+			"application/x-www-form-urlencoded");
+	xmlhttp.send("user=" + user + "&operation=" + operation + "&content="
+			+ content + "&timeBegin=" + timeBegin + "&timEnd=" + timEnd
+			+ "&page=" + page);
+	function goSubmit(){
+		user = document.getElementById("user").value;
+		operation = document.getElementById("operation").value;
+		content = document.getElementById("content").value;
+		timeBegin = document.getElementById("timeBegin").value;
+		timeEnd = document.getElementById("timeEnd").value;
+		page = 1;
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("(" + result + ")");
+				if (result['status'] = "ok") {
+					var list = result['list'][0];
+					console.log(list);
+					var str = "";
+					str += "<table>";
+					str += "<tr><th>序号</th><th>操作人</th><th>操作</th><th>操作内容</th><th>时间</th><th>ip</th></tr>";
+					var i = 0;
+					while (list[i]) {
+						str += "<tr>";
+						str += "<td>" + (i + 1) + "</td>";
+						str += "<td>" + list[i][0]['operator'][0]['name'] + "</td>";
+						str += "<td>" + list[i][0]['operation'] + "</td>";
+						str += "<td>" + list[i][0]['content'] + "</td>";
+						str += "<td>" + list[i][0]['time'] + "</td>";
+						str += "<td>" + list[i][0]['ip'] + "</td>";
+						str += "</tr>";
+						i++;
+					}
+					str += "</table>";
+					if (!i) {
+						alert("无数据1");
+						document.getElementById("resultList").innerHTML = "";
+						var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"
+								+ page
+								+ "&nbsp;<button onclick='javascript:nextPage()'>下一页</button>";
+						document.getElementById("diVButton").innerHTML = strButton;
+						return;
+					}
+					document.getElementById("resultList").innerHTML = str;
+					var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"
+							+ page
+							+ "&nbsp;<button onclick='javascript:nextPage()'>下一页</button>";
+					document.getElementById("diVButton").innerHTML = strButton;
+				} else {
+					document.getElementById("resultList").innerHTML = "";
+					alert("无数据2");
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/user/listoperation')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("user=" + user + "&operation=" + operation + "&content="
+				+ content + "&timeBegin=" + timeBegin + "&timEnd=" + timEnd
+				+ "&page=" + page);
+	}
+	*/
+	$(document).ready(function(){
+		var user = "";
+		var operation = "";
+		var content = "";
+		var timeBegin = "";
+		var timEnd = "";
+		var page = 1;
+		var allPage = 0;
+		$("#goSubmit").click(function(){
+			$("#resultList").html("");
+			user = $("#user").val();
+			operation = $("#operation").val();
+			content = $("#content").val();
+			timeBegin = $("#timeBegin").val();
+			timEnd = $("#timEnd").val();
+			page = 1;
+			$.ajax({
+				url:"{:U('/api/user/listoperation')}",
+				async:false,
+				type:"POST",
+				dataType:"JSON",
+				data:{
+					user:user,
+					operation:operation,
+					content:content,
+					timeBegin:timeBegin,
+					timeEnd:timeEnd,
+					page:page
+				},
+				success:function(data){
+					result = eval("("+data+")");
+					if(result.status != "ok"){
+						allPage = 0;
+						alert("错误");
+						return;
+					}
+					allPage = result.allPage;
+					var list = result['list'][0];
+					$("#resultList").append("<table>");
+					$("#resultList").append("<tr><th>序号</th><th>操作人</th><th>操作</th><th>操作内容</th><th>时间</th><th>ip</th></tr>");
+					for(i = 0;list[i];i++){
+						$("#resultList").append("<tr>");
+						$("#resultList").append("<td>" + (i + 1) + "</td>");
+						$("#resultList").append("<td>" + list[i][0]['operator'][0]['name'] + "</td>");
+						$("#resultList").append("<td>" + list[i][0]['operation'] + "</td>");
+						$("#resultList").append("<td>" + list[i][0]['content'] + "</td>");
+						$("#resultList").append("<td>" + list[i][0]['time'] + "</td>");
+						$("#resultList").append("<td>" + list[i][0]['ip'] + "</td>");
+						$("#resultList").append("</tr>");
+					}
+					$("#resultList").append("</table>");
+				},
+				error:function(){
+					alert("错误");
+				}
+			});
+		});
+		$("#nextPage").click(function(){
+			$("#resultList").html("");
+			user = $("#user").val();
+			operation = $("#operation").val();
+			content = $("#content").val();
+			timeBegin = $("#timeBegin").val();
+			timEnd = $("#timEnd").val();
+			page += 1;
+			if(page > allPage){
+				page--;
+				return;
+			}
+			$.ajax({
+				url:"{:U('/api/user/listoperation')}",
+				async:false,
+				type:"POST",
+				dataType:"JSON",
+				data:{
+					user:user,
+					operation:operation,
+					content:content,
+					timeBegin:timeBegin,
+					timeEnd:timeEnd,
+					page:page
+				},
+				success:function(data){
+					result = eval("("+data+")");
+					if(result.status != "ok"){
+						allPage = 0;
+						alert("错误");
+						return;
+					}
+					allPage = result.allPage;
+					var list = result['list'][0];
+					$("#resultList").append("<table>");
+					$("#resultList").append("<tr><th>序号</th><th>操作人</th><th>操作</th><th>操作内容</th><th>时间</th><th>ip</th></tr>");
+					for(i = 0;list[i];i++){
+						$("#resultList").append("<tr>");
+						$("#resultList").append("<td>" + (i + 1) + "</td>");
+						$("#resultList").append("<td>" + list[i][0]['operator'][0]['name'] + "</td>");
+						$("#resultList").append("<td>" + list[i][0]['operation'] + "</td>");
+						$("#resultList").append("<td>" + list[i][0]['content'] + "</td>");
+						$("#resultList").append("<td>" + list[i][0]['time'] + "</td>");
+						$("#resultList").append("<td>" + list[i][0]['ip'] + "</td>");
+						$("#resultList").append("</tr>");
+					}
+					$("#resultList").append("</table>");
+					$("#pageAffiche").html(page);
+				},
+				error:function(){
+					alert("错误");
+				}
+			});
+		});
+		$("#lastPage").click(function(){
+			$("#resultList").html("");
+			user = $("#user").val();
+			operation = $("#operation").val();
+			content = $("#content").val();
+			timeBegin = $("#timeBegin").val();
+			timEnd = $("#timEnd").val();
+			page -= 1;
+			if(page <= 0){
+				page = 1;
+				return;
+			}
+			$.ajax({
+				url:"{:U('/api/user/listoperation')}",
+				async:false,
+				type:"POST",
+				dataType:"JSON",
+				data:{
+					user:user,
+					operation:operation,
+					content:content,
+					timeBegin:timeBegin,
+					timeEnd:timeEnd,
+					page:page
+				},
+				success:function(data){
+					result = eval("("+data+")");
+					if(result.status != "ok"){
+						allPage = 0;
+						alert("错误");
+						return;
+					}
+					allPage = result.allPage;
+					var list = result['list'][0];
+					$("#resultList").append("<table>");
+					$("#resultList").append("<tr><th>序号</th><th>操作人</th><th>操作</th><th>操作内容</th><th>时间</th><th>ip</th></tr>");
+					for(i = 0;list[i];i++){
+						$("#resultList").append("<tr>");
+						$("#resultList").append("<td>" + (i + 1) + "</td>");
+						$("#resultList").append("<td>" + list[i][0]['operator'][0]['name'] + "</td>");
+						$("#resultList").append("<td>" + list[i][0]['operation'] + "</td>");
+						$("#resultList").append("<td>" + list[i][0]['content'] + "</td>");
+						$("#resultList").append("<td>" + list[i][0]['time'] + "</td>");
+						$("#resultList").append("<td>" + list[i][0]['ip'] + "</td>");
+						$("#resultList").append("</tr>");
+					}
+					$("#resultList").append("</table>");
+					$("#pageAffiche").html(page);
+				},
+				error:function(){
+					alert("错误");
+				}
+			});
+		});
+	});
+	
+</script>
+</head>
+<body>
+	<table width="768" height="372">
+		<tr>
+			<td>员工:</td>
+			<td><input type='text' id='user' /></td>
+			<td>操作:</td>
+			<td><input type='text' id='operation' /></td>
+		</tr>
+		<tr>
+			<td>内容:</td>
+			<td><input type="text" id="content" /></td>
+			<td>ip:</td>
+			<td><input type="text" id="ip" /></td>
+		</tr>
+		<tr>
+			<td>开始时间:</td>
+			<td><input type='datetime-local' id='timeBegin' /></td>
+			<td>结束时间:</td>
+			<td><input type='datetime-local' id='timeEnd' /></td>
+		</tr>
+		<tr>
+			<td colspan="4"><button id="goSubmit">查询</button></td>
+		</tr>
+	</table>
+	<div id="testResult"></div>
+	<div id='resultList' style="margin-top: 30px;"></div>
+	<div id='diVButton'><button id="lastPage">上一页</button>&nbsp;<span id="pageAffiche"></span><button id="nextPage">下一页</button><button id="finishPage">末页</button></div>
+</body>
+</html>

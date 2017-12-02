@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+table {
+	text-align: center;
+	border-collapse: collapse;
+}
+
+table td, table th {
+	border: 1px solid #999;
+}
+
+table td a {
+	margin-right: 20px;
+	text-decoration:underline;
+}
+
+table td a:hover {
+	color:red;
+}
+
+table td a:last-child {
+	margin-right: 0;
+}
+</style>
+</head>
+<body>
+<a href="{:U('/user/worker/updateCache')}">更新个人缓存</a>
+<table width="565" border="1" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="112" height="34"><b>姓名：</b></td>
+        <td width="158">{$user.name}</td>
+        <td width="112"><b>性别：</b></td>
+        <td width="173">{$user.sex}</td>
+      </tr>
+      <tr>
+        <td height="28"><b>民族</b>：</td>
+        <td>{$user.nation}</td>
+        <td><b>生日：</b></td>
+        <td>{$user.datebirth}</td>
+      </tr>
+      <tr>
+        <td height="25"><b>部门：</b></td>
+        <td>{$user.departement.departement}</td>
+        <td><b>职位：</b></td>
+        <td>{$user.post.post}</td>
+      </tr>
+    </table>
+    
+	<!--<p>姓名:{$user.name}</p>
+	<p>性别:{$user.sex}</p>
+	<p>民族:{$user.nation}</p>
+	<p>生日:{$user.datebirth}</p>
+	<p>部门:{$user.departement.departement}</p>
+	<p>职位:{$user.post.post}</p>-->
+	<!-- 
+	<p>拥有权限:</p>
+	<volist name='user.classified' id='uc'>
+		<p>{$uc.description}</p>
+	</volist>
+	 -->
+	<p>管理用户组:</p>
+	<!--  
+	<table width="565">
+		<tr>
+			<th width="105" height="28">姓名</th>
+			<th width="132">出生日期</th>
+			<th width="91">电话号码</th>
+			<th width="203">操作</th>
+		</tr>
+		<volist name='user.client' id='m'>
+			<tr>
+				<td height="31">{$m.name}</td>
+				<td>{$m.datebirth}</td>
+				<td>{$m.tel}</td>
+				<td><a href="{:U('/user/worker/detailClient',array('id'=>$m[id]))}">详情</a>&nbsp;<a href="{:U('/user/worker/reportClient',array('id'=>$m[id]))}">提交详细信息</a></td>
+			</tr>
+		</volist>
+	</table>
+	-->
+	<table width="565">
+		<tr>
+			<th width="105" height="28">id</th>
+			<th width="132">组名</th>
+			<th width="203">操作</th>
+		</tr>
+		<volist name='user.clientgroup' id='cg'>
+			<tr>
+				<td>{$cg.id}</td>
+				<td height="31">{$cg.name}</td>
+				<td><a href="{:U('/user/worker/detailGroup',array('id'=>$cg[id]))}">详情</a></td>
+			</tr>
+		</volist>
+	</table>
+	<p>下属列表</p>
+	<table>
+		<tr>
+			<th>姓名</th>
+			<th>操作</th>
+		</tr>
+		<volist name="list" id="u">
+			<tr>
+			<td>{$u.name}</td>
+			<td><a href="{:U('/user/admin/detailWorker',array('id'=>$u[id]))}">详情</a>
+			</td>
+			</tr>
+		</volist>
+	</table>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.js"></script>
+<script>
+var dateBegin;
+var dateEnd;
+var product;
+var supplier;
+var productClass;
+var shop;
+var page = 1;
+$(document).ready(function(){
+	$("#goSubmit").click(function(){
+		page = 1;
+		$("#thisPage").html(page);
+		$("#resume").html("");
+		dateBegin = $("#dateBegin").val();
+		dateEnd = $("#dateEnd").val();
+		product = $("#product").val();
+		supplier = $("#supplier").val();
+		productClass = $("#class").val();
+		shop = $("#shop").val();
+		$.ajax({
+			type:"POST",
+			url:"{:U('/api/statistic/statisticProduct')}",
+			data:{
+				dateBegin:dateBegin,
+				dateEnd:dateEnd,
+				product:product,
+				supplier:supplier,
+				shop:shop,
+				class:productClass,
+				page:page
+			},
+			async:true,
+			dataType:"JSON",
+			success:function(data){
+				var result = eval("(" + data + ")");
+				if(result['status'] == "ok"){
+					var list = result['list'][0];
+					$("#resultList").html("");
+					$("#resultList").append("<table id='resultTable'></table>");
+					$("#resultTable").append("<tr><th>商品</th><th>数量</th><th>总价</th></tr>");
+					for(var i = 0;list[i];i++){
+						price = list[i][0]['product'][0]['priceout']*list[i][0]['number'];
+						$("#resultTable").append("<tr><td>"+list[i][0]['product'][0]['name']+"</td><td>"+list[i][0]['number']+"</td><td>"+price+"</td></tr>")
+					}
+					$("#resume").html("总条数:"+result.count);
+					if(!i){
+						alert("无数据");
+					}
+				}else{
+					$("#resultList").html("");
+					alert("无数据");
+				}
+			},
+			error:function(){
+				$("#resultList").html("");
+				alert("无数据");
+			}
+		});
+	});
+	$("nextPage").click(function(){
+		alert(1);
+	});
+});
+</script>
+</head>
+<body>
+	<div>
+		<table>
+			<tr>
+				<td>开始时间</td>
+				<td><input type="date" id="dateBegin"/></td>
+				<td>结束时间</td>
+				<td><input type="date" id="dateEnd"/></td>
+			</tr>
+			<tr>
+				<td>商品</td>
+				<td><input type="text" id="product"/></td>
+				<td>供应商</td>
+				<td>
+					<select id="supplier">
+						<option value="">--</option>
+						<volist name="listSupplier" id="l">
+							<option value="{$l.id}">{$l.name}</option>
+						</volist>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>店铺</td>
+				<td><select id="shop">
+					<option value="">--</option>
+					<volist name="listShop" id="l">
+						<option value="{$l.id}">{$l.name}</option>
+					</volist>
+				</select></td>
+				<td>商品分类</td>
+				<td>
+					<select id="class">
+						<option value="">--</option>
+						<volist name="listClass" id="l">
+							<option value="{$l.id}">{$l.class}</option>
+						</volist>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4"><button id="goSubmit">查询</button></td>
+			</tr>
+		</table>
+	</div>
+	<div id="resume"></div>
+	<div id='resultList'>
+	</div>
+	<!-- 
+	<div id='diVButton'>
+		<button id='lastPage'>上一页</button>&nbsp;<span id="thisPage">1</span>&nbsp;<button id='nextPage'>下一页</button>
+	</div> -->
+</body>
+</html>

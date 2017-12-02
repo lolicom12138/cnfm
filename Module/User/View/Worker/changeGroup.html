@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>添加组</title>
+<style>
+a {
+	text-decoration: none;
+	font-weight: bold;
+}
+
+table {
+	text-align: left;
+}
+
+date, input {
+	width: 150px;
+	height: 20px;
+}
+
+select {
+	width: 150px;
+	height: 24px;
+}
+
+input[type="submit"] {
+	height: 23px;
+	font-size: 10pt;
+	color: #003399;
+	border: 1px #93bee2 solid;
+	width: 40px;
+	background-color: #e8f4ff;
+	line-height: 23px;
+	position: absolute;
+	font-weight: bold;
+	cursor: pointer;
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+</style>
+<script type='text/javascript'>
+	function goSubmit() {
+		var clientTest = form1.leader.value;
+		var xmlhttp;
+		if (window.XMLHttpRequest){
+			// code for IE7+, Firefox, Chrome, Opera, Safari
+		  	xmlhttp=new XMLHttpRequest();
+		}else{
+			// code for IE6, IE5
+			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange=function(){
+			if (xmlhttp.readyState==4 && xmlhttp.status==200){
+		    	var result = xmlhttp.responseText;
+		    	result = eval('('+result+')');
+		    	if(result['status'] == 'ok'){
+		    		form1.submit();
+		    	}
+		    	if(result['status'] == 'repeat'){
+		    		var str = "小组组长名字重复，为您找到以下信息\n";
+		    		var nombre = result['client'].length;
+		    		for(var i = 0;i<nombre;i++){
+		    			str += "id:"+result['client'][i]['id']+",身份证号码:"+result['client'][i]['identity']+"\n";
+		    		}
+		    		str += "您可以输入id或者身份证号码来确定";
+		    		alert(str);
+		    	}
+		    }
+		}
+		xmlhttp.open("POST","{:U('/api/client/getClient')}",false);
+		xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		xmlhttp.send("client="+clientTest);
+	}
+</script>
+</head>
+<body>
+	<form action="" method="POST" id='form1'>
+		<table width="385" height="156" border="0">
+			<tr>
+				<td width="118">名称：</td>
+				<td width="257"><input type="text" name='name' value='{$group.name}'/></td>
+			</tr>
+			<tr>
+				<td>负责员工：</td>
+				<td><input type='text' name='responsable' list="userDataList" value='{$group.responsable.name}'/>
+					<datalist id='userDataList'>
+						<volist name='user' id='u'>
+						<option label='{$u.departement.departement}{$u.post.post}'
+							value='{$u.name}' />
+						</volist>
+					</datalist></td>
+			</tr>
+			<tr>
+				<td>小组队长：</td>
+				<td><input type='text' name='leader' list='clientDataList' value='{$group.leader.name}'/> <datalist
+						id='clientDataList'>
+						<volist name='client' id='c'>
+						<option value='{$c.name}'/>
+						</volist>
+					</datalist></td>
+			</tr>
+		</table>
+		<input type="button" onclick='goSubmit()' value="修改" />
+	</form>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<th>名称:</th>
+			<td>{$position.position}</td>
+			<th>地址:</th>
+			<td>{$position.adresse}</td>
+			<th>负责人:</th>
+			<td>{$position.responsable.id}</td>
+		</tr>
+	</table>
+	<p>活动</p>
+	<volist name='position.activity' id='pa'>
+	<table>
+		<tr>
+			<th>活动名称:</th>
+			<td>{$pa.name}</td>
+			<th>活动时间:</th>
+			<td>{$pa.time}</td>
+			<th>赠送积分:</th>
+			<td>{$pa.point}</td>
+		</tr>
+	</table>
+	</volist>
+</body>
+</html>

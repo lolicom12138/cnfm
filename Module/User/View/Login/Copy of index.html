@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type='text/javascript' src='__PUBLIC__/js/jquery-3.1.1.min.js'></script>
+<script type='text/javascript'>
+	function goSubmit(){
+		$("#confirm").attr("disalbed",true);
+		if(!$("#login")[0].value){
+			$("#confirm").attr("disable",false);
+			alert("请输入登录名");
+			return false;
+		}
+		if(!$("#pwd")[0].value){
+			$("#confirm").attr("disable",false);
+			alert("请输入密码");
+			return false;
+		}
+		if($("#verify")[0].value.length < 6){
+			$("#confirm").attr("disable",false);
+			alert("验证码输入错误");
+			return false;
+		}
+		
+		var xmlhttp;
+		if (window.XMLHttpRequest){
+			// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp=new XMLHttpRequest();
+		}else
+		{
+			// code for IE6, IE5
+			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange=function(){
+			if(xmlhttp.readyState==4 && xmlhttp.status==200){
+				// TODO
+				var arrayJson = eval("("+xmlhttp.responseText+")");
+				$('#pwd').val(arrayJson['pwd']);
+				$('#code').val(arrayJson['code']);
+			}
+		}
+		xmlhttp.open("POST","{:U('/api/chiffrement/chiffrementPwd')}",false);
+		xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		xmlhttp.send("pwd="+$("#pwd")[0].value);
+	}
+</script>
+</head>
+<body>
+	<form action='' method='POST' id='vipLogin' onsubmit='return goSubmit()'>
+		<input type='hidden' name='code' id='code'/>
+		<p>登录名:<input type='text' name='login' id='login'/></p>
+		<p>密码:<input type='password' name='pwd' id='pwd'/></p>
+		<p>验证码:<input type='text' maxlength='6' name='verify' id='verify'/><img src="{:U('/api/verify')}"/></p>
+		<p><input type='submit' name='confirm' id='confirm' value='登陆'/></p>
+		<!-- <p><input type='submit' name='confirm' id='confirm' value='登陆' onclick='goSubmit()'/></p>  -->
+	</form>
+</body>
+</html>

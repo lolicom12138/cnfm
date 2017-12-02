@@ -1,0 +1,43 @@
+@charset "utf-8";
+/* CSS Document */
+*{margin:0;padding:0;}
+body,ul,li{margin:0;padding:0;}
+html{ overflow-x:hidden;overflow-y:hidden;_background-image:url(about:blank); _background-attachment:fixed; }
+input{border-radius:0 10px 10px 0; background:#ffdd7e;}
+/* html加上这段代码用于取消ie6滚动时候元素震动bug */
+img{border:0;}
+ul{list-style:none;}
+body{font-size:12px;font-family:"Arial","宋体"}
+a{text-decoration:none;}
+.num{background:url(../images/bg.jpg) no-repeat; background-size:100% 100%; color:#fff;}
+/*#main{position:relative;left:27%;top:17%;}*/
+.content{width:400px; height:250px;  position:relative; left:40%; top:35%; background:#cd8800; border-radius:10px;
+		 box-shadow:2px 2px 1px #000;}
+
+.content .input-wrap{width:250px; height:35px; border:1px solid #fff;; position: absolute; left:75px; top:45px; border-radius:8px;
+					background:#ffdd7e;}
+.content .input-wrap .input-icon{background:url(../images/user.png) no-repeat; display:block; width:32px;
+								 height:30px; margin-top:2.5px;}
+.startpage-input-text{width:215px; height:30px;   line-height:30px;  outline: none; position:relative; font-size: 16px;
+ 					  color:#8F8F8F; border:0;  left:35px; top:-30px;
+                      font-family: "Microsoft Yahei", "微软雅黑", Tahoma, Arial, Helvetica, STHeiti;}  
+
+.input-login-pwd{width:250px; height:35px; border:1px solid #fff; position: absolute; left:75px; top:95px; border-radius:8px;background:#ffdd7e;}
+.input-pwd{background:url(../images/pwd.png) no-repeat; display:block; width:32px;
+		   height:30px; margin-top:2.5px;}
+.startpage-input-pass{width:215px; height:30px;   line-height:30px;  outline: none; position:relative; font-size: 16px;
+ 					  color:#8F8F8F; border:0;  left:35px; top:-30px;
+                      font-family: "Microsoft Yahei", "微软雅黑", Tahoma, Arial, Helvetica, STHeiti;}  
+
+.input-login-code{width:150px; height:35px; border:1px solid #fff; position: absolute; left:75px; top:145px; border-radius:8px;
+				  float:left; background:#ffdd7e;}
+.input-code{background:url(../images/code.png) no-repeat; display:block; width:32px;
+		   height:30px; margin-top:2.5px;}
+.startpage-input-code{width:110px; height:30px;   line-height:30px;  outline: none; position:relative; font-size: 16px;
+ 					  color:#8F8F8F; border:0;  left:35px; top:-30px;
+                      font-family: "Microsoft Yahei", "微软雅黑", Tahoma, Arial, Helvetica, STHeiti;}  
+.code-right{width:90px; height:35px; position:absolute; left:235px; top:145px; border-radius:8px; line-height:35px; text-align:center;
+			background:yellow; float:left;color:#000;}
+.button-login{width:250px; height:35px; position: absolute; left:75px; top:195px; border-radius:8px;
+			 background:#fff; line-height:35px; text-align:center; font-size:16px; letter-spacing:10px;
+			 box-shadow:1px 1px 2px #000;}

@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style>
+table {
+	text-align: left;
+}
+
+input, select {
+	height: 20px;
+	width: 150px;
+}
+
+input[type="date"] {
+	height: 23px;
+}
+
+select {
+	height: 25px;
+}
+
+input[type="submit"] {
+	height: 23px;
+	font-size: 10pt;
+	color: #003399;
+	border: 1px #93bee2 solid;
+	width: 40px;
+	background-color: #e8f4ff;
+	line-height: 23px;
+	position: absolute;
+	font-weight: bold;
+	cursor: pointer;
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+</style>
+</head>
+<body>
+	<form action='' method='POST'>
+
+		<table width="637" height="200" border="0" cellpadding="0"
+			cellspacing="0">
+			<tr>
+				<td width="102" height="48">姓名：</td>
+				<td width="202"><input type="text" name='name'
+					value='{$user.name}' /></td>
+				<td width="130">性别：</td>
+				<td width="175"><select name='sex'><option value=''>请选择</option>
+						<eq name='user.sex' value='男'>
+						<option value='男' selected='selected'>男</option>
+						<else />
+						<option value='男'>男</option>
+						</eq>
+						<eq name='user.sex' value='女'>
+						<option value='女' selected='selected'>女</option>
+						<else />
+						<option value='女'>女</option>
+						</eq>
+			</tr>
+			<tr>
+				<td>民族：</td>
+				<td><input type="text" name='nation' value='{$user.nation}' /></td>
+				<td>出生日期：</td>
+				<td><input type="date" name='dateBirth'
+					value='{$user.datebirth}' /></td>
+			</tr>
+			<tr>
+				<td>入职日期：</td>
+				<td><input type="date" name='dateJoin' value='{$user.datejoin}' /></td>
+				<td>部门名称：</td>
+				<td><select name="departement">
+						<option value="">请选择……</option>
+						<volist name="departement" id="d">
+							<eq name="user.departement.id" value="$d[id]">
+								<option value="{$d.id}" selected="selected">{$d.departement}</option>
+								<else/>
+								<option value="{$d.id}">{$d.departement}</option>
+							</eq>
+							
+						</volist>
+				</select> <!--  
+				<input type='text' name='departement'
+					list="departementDataList" value='{$user.departement.departement}' />
+					<datalist id='departementDataList'>
+						<volist name='departement' id='d'>
+						<option value='{$d.departement}' />
+						</volist>
+					</datalist>
+				--></td>
+			</tr>
+			<tr>
+				<td>职位名称：</td>
+				<td><select name="post">
+						<option value="">请选择……</option>
+						<volist name="post" id="d">
+							<eq name="user.post.id" value="$d[id]">
+								<option value="{$d.id}" selected="selected">{$d.post}</option>
+								<else/>
+								<option value="{$d.id}">{$d.post}</option>
+							</eq>
+						</volist>
+				</select>
+				<!--  
+				<input type='text' name='post' list="postDataList"
+					value='{$user.post.post}' /> <datalist id='postDataList'>
+						<volist name='post' id='p'>
+						<option value='{$p.post}' />
+						</volist>
+					</datalist></td>
+				<td>上级主管人员：</td>
+				<td><input type='text' name='boss' list="userDataList"
+					value='{$user.boss.name}' /> <datalist id='userDataList'>
+						<volist name='boss' id='u'>
+						<option label='{$u.departement.departement}{$u.post.post}'
+							value='{$u.name}' />
+						</volist>
+					</datalist>
+				--></td>
+				<td>上级主管:</td>
+				<td><input type="text" name="boss" value="{$user.boss.name}"/></td>
+			</tr>
+		</table>
+		<input type="submit" value="修改" />
+	</form>
+</body>
+</html>

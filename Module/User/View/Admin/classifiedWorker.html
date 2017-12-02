@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>Insert title here</title>
+<script>
+function findUser(){
+	var user = document.getElementById("user").value;
+	if(!user){
+		return;
+	}
+	var xmlhttp;
+	if (window.XMLHttpRequest) {
+		xmlhttp = new XMLHttpRequest();
+	} else {
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			var result = xmlhttp.responseText;
+			result = eval("(" + result + ")");
+			if (result['status'] == "ok") {
+				formVip.reset();
+				console.log(result);
+				var list = result['list'][0];
+				var i = 0;
+				while(list[i]){
+					try{
+						document.getElementById(list[i][0]['classified']).checked=true;
+					}catch(e){
+						
+					}
+					i++;
+				}
+				formVip.user.value=user;
+			}else{
+				alert("未找到员工2");
+			}
+		}
+	}
+	xmlhttp.open("POST", "{:U('/api/user/getUserClassified')}", true);
+	xmlhttp.setRequestHeader("Content-type",
+			"application/x-www-form-urlencoded");
+	xmlhttp.send("user="+user);
+}
+</script>
+</head>
+<body>
+	<div id="test"></div>
+	<p>
+		员工姓名:<input type="text" id="user"/>
+		<button onclick="javascript:findUser()">查找</button>
+	<form action="" method="POST" id="formVip">
+		<input type="hidden" name="user" />
+		<div id="Vip" style="float:left;">
+			<p>
+				<input type="checkbox" name="VIP" id="VIP" value="1" />会员管理
+			</p>
+			<p>
+				<input type="checkbox" name="addClient" id="addClient" value="1" />添加会员
+			</p>
+			<p>
+				<input type="checkbox" name="changeClient" id="changeClient"
+					value="1" />修改会员
+			</p>
+			<p>
+				<input type="checkbox" name="deleteClient" id="deleteClient"
+					value="1" />删除会员
+			</p>
+			<p>
+				<input type="checkbox" name="detailClient" id="detailClient"
+					value="1" />会员详情
+			</p>
+			<p>
+				<input type="checkbox" name="listClient" id="listClient" value="1" />会员列表
+			</p>
+			<p></p>
+			<p>
+				<input type="checkbox" name="addVip" id="addVip" value="1" />会员开卡
+			</p>
+			<p>
+				<input type="checkbox" name="listVip" id="listVip" value="1" />会员卡列表
+			</p>
+			<p>
+				<input type="checkbox" name="changeVip" id="changeVip" value="1" />会员卡修改
+			</p>
+			<p>
+				<input type="checkbox" name="deleteVip" id="deleteVip" value="1" />会员卡删除
+			</p>
+			<p>
+				<input type="checkbox" name="detailVip" id="detailVip" value="1" />会员卡详情
+			</p>
+			<p>
+				<input type="checkbox" name="activeVip" id="activeVip" value="1" />会员卡激活
+			</p>
+			<p>
+				<input type="checkbox" name="changePwdVip" id="changePwdVip"
+					value="1" />会员卡密码修改
+			</p>
+			<p>
+				<input type="checkbox" name="transferVip" id="transferVip" value="1" />会员卡转增
+			</p>
+			<p>
+				<input type="checkbox" name="resetPwdVip" id="resetPwdVip" value="1" />会员卡密码重置
+			</p>
+			<!--
+			<p>
+				<input type="checkbox" name="changeCardNumber" id="changeCardNumber" value="1" />更换卡号
+			</p>
+			-->
+			<p>
+				<input type="checkbox" name="presentDaily" id="presentDaily"
+					value="1" />日常签到
+			</p>
+			<p>
+				<input type="checkbox" name="presentActivity" id="presentActivity"
+					value="1" />活动签到
+			</p>
+			<p>
+				<input type="checkbox" name="listPresent" id="listPresent" value="1" />签到列表
+			</p>
+			<p>
+				<input type="checkbox" name="listPresentActivity" id="listPresentActivity" value="1" />活动签到列表
+			</p>
+			<p>
+				<input type="checkbox" name="desactiveVip" id="desactiveVip"
+					value="1" />会员卡反激活
+			</p>
+			<p>
+				<input type="checkbox" name="signalerLost" id="signalerLost"
+					value="1" />会员卡挂失
+			</p>
+			<p>
+				<input type="checkbox" name="recharger" id="recharger" value="1" />充值
+			</p>
+			<p>
+				<input type="checkbox" name="retirer" id="retirer" value="1" />提现
+			</p>
+			<p>
+				<input type="checkbox" name="vipPointTransfert"
+					id="vipPointTransfert" value="1" />积分互换
+			</p>
+			<p><input type="checkbox" name="rapideConso" id="rapideConso" value="1"/>快速消费</p>
+			<p><input type="checkbox" name="productConso" id="productConso" value="1"/>商品消费</p>
+			<p><input type="checkbox" name="exchange" id="exchange" value="1"/>积分兑换</p>
+			<p><input type="checkbox" name="gift" id="gift" value="1"/>礼品领取</p>
+			<p><input type="checkbox" name="listOrder" id="listOrder" value="1"/>订单列表</p>
+			<p><input type="checkbox" name="rembourse" id="rembourse" value="1"/>退单</p>
+			<p><input type="checkbox" name="foisConso" id="foisConso" value="1"/>计次消费</p>
+			<p><input type="checkbox" name="rembourseDirect" id="rembourseDirect" value="1"/>直接退款</p>
+		</div>
+		<div id="Data"  style="float:left;">
+			<p>
+				<input type="checkbox" name="DATA" id="DATA" value="1" />商品管理
+			</p>
+			<p>
+				<input type="checkbox" name="addSupplier" id="addSupplier" value="1" />添加供货商
+			</p>
+			<p>
+				<input type="checkbox" name="deleteSupplier" id="deleteSupplier"
+					value="1" />删除供货商
+			</p>
+			<p>
+				<input type="checkbox" name="changeSupplier" id="changeSupplier"
+					value="1" />修改供货商
+			</p>
+			<p>
+				<input type="checkbox" name="listSupplier" id="listSupplier"
+					value="1" />供货商列表
+			</p>
+			<p>
+				<input type="checkbox" name="detailSupplier" id="detailSupplier"
+					value="1" />供货商详情
+			</p>
+			<p>
+				<input type="checkbox" name="addProduct" id="addProduct" value="1" />添加商品
+			</p>
+			<p>
+				<input type="checkbox" name="deleteProduct" id="deleteProduct"
+					value="1" />删除商品
+			</p>
+			<p>
+				<input type="checkbox" name="changeProduct" id="changeProduct"
+					value="1" />修改商品
+			</p>
+			<p>
+				<input type="checkbox" name="listProduct" id="listProduct" value="1" />商品列表
+			</p>
+			<p>
+				<input type="checkbox" name="detailProduct" id="detailProduct"
+					value="1" />商品详情
+			</p>
+			<p>
+				<input type="checkbox" name="addShop" id="addShop" value="1" />添加店铺
+			</p>
+			<p>
+				<input type="checkbox" name="deleteShop" id="deleteShop" value="1" />删除店铺
+			</p>
+			<p>
+				<input type="checkbox" name="changeShop" id="changeShop" value="1" />修改店铺
+			</p>
+			<p>
+				<input type="checkbox" name="listShop" id="listShop" value="1" />店铺列表
+			</p>
+			<p>
+				<input type="checkbox" name="detailShop" id="detailShop" value="1" />店铺详情
+			</p>
+			<p>
+				<input type="checkbox" name="storageProduct" id="storageProduct"
+					value="1" />商品出入库
+			</p>
+			<p>
+				<input type="checkbox" id="allocationProduct" name="allocationProduct"
+					value="1" />商品调拨
+			</p>
+			<p>
+				<input type="checkbox" id="listAllocation" name="listAllocation" value="1"/>调拨记录
+			</p>
+			<p>
+				<input type="checkbox" id="addProductClass" name="addProductClass"
+					value="1" />添加商品分类
+			</p>
+			<p>
+				<input type="checkbox" id="listProductClass" name="listProductClass"
+					value="1" />商品分类列表
+			</p>
+			<p>
+				<input type="checkbox" id="changeProductClass"
+					name="changeProductClass" value="1" />商品管理
+			</p>
+			<p>
+				<input type="checkbox" id="deleteProductClass"
+					name="deleteProductClass" value="1" />删除商品分类
+			</p>
+			<p>
+				<input type="checkbox" id="detailProductClass"
+					name="detailProductClass" value="1" />商品分类详情
+			</p>
+			<p>
+				<input type="checkbox" id="listInventoryIn" name="listInventoryIn"
+					value="1" />入库记录
+			</p>
+			<p>
+				<input type="checkbox" id="listInventoryInSelf" name="listInventoryInSelf"
+					value="1" />个人入库记录
+			</p>
+			<p>
+				<input type="checkbox" id="listInventoryOut" name="listInventoryOut"
+					value="1" />出库记录
+			</p>
+			<p>
+				<input type="checkbox" id="listInventoryOutSelf" name="listInventoryOutSelf"
+					value="1" />个人出库记录
+			</p>
+			<p>
+				<input type="checkbox" id="pointgive" name="pointgive" value="1" />执行自由卡每月积分政策
+			</p>
+			<p>
+				<input type="checkbox" id="lifeshipping" name="lifeshipping"
+					value="1" />执行自由卡每月配送政策
+			</p>
+			<p>
+				<input type="checkbox" id="lifeshippingEveryMonth"
+					name="lifeshippingEveryMonth" value="1" />自由卡每月配送
+			</p>
+			<p>
+				<input type="checkbox" id="pointgiveEveryMonth"
+					name="pointgiveEveryMonth" value="1" />自由卡每月积分
+			</p>
+		</div>
+		<div id="User" style="float:left;">
+			<p>
+				<input type="checkbox" name="USER" id="USER" value="1" />员工管理
+			</p>
+			<p>
+				<input type="checkbox" name="bindShop" id="bindShop" value="1" />部门与店铺结合
+			</p>
+			<p>
+				<input type="checkbox" name="addDepartement" id="addDepartement"
+					value="1" />添加部门
+			</p>
+			<p>
+				<input type="checkbox" name="changeDepartement"
+					id="changeDepartement" value="1" />部门修改
+			</p>
+			<p>
+				<input type="checkbox" name="deleteDepartement"
+					id="deleteDepartement" value="1" />部门删除
+			</p>
+			<p>
+				<input type="checkbox" name="listDepartement" id="listDepartement"
+					value="1" />部门列表
+			</p>
+			<p>
+				<input type="checkbox" name="detailDepartement"
+					id="detailDepartement" value="1" />部门详情
+			</p>
+			<p><input type="checkbox" name="bindShop" id="bindShop" value="1"/>部门店铺绑定</p>
+			<p>
+				<input type="checkbox" name="addPost" id="addPost" value="1" />添加职位
+			</p>
+			<p>
+				<input type="checkbox" name="changePost" id="changePost" value="1" />职位修改
+			</p>
+			<p>
+				<input type="checkbox" name="deletePost" id="deletePost" value="1" />职位删除
+			</p>
+			<p>
+				<input type="checkbox" name="listPost" id="listPost" value="1" />职位列表
+			</p>
+			<p>
+				<input type="checkbox" name="detailPost" id="detailPost" value="1" />职位详情
+			</p>
+			<p>
+				<input type="checkbox" name="addWorker" id="addWorker" value="1" />添加员工
+			</p>
+			<p>
+				<input type="checkbox" name="changeWorker" id="changeWorker"
+					value="1" />修改员工
+			</p>
+			<p>
+				<input type="checkbox" name="deleteWorker" id="deleteWorker"
+					value="1" />删除员工
+			</p>
+			<p>
+				<input type="checkbox" name="listWorker" id="listWorker" value="1" />员工列表
+			</p>
+			<p>
+				<input type="checkbox" name="detailWorker" id="detailWorker"
+					value="1" />员工详情
+			</p>
+			<p>
+				<input type="checkbox" name="classifiedWorker" id="classifiedWorker"
+					value="1" />权限分配
+			</p>
+			<p>
+				<input type="checkbox" name="workerPwdReset" id="workerPwdReset"
+					value="1" />员工密码重制
+			</p>
+			<p>
+				<input type="checkbox" name="listOperationRecord"
+					id="listOperationRecord" value="1" />操作记录查看
+			</p>
+			<p>
+				<input type="checkbox" name="reportClient" id="reportClient"
+					value="1" />用户信息提交
+			</p>
+			<p>
+				<input type="checkbox" name="transferClient" id="transferClient"
+					value="1" />用户转移
+			</p>
+			<p>
+				<input type="checkbox" name="listReport" id="listReport" value="1" />日志列表
+			</p>
+			<p>
+				<input type="checkbox" name="detailReport" id="detailReport"
+					value="1" />日志详情
+			</p>
+			<!-- 
+			<p>
+				<input type="checkbox" name="listProject" id="listProject" value="1" />商品管理
+			</p>
+			<p>
+				<input type="checkbox" name="detailProject" id="detailProject"
+					value="1" />商品管理
+			</p>
+			 -->
+			<p>
+				<input type="checkbox" name="addActivity" id="addActivity" value="1" />添加活动
+			</p>
+			<p>
+				<input type="checkbox" name="deleteActivity" id="deleteActivity"
+					value="1" />活动删除
+			</p>
+			<p>
+				<input type="checkbox" name="changeActivity" id="changeActivity"
+					value="1" />活动修改
+			</p>
+			<p>
+				<input type="checkbox" name="listActivity" id="listActivity"
+					value="1" />活动列表
+			</p>
+			<p>
+				<input type="checkbox" name="detailActivity" id="detailActivity"
+					value="1" />活动详情
+			</p>
+			<p>
+				<input type="checkbox" name="addGroup" id="addGroup" value="1" />互助组添加
+			</p>
+			<p>
+				<input type="checkbox" name="deleteGroup" id="deleteGroup" value="1" />互助组删除
+			</p>
+			<p>
+				<input type="checkbox" name="changeGroup" id="changeGroup" value="1" />互助组修改
+			</p>
+			<p>
+				<input type="checkbox" name="listGroup" id="listGroup" value="1" />互助组列表
+			</p>
+			<p>
+				<input type="checkbox" name="detailGroup" id="detailGroup" value="1" />互助组详情
+			</p>
+			<!--  
+			<p>
+				<input type="checkbox" name="addClientToGroup" id="addClientToGroup"
+					value="1" />商品管理
+			</p>
+			<p>
+				<input type="checkbox" id="deleteClientFromGroup"
+					name="deleteClientFromGroup" value="1" />商品管理
+			</p>
+			-->
+			<p>
+				<input type="checkbox" name="addPosition" id="addPosition" value="1" />添加地点
+			</p>
+			<p>
+				<input type="checkbox" name="deletePosition" id="deletePosition"
+					value="1" />地点删除
+			</p>
+			<p>
+				<input type="checkbox" name="changePosition" id="changePosition"
+					value="1" />地点修改
+			</p>
+			<p>
+				<input type="checkbox" name="listPosition" id="listPosition"
+					value="1" />列表地点
+			</p>
+			<p>
+				<input type="checkbox" name="detailPosition" id="detailPosition"
+					value="1" />地点详情
+			</p>
+			<!--  
+			<p>
+				<input type="checkbox" name="addClientToPosition"
+					id="addClientToPosition" value="1" />商品管理
+			</p>
+			<p>
+				<input type="checkbox" name="deleteClientFromPosition"
+					id="deleteClientFromPosition" value="1" />商品管理
+			</p>
+			<p>
+				<input type="checkbox" name="addGroupToPosition"
+					id="addGroupToPosition" value="1" />商品管理
+			</p>
+			<p>
+				<input type="checkbox" name="deleteGroupFromPosition"
+					id="deleteGroupFromPosition" value="1" />商品管理
+			</p>
+			-->
+			<p>
+				<input type="checkbox" name="detailClient" id="detailClient"
+					value="1" />会员详情
+			</p>
+			<p>
+				<input type="checkbox" name="visitClient" id="visitClient" value="1" />会员服务记录
+			</p>
+		</div>
+		<div id="statistique" style="float:left;">
+			<p>
+				<input type="checkbox" name="STATISTIQUE" id="STATISTIQUE" value="1" />大数据
+			</p>
+			<p>
+				<input type="checkbox" name="statistiqueClient"
+					id="statistiqueClient" value="1" />会员数据
+			</p>
+			<p>
+				<input type="checkbox" name="statistiqueClientGroup"
+					id="statistiqueClientGroup" value="1" />会员数据
+			</p>
+			<p>
+				<input type="checkbox" name="statistiquePoint" id="statistiquePoint"
+					value="1" />积分控制
+			</p>
+			<p>
+				<input type="checkbox" name="changePointgive" id="changePointgive"
+					value="1" />积分修改
+			</p>
+			<p>
+				<input type="checkbox" name="addPointgive" id="addPointgive"
+					value="1" />积分添加
+			</p>
+			<p>
+				<input type="checkbox" name="minusPointgive" id="minusPointgive"
+					value="1" />积分减少
+			</p>
+			<p>
+				<input type="checkbox" name="statistiqueProduct"
+					id="statistiqueProduct" value="1" />商品数据
+			</p>
+			<p>
+				<input type="checkbox" name="statistiqueRecharger"
+					id="statistiqueRecharger" value="1" />充值数据
+			</p>
+			<p>
+				<input type="checkbox" name="statistiqueRetirer"
+					id="statistiqueRetirer" value="1" />提现数据
+			</p>
+			<p>
+				<input type="checkbox" name="statistiqueVip" id="statistiqueVip"
+					value="1" />会员卡数据
+			</p>
+			<p><input type="checkbox" name="statistiqueConso" id="statistiqueConso" value="1" />消费数据</p>
+			<p><input type="checkbox" name="statistiquePointConso" id="statistiquePointConso" value="1" />通用积分消费分析</p>
+			<p><input type="checkbox" name="statistiqueFoisAlready" id="statistiqueFoisAlready" value="1" />计次消费数据</p>
+			<p><input type="checkbox" name="statistiqueFoisRest" id="statistiqueFoisRest" value="1" />计次消费剩余</p>
+			<p><input type="checkbox" name="listOrderStatistic" id="listOrderStatistic" value="1" />订单列表(大数据)</p>
+		</div>
+		<input type="submit" value="保存"/>
+	</form>
+</body>
+</html>

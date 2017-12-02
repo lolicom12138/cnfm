@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>detailProductClass</title>
+<style>
+input, textarea {
+	height: 23px;
+	width: 130px;
+}
+
+.button_blue {
+	display: inline-block;
+	height: 25px;
+	border-radius: 4px;
+	background: #2795dc;
+	border: none;
+	cursor: pointer;
+	border-bottom: 3px solid #0078b3;
+	*border-bottom: none;
+	color: #fff;
+	font-size: 14px;
+	padding: 0px 10px;
+	*width: 140px;
+	text-align: center;
+	outline: none;
+	font-family: "Microsoft Yahei", Arial, Helvetica, sans-serif;
+	line-height: 25px;
+}
+
+input.button_blue:hover {
+	background: #0081c1;
+	border-bottom: 3px solid #006698;
+	*border-bottom: none;
+	color: #fff;
+	text-decoration: none;
+}
+
+.table2 {
+	border-collapse: collapse;
+	text-align: center;
+	margin-top: 10px;
+}
+
+.table2 td, .table2 th {
+	border: 1px solid #000;
+}
+
+.table2 td a {
+	margin-right: 8px;
+}
+
+.table2 td a:last-child {
+	margin-right: 0px;
+}
+</style>
+</head>
+<body>
+	<table width="454" height="49" border="0">
+		<tr>
+			<td width="94">分类名称：</td>
+			<td width="350">{$class.class}</td>
+
+		</tr>
+	</table>
+	<table width="452" height="60" border="1" class="table2">
+		<tr>
+			<th width="134" height="28">商品名称</th>
+			<th width="157">商品编码</th>
+			<th width="62">进价</th>
+			<th width="71">操作</th>
+		</tr>
+		<volist name='class.product' id='cp'>
+			<tr>
+				<td>{$cp.name}</td>
+				<td>{$cp.code}</td>
+				<td>{$cp.pricein}</td>
+				<td><a href="{:U('/data/product/detailProduct',array('id'=>$cp[id]))}">详情</a></td>
+			</tr>
+		</volist>
+		
+	</table>
+	<p>商品总数:{$numberProduct}</p>
+
+
+</body>
+</html>

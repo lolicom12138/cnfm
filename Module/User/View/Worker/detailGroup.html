@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<th>编号:</th>
+			<td>{$group.id}</td>
+			<th>名称:</th>
+			<td>{$group.name}</td>
+		</tr>
+		<tr>
+			<th>队长:<th>
+			<td>{$group.leader.name}</td>
+			<th>负责人:<th>
+			<td>{$group.responsable.name}</td>
+		</tr>
+	</table>
+	<p>组员</p>
+	<table>
+		<tr>
+			<th>姓名</th>
+			<th>出生日期</th>
+			<th>电话号码</th>
+			<th>操作</th>
+		</tr>
+		<volist name='group.member' id='m'>
+			<tr>
+				<td>{$m.name}</td>
+				<td>{$m.datebirth}</td>
+				<td>{$m.tel}</td>
+				<td><a href="{:U('/user/worker/detailClient',array('id'=>$m[id]))}">详情</a></td>
+			</tr>
+		</volist>
+	</table>
+</body>
+</html>

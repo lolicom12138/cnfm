@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>listClientIndex</title>
+<style>
+input[type=text],select{width:160px;height:25px;}
+#spend{width:70px; height:25px;}
+</style>
+</head>
+<body>
+<table width="670" height="282" border="0">
+  <tr>
+    <td width="93">姓名：</td>
+    <td width="219"><input type="text" name='name'/></td>
+    <td width="136">出生日期范围：</td>
+    <td width="204"><input type="date" name='dateBirthBegin'>—<input type="date" name='dateBirthEnd'></td>
+  </tr>
+  <tr>
+    <td>性别：</td>
+    <td><select name='sex'>
+    	<option value=''>请选择</option>
+    	<option value='男'>男</option>
+    	<option value='女'>女</option>
+    </select></td>
+    <td>常去地点：</td>
+    <td>
+	<select name='position'>
+		<option value=''>请选择</option>
+		<volist name='position' id='p'>
+			<option value='{$p.id}'>{$p.position}</option>
+		</volist>
+	</select>
+	</td>
+  </tr>
+  <tr>
+    <td>民族：</td>
+    <td><input type="text" name='nation'></td>
+    <td>患有疾病：</td>
+    <td><input type="text" name='disease'></td>
+  </tr>
+  <tr>
+    <td>参与活动：</td>
+    <td>
+    	<select name='activity'>
+    	<option value=''>请选择</option>
+    		<volit name='activity' id='a'>
+    			<option value='{$a.id}'>{$a.activity}</option>
+    		</volit>
+    	</select>
+    </td>
+    <td>常吃保健品：</td>
+    <td><input type="text" name='productHealth'></td>
+  </tr>
+  <tr>
+    <td>理财方式：</td>
+    <td><input type="text" name='financing'/></td>
+    <td>互助组：</td>
+    <td><input type="text" name='group'/></td>
+  </tr>
+  <tr>
+    <td>兴趣爱好：</td>
+    <td><input type="text" name='habbit'/></td>
+    <td>身份证号码：</td>
+    <td><input type="text" name='identity'/></td>
+  </tr>
+  <tr>
+    <td>服务人：</td>
+    <td><input type="text" name='serveur' /></td>
+    <td>消费金额区间：</td>
+    <td><input type="text" name='consoSumBegin' value='0'/>—<input type="text" name='consoSumEnd' value='0'/></td>
+  </tr>
+</table>
+
+</body>
+</html>

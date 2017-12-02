@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+var dateBegin;
+var dateEnd;
+var product;
+var supplier;
+var page = 1;
+function goSubmit(){
+	page = 1;
+	dateBegin = document.getElementById("dateBegin").value;
+	dateEnd = document.getElementById("dateEnd").value;
+	product = document.getElementById("product").value;
+	supplier = document.getElementById("supplier").value;
+	var xmlhttp;
+	if (window.XMLHttpRequest) {
+		xmlhttp = new XMLHttpRequest();
+	} else {
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			var result = xmlhttp.responseText;
+			result = eval("(" + result + ")");
+			if(result['status'] == "ok"){
+				var list = result['list'][0];
+				var str = "";
+				str += "<table>";
+				str += "<tr><th>商品</th><th>数量</th></tr>";
+				var i = 0;
+				while(list[i]){
+					console.log(list[i][0]);
+					str += "<tr>";
+					str += "<td>"+list[i][0]['name']+"</td>";
+					
+					str += "<td>"+list[i][0]['number']+"</td>";
+					str += "</tr>";
+					i++;
+				}
+				str += "</table>";
+				if(!i){
+					alert("无数据");
+					document.getElementById("resultList").innerHTML = "";
+					var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button>";
+					document.getElementById("diVButton").innerHTML = strButton;
+					return;
+				}
+				document.getElementById("resultList").innerHTML = str;
+				var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button>";
+				document.getElementById("diVButton").innerHTML = strButton;
+			}else{
+				document.getElementById("resultList").innerHTML = "";
+				alert("无数据");
+			}
+			
+		}
+	}
+	xmlhttp.open("POST", "{:U('/api/statistic/statisticProduct')}", true);
+	xmlhttp.setRequestHeader("Content-type",
+			"application/x-www-form-urlencoded");
+	xmlhttp.send("dateBegin="+dateBegin
+			+"&dateEnd="+dateEnd
+			+"&product="+product
+			+"&supplier="+supplier
+			+"&page="+page);
+
+}
+function lastPage(){
+	page -= 1;
+	if(page <= 0){
+		page = 1;
+		return;
+	}
+	var xmlhttp;
+	if (window.XMLHttpRequest) {
+		xmlhttp = new XMLHttpRequest();
+	} else {
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			var result = xmlhttp.responseText;
+			result = eval("(" + result + ")");
+			if(result['status'] == "ok"){
+				var list = result['list'][0];
+				var str = "";
+				str += "<table>";
+				str += "<tr><th>商品</th><th>数量</th></tr>";
+				var i = 0;
+				while(list[i]){
+					console.log(list[i][0]);
+					str += "<tr>";
+					str += "<td>"+list[i][0]['name']+"</td>";
+					
+					str += "<td>"+list[i][0]['number']+"</td>";
+					str += "</tr>";
+					i++;
+				}
+				str += "</table>";
+				if(!i){
+					alert("无数据");
+					document.getElementById("resultList").innerHTML = "";
+					var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button>";
+					document.getElementById("diVButton").innerHTML = strButton;
+					return;
+				}
+				document.getElementById("resultList").innerHTML = str;
+				var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button>";
+				document.getElementById("diVButton").innerHTML = strButton;
+			}else{
+				document.getElementById("resultList").innerHTML = "";
+				alert("无数据");
+			}
+			
+		}
+	}
+	xmlhttp.open("POST", "{:U('/api/statistic/statisticProduct')}", true);
+	xmlhttp.setRequestHeader("Content-type",
+			"application/x-www-form-urlencoded");
+	xmlhttp.send("dateBegin="+dateBegin
+			+"&dateEnd="+dateEnd
+			+"&product="+product
+			+"&supplier="+supplier
+			+"&page="+page);
+
+}
+function nextPage(){
+	page += 1;
+	var xmlhttp;
+	if (window.XMLHttpRequest) {
+		xmlhttp = new XMLHttpRequest();
+	} else {
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			var result = xmlhttp.responseText;
+			result = eval("(" + result + ")");
+			if(result['status'] == "ok"){
+				var list = result['list'][0];
+				var str = "";
+				str += "<table>";
+				str += "<tr><th>商品</th><th>数量</th></tr>";
+				var i = 0;
+				while(list[i]){
+					console.log(list[i][0]);
+					str += "<tr>";
+					str += "<td>"+list[i][0]['name']+"</td>";
+					
+					str += "<td>"+list[i][0]['number']+"</td>";
+					str += "</tr>";
+					i++;
+				}
+				str += "</table>";
+				if(!i){
+					alert("无数据");
+					document.getElementById("resultList").innerHTML = "";
+					var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button>";
+					document.getElementById("diVButton").innerHTML = strButton;
+					return;
+				}
+				document.getElementById("resultList").innerHTML = str;
+				var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button>";
+				document.getElementById("diVButton").innerHTML = strButton;
+			}else{
+				document.getElementById("resultList").innerHTML = "";
+				alert("无数据");
+			}
+			
+		}
+	}
+	xmlhttp.open("POST", "{:U('/api/statistic/statisticProduct')}", true);
+	xmlhttp.setRequestHeader("Content-type",
+			"application/x-www-form-urlencoded");
+	xmlhttp.send("dateBegin="+dateBegin
+			+"&dateEnd="+dateEnd
+			+"&product="+product
+			+"&supplier="+supplier
+			+"&page="+page);
+
+}
+</script>
+</head>
+<body>
+	<div>
+		<table>
+			<tr>
+				<td>开始时间</td>
+				<td><input type="date" id="dateBegin"/></td>
+				<td>结束时间</td>
+				<td><input type="date" id="dateEnd"/></td>
+			</tr>
+			<tr>
+				<td>商品</td>
+				<td><input type="text" id="product"/></td>
+				<td>供应商</td>
+				<td><input type="text" id="supplier"/></td>
+			</tr>
+			<tr>
+				<td colspan="4"><button onclick="javascript:goSubmit()">查询</button></td>
+			</tr>
+			
+		</table>
+	</div>
+	<div id='resultList'>
+	</div>
+	<div id='diVButton'>
+	
+	</div>
+</body>
+</html>

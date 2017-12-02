@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	var timeBegin;
+	var timeEnd;
+	var sumMin;
+	var sumMax;
+	var typeRecharger;
+	var operator;
+	var cardNumber;
+	var client;
+	var allPage = 0;
+	var page = 1;
+	function goSubmit(){
+		page = 1;
+		timeBegin = document.getElementById("timeBegin").value;
+		timeEnd = document.getElementById("timeEnd").value;
+		sumMin = document.getElementById("sumMin").value;
+		sumMax = document.getElementById("sumMax").value;
+		typeRecharger = document.getElementById("typeRecharger").value;
+		operator = document.getElementById("operator").value;
+		cardNumber = document.getElementById("cardNumber").value;
+		client = document.getElementById("client").value;
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("(" + result + ")");
+				if(result['status'] = "ok"){
+					var list = result['list'][0];
+					var str = "";
+					str += "<table>";
+					str += "<tr><th>序号</th><th>卡号</th><th>时间</th><th>金额</th><th>类型</th><th>充值原因</th><th>操作员</th><th>最新值</th><th>备注</th></tr>";
+					var i = 0;
+					while(list[i]){
+						str += "<tr>";
+						str += "<td>" + (i+1) + "</td>";
+						try{
+							str += "<td>"+list[i][0]['vip'][0]['cardnumber']+"</td>";
+						}catch(e){
+							str += "<td></td>";
+						}
+						str += "<td>"+list[i][0]['time']+"</td>";
+						str += "<td>"+list[i][0]['sum']+"</td>";
+						switch(list[i][0]['typerecharger']){
+						case "credit":
+							str += "<td>储值</td>";
+							break;
+						case "creditGive":
+							str += "<td>赠送金额</td>";
+							break;
+						case "pointRecharger":
+							str += "<td>储值积分</td>";
+							break;
+						case "pointGive":
+							str += "<td>赠送积分</td>";
+							break;
+						case "pointHeal":
+							str += "<td>健康积分</td>";
+							break;
+						case "pointTourism":
+							str += "<td>旅游积分积分</td>";
+							break;
+						}
+						str += "<td>"+list[i][0]['raison']+"</td>";
+						try{
+							str += "<td>"+list[i][0]['operator'][0]['name']+"</td>";
+						}catch(e){
+							str += "<td></td>";
+						}
+						str += "<td>"+list[i][0]['newsum']+"</td>";
+						str += "<td>"+list[i][0]['etc']+"</td>";
+						str += "</tr>";
+						i++;
+					}
+					str += "</table>";
+					if(!i){
+						alert("无数据");
+						document.getElementById("resultList").innerHTML = "";
+						var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button><button onclick='javascript:finishPage()'>末页</button>";
+						document.getElementById("diVButton").innerHTML = strButton;
+						document.getElementById("statistic").innerHTML = "<p>总数:"+0+"</p>";
+						return;
+					}
+					document.getElementById("resultList").innerHTML = str;
+					var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button><button onclick='javascript:finishPage()'>末页</button>";
+					document.getElementById("diVButton").innerHTML = strButton;
+					document.getElementById("statistic").innerHTML = "<p>总数:"+result['total']+"</p><p>总页数:"+result['allPage']+"</p>";
+					allPage = result.allPage;
+				}else{
+					document.getElementById("resultList").innerHTML = "";
+					alert("无数据");
+				}
+				
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/statistic/statisticRecharger')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("timeBegin="+timeBegin+"&timeEnd="+timeEnd+"&sumMin="+sumMin+"&typeRecharger="+typeRecharger+"&operator="+operator+"&cardNumber="+cardNumber+"&client="+client+"&page="+page+"&sumMax="+sumMax);
+	}
+	function lastPage(){
+		page -= 1;
+		if(page <= 0){
+			page = 1;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("(" + result + ")");
+				if(result['status'] = "ok"){
+					var list = result['list'][0];
+					var str = "";
+					str += "<table>";
+					str += "<tr><th>序号</th><th>卡号</th><th>时间</th><th>金额</th><th>类型</th><th>充值原因</th><th>操作员</th><th>最新值</th><th>备注</th></tr>";
+					var i = 0;
+					while(list[i]){
+						str += "<tr>";
+						str += "<td>" + (i+1) + "</td>";
+						try{
+							str += "<td>"+list[i][0]['vip'][0]['cardnumber']+"</td>";
+						}catch(e){
+							str += "<td></td>";
+						}
+						str += "<td>"+list[i][0]['time']+"</td>";
+						str += "<td>"+list[i][0]['sum']+"</td>";
+						switch(list[i][0]['typerecharger']){
+						case "credit":
+							str += "<td>储值</td>";
+							break;
+						case "creditGive":
+							str += "<td>赠送金额</td>";
+							break;
+						case "pointRecharger":
+							str += "<td>储值积分</td>";
+							break;
+						case "pointGive":
+							str += "<td>赠送积分</td>";
+							break;
+						case "pointHeal":
+							str += "<td>健康积分</td>";
+							break;
+						case "pointTourism":
+							str += "<td>旅游积分积分</td>";
+							break;
+						}
+						str += "<td>"+list[i][0]['raison']+"</td>";
+						try{
+							str += "<td>"+list[i][0]['operator'][0]['name']+"</td>";
+						}catch(e){
+							str += "<td></td>";
+						}
+						str += "<td>"+list[i][0]['newsum']+"</td>";
+						str += "<td>"+list[i][0]['etc']+"</td>";
+						str += "</tr>";
+						i++;
+					}
+					str += "</table>";
+					if(!i){
+						alert("无数据");
+						document.getElementById("resultList").innerHTML = "";
+						var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button><button onclick='javascript:finishPage()'>末页</button>";
+						document.getElementById("diVButton").innerHTML = strButton;
+						document.getElementById("statistic").innerHTML = "总数:"+0;
+						return;
+					}
+					document.getElementById("resultList").innerHTML = str;
+					var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button><button onclick='javascript:finishPage()'>末页</button>";
+					document.getElementById("diVButton").innerHTML = strButton;
+					document.getElementById("statistic").innerHTML = "<p>总数:"+result['total']+"</p><p>总页数:"+result['allPage']+"</p>";
+					allPage = result.allPage;
+				}else{
+					document.getElementById("resultList").innerHTML = "";
+					alert("无数据");
+				}
+				
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/statistic/statisticRecharger')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("timeBegin="+timeBegin+"&timeEnd="+timeEnd+"&sumMin="+sumMin+"&typeRecharger="+typeRecharger+"&operator="+operator+"&cardNumber="+cardNumber+"&client="+client+"&page="+page+"&sumMax="+sumMax);
+	}
+	function nextPage(){
+		page += 1;
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("(" + result + ")");
+				if(result['status'] = "ok"){
+					var list = result['list'][0];
+					var str = "";
+					str += "<table>";
+					str += "<tr><th>序号</th><th>卡号</th><th>时间</th><th>金额</th><th>类型</th><th>充值原因</th><th>操作员</th><th>最新值</th><th>备注</th></tr>";
+					var i = 0;
+					while(list[i]){
+						str += "<tr>";
+						str += "<td>" + (i+1) + "</td>";
+						try{
+							str += "<td>"+list[i][0]['vip'][0]['cardnumber']+"</td>";
+						}catch(e){
+							str += "<td></td>";
+						}
+						str += "<td>"+list[i][0]['time']+"</td>";
+						str += "<td>"+list[i][0]['sum']+"</td>";
+						switch(list[i][0]['typerecharger']){
+						case "credit":
+							str += "<td>储值</td>";
+							break;
+						case "creditGive":
+							str += "<td>赠送金额</td>";
+							break;
+						case "pointRecharger":
+							str += "<td>储值积分</td>";
+							break;
+						case "pointGive":
+							str += "<td>赠送积分</td>";
+							break;
+						case "pointHeal":
+							str += "<td>健康积分</td>";
+							break;
+						case "pointTourism":
+							str += "<td>旅游积分积分</td>";
+							break;
+						}
+						str += "<td>"+list[i][0]['raison']+"</td>";
+						try{
+							str += "<td>"+list[i][0]['operator'][0]['name']+"</td>";
+						}catch(e){
+							str += "<td></td>";
+						}
+						str += "<td>"+list[i][0]['newsum']+"</td>";
+						str += "<td>"+list[i][0]['etc']+"</td>";
+						str += "</tr>";
+						i++;
+					}
+					str += "</table>";
+					if(!i){
+						alert("无数据");
+						document.getElementById("resultList").innerHTML = "";
+						var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button><button onclick='javascript:finishPage()'>末页</button>";
+						document.getElementById("diVButton").innerHTML = strButton;
+						document.getElementById("statistic").innerHTML = "总数:"+0;
+						return;
+					}
+					document.getElementById("resultList").innerHTML = str;
+					var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button><button onclick='javascript:finishPage()'>末页</button>";
+					document.getElementById("diVButton").innerHTML = strButton;
+					allPage = result.allPage;
+					document.getElementById("statistic").innerHTML = "<p>总数:"+result['total']+"</p><p>总页数:"+result['allPage']+"</p>";
+				}else{
+					document.getElementById("resultList").innerHTML = "";
+					alert("无数据");
+				}
+				
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/statistic/statisticRecharger')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("timeBegin="+timeBegin+"&timeEnd="+timeEnd+"&sumMin="+sumMin+"&typeRecharger="+typeRecharger+"&operator="+operator+"&cardNumber="+cardNumber+"&client="+client+"&page="+page+"&sumMax="+sumMax);
+	}
+	function finishPage(){
+		page = allPage;
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("(" + result + ")");
+				if(result['status'] = "ok"){
+					var list = result['list'][0];
+					var str = "";
+					str += "<table>";
+					str += "<tr><th>序号</th><th>卡号</th><th>时间</th><th>金额</th><th>类型</th><th>充值原因</th><th>操作员</th><th>最新值</th><th>备注</th></tr>";
+					var i = 0;
+					while(list[i]){
+						str += "<tr>";
+						str += "<td>" + (i+1) + "</td>";
+						try{
+							str += "<td>"+list[i][0]['vip'][0]['cardnumber']+"</td>";
+						}catch(e){
+							str += "<td></td>";
+						}
+						str += "<td>"+list[i][0]['time']+"</td>";
+						str += "<td>"+list[i][0]['sum']+"</td>";
+						switch(list[i][0]['typerecharger']){
+						case "credit":
+							str += "<td>储值</td>";
+							break;
+						case "creditGive":
+							str += "<td>赠送金额</td>";
+							break;
+						case "pointRecharger":
+							str += "<td>储值积分</td>";
+							break;
+						case "pointGive":
+							str += "<td>赠送积分</td>";
+							break;
+						case "pointHeal":
+							str += "<td>健康积分</td>";
+							break;
+						case "pointTourism":
+							str += "<td>旅游积分积分</td>";
+							break;
+						}
+						str += "<td>"+list[i][0]['raison']+"</td>";
+						try{
+							str += "<td>"+list[i][0]['operator'][0]['name']+"</td>";
+						}catch(e){
+							str += "<td></td>";
+						}
+						str += "<td>"+list[i][0]['newsum']+"</td>";
+						str += "<td>"+list[i][0]['etc']+"</td>";
+						str += "</tr>";
+						i++;
+					}
+					str += "</table>";
+					if(!i){
+						alert("无数据");
+						document.getElementById("resultList").innerHTML = "";
+						var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button><button onclick='javascript:finishPage()'>末页</button>";
+						document.getElementById("diVButton").innerHTML = strButton;
+						document.getElementById("statistic").innerHTML = "总数:"+0;
+						return;
+					}
+					document.getElementById("resultList").innerHTML = str;
+					var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button><button onclick='javascript:finishPage()'>末页</button>";
+					document.getElementById("diVButton").innerHTML = strButton;
+					allPage = result.allPage;
+					document.getElementById("statistic").innerHTML = "<p>总数:"+result['total']+"</p><p>总页数:"+result['allPage']+"</p>";
+				}else{
+					document.getElementById("resultList").innerHTML = "";
+					alert("无数据");
+				}
+				
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/statistic/statisticRecharger')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("timeBegin="+timeBegin+"&timeEnd="+timeEnd+"&sumMin="+sumMin+"&typeRecharger="+typeRecharger+"&operator="+operator+"&cardNumber="+cardNumber+"&client="+client+"&page="+page+"&sumMax="+sumMax);
+	}
+</script>
+<style>
+input[type=text], select, input[type="date"]{
+	width: 160px;
+	height: 23px;
+}
+select{
+	height: 25px;
+}
+table button {
+	height: 25px;
+	font-size: 12pt;
+	color: #003399;
+	border: 1px #93bee2 solid;
+	width: 60px;
+	background-color: #e8f4ff;
+	line-height: 18px;
+	position: absolute;
+	font-weight: bold;
+	cursor: pointer;
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+#resultList table{
+	margin-top:30px;
+	border-collapse: collapse;
+	text-align: center;
+	border:1px solid black;
+	width:730px;
+}
+
+#resultList table th,#resultList table td{
+	border:1px solid black;
+}
+
+#diVButton{
+	margin-top:20px;
+}
+</style>
+</head>
+<body>
+	<table width="702" height="116">
+		<tr>
+			<td>开始日期:</td>
+			<td><input type='date' id='timeBegin'/></td>
+			<td>结束日期:</td>
+			<td><input type='date' id='timeEnd'/></td>
+		</tr>
+		<tr>
+			<td>最小金额:</td>
+			<td><input type='text' id='sumMin'/></td>
+			<td>最大金额:</td>
+			<td><input type='text' id='sumMax'/></td>
+		</tr>
+		<tr>
+			<td>会员卡号码:</td>
+			<td><input type='text' id='cardNumber'/></td>
+			<td>会员姓名或身份证号码:</td>
+			<td><input type='text' id='client'/></td>
+		</tr>
+		<tr>
+			<td>充值类型:</td>
+			<td><select id='typeRecharger'>
+				<option value=''>请选择……</option>
+				<option value='credit'>储值</option>
+				<option value='creditGive'>赠送金额</option>
+				<option value='pointRecharger'>储值积分</option>
+				<option value='pointGive'>赠送积分</option>
+				<option value='pointConso'>消费积分</option>
+				<option value='pointHeal'>调养/健康积分</option>
+				<option value='pointTourism'>旅游积分</option>
+			</select></td>
+			<td>操作员:</td>
+			<td><input type='text' id='operator' list='operatorlist'/></td>
+		</tr>
+		<tr>
+			<td><button onclick='javascript:goSubmit()'>查询</button></td>
+		</tr>
+	</table>
+	<datalist id='operatorlist'>
+  <volist name='list' id='l'>
+			<option value='{$l.name}'/>
+		</volist>
+	</datalist>
+	<div id="statistic"></div>
+	<div id='resultList'>
+	</div>
+	<div id='diVButton'>
+	</div>
+	
+</body>
+</html>

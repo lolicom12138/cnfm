@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="" method="POST">
+		<table>
+			<tr>
+				<td>开始时间:</td>
+				<td><input type="date" name="timeBegin"/></td>
+				<td>结束时间:</td>
+				<td><input type="date" name="timeEnd"/></td>
+				<td>会员姓名/身份证号码:</td>
+				<td><input type="text" name="client"/></td>
+				<td><input type="submit" value="查找"/></td>
+			</tr>
+		</table>
+	</form>
+	<table>
+		<tr>
+			<th>时间</th>
+			<th>会员姓名</th>
+			<th>消费内容</th>
+			<th>服务人</th>
+		</tr>
+		<volist name="list" id="l">
+			<tr>
+				<td>{$l.time}</td>
+				<td>{$l.fois.client.name}</td>
+				<td>{$l.fois.product.name}</td>
+				<td>{$l.operator.name}</td>
+			</tr>
+		</volist>
+	</table>
+</body>
+</html>

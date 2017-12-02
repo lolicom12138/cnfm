@@ -1,0 +1,32 @@
+@charset "utf-8";
+/* CSS Document */
+*{padding:0; margin:0; font-family: "微软雅黑";}
+body{padding:0; margin:0; }
+a{text-decoration:none;color:#ccc;}
+a:hover{text-decoration: none;}
+ul,li{list-style-type: none;}
+img{border:none;}
+/*************************************head***************************************/
+.top{width:500px; height:30px; float:right; margin-top:100px;}
+.top a{color:#1a7eba; font-weight:bold; position:relative; top:-4px; right:10px; font-size:15px;}
+.top a:hover{color:#fff;}
+.top img{width:20px; height:20px; margin-right:12px;}
+/*************************************content***************************************/
+
+/*************************************left***************************************/
+
+
+
+
+
+
+
+/*************************************right***************************************/
+
+
+
+
+
+
+/*************************************foot***************************************/
+.footer{line-height:20px; color:#fff; font-weight:bold; text-align:center;}

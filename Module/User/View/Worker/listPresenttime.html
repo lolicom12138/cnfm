@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.js"></script>
+<script type="text/javascript">
+	function deletePresenttime(id){
+		$.ajax({
+			url:"{:U('/api/user/deletePresenttime')}",
+			async:false,
+			data:{
+				id:id
+			},
+			type:"POST",
+			dataType:"JSON",
+			success:function(data){
+				result = eval("("+data+")");
+				if(result.status == "ok"){
+					alert("成功");
+					history.go(0);
+				}else{
+					alert("失败");
+				}
+			}
+		});
+	}
+</script>
+</head>
+<body>
+	<p><a href="{:U('/user/worker/addPresenttime')}">添加</a></p>
+	<table>
+		<tr>
+			<th>卡类型</th>
+			<th>送分</th>
+			<th>开始</th>
+			<th>结束</th>
+			<th>操作</th>
+		</tr>
+		<volist name="list" id="l">
+			<tr>
+				<td>{$l.card.name}</td>
+				<td>{$l.point}</td>
+				<td>{$l.timebegin}</td>
+				<td>{$l.timeend}</td>
+				<td><a href="javascript:deletePresenttime({$l.id})">删除</a></td>
+			</tr>
+		</volist>
+	</table>
+</body>
+</html>

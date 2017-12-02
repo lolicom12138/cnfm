@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="" method="POST">
+		<table>
+			<tr>
+				<td>会员:</td>
+				<td><input type="text" name="client"/></td>
+				<td>商品编码:</td>
+				<td><input type="text" name="product"/></td>
+				<td><input type="submit" name="查询"/></td>
+			</tr>
+		</table>
+	</form>
+	
+	<table>
+		<tr>
+			<th>内容</th>
+			<th>会员姓名</th>
+			<th>次数</th>
+		</tr>
+		<volist name="list" id="l">
+			<tr>
+				<td>{$l.product.name}</td>
+				<td>{$l.client.name}</td>
+				<td>{$l.fois}</td>
+			</tr>
+		</volist>
+	</table>
+</body>
+</html>

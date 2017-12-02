@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>职位详情</title>
+<style>
+a {
+	text-decoration: none;
+	font-weight: bold;
+}
+
+table {
+	text-align: center;
+	border-collapse: collapse;
+}
+
+table td, table th {
+	border: 1px solid #999;
+}
+
+table td a {
+	margin-right: 20px;
+}
+
+table td a:last-child {
+	margin-right: 0;
+}
+</style>
+</head>
+<body>
+	<table width="654" height="100" border="0">
+		<tr>
+			<th width="49">序号</th>
+			<th width="200">职位名称</th>
+			<th width="127">姓名</th>
+			<th width="125">部门名称</th>
+			<th width="131">操作</th>
+		</tr>
+		<volist name='post.worker' id='pw'>
+		<tr>
+			<td>{$pw.id}</td>
+			<td>{$post.post}</td>
+			<td>{$pw.name}</td>
+			<td>{$pw.departement|afficheDepartement}</td>
+			<td><a href="{:U('/user/admin/detailWorker',array('id'=>$pw['id']))}">员工详情</a></td>
+		</tr>
+		</volist>
+	</table>
+
+
+</body>
+</html>

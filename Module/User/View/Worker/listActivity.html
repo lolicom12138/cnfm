@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>活动列表</title>
+<style>
+table.tab_1 {
+	text-align: center;
+	border-collapse: collapse;
+}
+
+table.tab_1 td, table.tab_1 th {
+	border: 1px solid #999;
+}
+
+table.tab_1 td a {
+	margin-right: 20px;
+	text-decoration:underline;
+}
+
+table.tab_1 td a:hover {
+	color:red;
+}
+
+table.tab_1 td a:last-child {
+	margin-right: 0;
+}
+
+table.tab_2 {
+	text-align: left;
+}
+
+table.tab_2 input, table.tab_2 select {
+	height: 20px;
+	width: 150px;
+}
+
+table.tab_2 input[type="date"] {
+	height: 23px;
+}
+
+table.tab_2 select {
+	height: 25px;
+}
+
+input[type="submit"] {
+	height: 23px;
+	font-size: 10pt;
+	color: #003399;
+	border: 1px #93bee2 solid;
+	width: 40px;
+	background-color: #e8f4ff;
+	line-height: 19px;
+	font-weight: bold;
+	cursor: pointer;
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+table.tab_3 {
+	text-align: right;
+}
+</style>
+<script>
+	function deleteActivity(id) {
+		if (!id) {
+			return;
+		}
+		var conf = confirm("是否要删除？");
+		if (!conf) {
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("(" + result + ")");
+				if (result['status'] == "ok") {
+					alert("删除成功");
+					history.go(0);
+				} else {
+					alert("失败");
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/user/deleteActivity')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("id=" + id);
+	}
+</script>
+</head>
+<body>
+	<form action='' method='POST'>
+		<table width="764" height="91" border="0" cellpadding="0"
+			cellspacing="0" class="tab_2">
+			<tr>
+				<td width="116" height="48">时间区间：</td>
+				<td width="380"><input type="date" name='dateBegin' />-<input
+					type='date' name='dateEnd' /></td>
+				<td width="116">活动名称：</td>
+				<td width="152"><input type="text" name='name' /></td>
+			</tr>
+			<tr>
+				<td>活动地点：</td>
+				<td><select name='position'>
+						<option value=''>请选择</option>
+						<volist name='position' id='p'>
+						<option value='{$p.id}'>{$p.position}</option>
+						</volist>
+				</select></td>
+				<td>活动类型：</td>
+				<td><input type="text" name='tag' /></td>
+			</tr>
+		</table>
+
+		<table width="764" height="41" border="0" cellpadding="0"
+			cellspacing="0" class="tab_3">
+			<tr>
+				<td height="14"><input type="submit" value="搜索" /></td>
+			</tr>
+		</table>
+	</form>
+	<table width="765" height="101" border="0" class="tab_1">
+		<tr>
+			<th width="42">序号</th>
+			<th width="95">活动时间</th>
+			<th width="95">结束时间</th>
+			<th width="145">活动名称</th>
+			<th width="94">活动地点</th>
+			<th width="180">操作</th>
+		</tr>
+		<volist name='list' id='l'>
+		<tr>
+			<td>{$l.id}</td>
+			<td>{$l.time}</td>
+			<td>{$l.timeend}</td>
+			<td>{$l.name}</td>
+			<td>{$l.position.position}</td>
+			<td><a
+				href="{:U('/user/worker/detailActivity',array('id'=>$l[id]))}">活动详情</a><a
+				href="{:U('/user/worker/changeActivity',array('id'=>$l[id]))}">活动修改</a><a
+				href="javascript:deleteActivity({$l.id})">活动删除</a></td>
+		</tr>
+		</volist>
+	</table>
+
+
+</body>
+</html>

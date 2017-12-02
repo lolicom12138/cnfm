@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>detailClient</title>
+<style>
+table {
+	border-collapse: collapse;
+	text-align: center;
+}
+
+td {
+	border: 1px solid #000;
+}
+
+th {
+	font-size: 11px;
+}
+
+tr a {
+	margin-right: 5px;
+	font-size: 13px;
+}
+
+tr a:last-child {
+	margin-right: 0;
+}
+</style>
+</head>
+<body>
+	<div>
+		<p>会员个人信息</p>
+		<table>
+			<tr>
+				<td>姓名:</td>
+				<td>{$client.name}</td>
+				<td>性别:</td>
+				<td>{$client.sex}</td>
+				<td>民族:</td>
+				<td>{$client.nation}</td>
+				<td>电话:</td>
+				<td>{$client.tel}</td>
+				<td>服务人</td>
+				<td>{$client.serveur.name}</td>
+			</tr>
+
+		</table>
+	</div>
+	<div>
+		<table width="1009" height="238" border="1">
+			<tr>
+				<th width="180" height="48">会员卡号</th>
+				<th width="45">储值</th>
+				<th width="45">赠送金额</th>
+				<th width="45">储值积分</th>
+				<th width="45">赠送积分</th>
+				<th width="45">消费积分</th>
+				<th width="45">调养积分</th>
+				<th width="45">旅游积分</th>
+				<th width="45">开卡日期</th>
+				<th width="45">激活日期</th>
+				<th width="45">到期日期</th>
+				<th width="45">激活状态</th>
+				<th width="252">操作</th>
+			</tr>
+			<volist name='client.vip' id='v'>
+			<tr>
+				<td>{$v.cardnumber}</td>
+				<td>{$v.credit}</td>
+				<td>{$v.creditgive}</td>
+				<td>{$v.pointrecharger}</td>
+				<td>{$v.pointgive}</td>
+				<td>{$v.pointconso}</td>
+				<td>{$v.pointheal}</td>
+				<td>{$v.pointtourism}</td>
+				<td>{$v.datecard}</td>
+				<td>{$v.dateactive}</td>
+				<td>{$v.dateexpire}</td>
+				<td>
+					<eq name='v.active' value='1'>
+						已激活
+						<else/>
+						未激活
+					</eq>
+				</td>
+				<td><a href="{:U('/vip/vip/activeVip',array('id'=>$v[id]))}">激活</a><a href="{:U('/vip/vip/changeVip',array('id'=>$v[id]))}">修改</a><a href="{:U('/vip/vip/deleteVip',array('id'=>$v[id]))}">删除</a><a
+					href="{:U('/vip/vip/signalerLost',array('id'=>$v[id]))}">挂失</a><a href="{:U('/vip/vip/changePwdVip',array('id'=>$v[id]))}">修改密码</a><a href="{:U('/vip/vip/resetPwdVip',array('id'=>$v[id]))}">重置密码</a><a href="{:U('/vip/vip/transferVip',array('id'=>$v[id]))}">转让</a></td>
+			</tr>
+			</volist>
+		</table>
+		<p>被转介绍:<a href="{:U('/vip/client/detailClient',array('id'=>$client['beinvited']['id']))}">{$client.beinvited.name}</a></p>
+		<p>转介绍:</p>
+		<volist name="client.invite" id="ci">
+			<p><a href="{:U('/vip/client/detailClient',array('id'=>$ci['id']))}">{$ci.name}</a></p>
+		</volist>
+	</div>
+</body>
+</html>

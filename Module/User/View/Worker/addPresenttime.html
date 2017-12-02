@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="" method="POST">
+		<p>卡类型:<select name="card">
+			<option value="">请选择</option>
+			<volist name="card" id="c">
+				<option value="{$c.id}">{$c.name}{$c.level}</option>
+			</volist>
+		</select></p>
+		<p>送分:<input type="number" name="point" value="0"/></p>
+		<p>开始时间:<input type="time" name="timeBegin" /></p>
+		<p>结束时间:<input type="time" name="timeEnd"/></p>
+		<p><input type="submit" value="确认"/></p>
+	</form>
+</body>
+</html>

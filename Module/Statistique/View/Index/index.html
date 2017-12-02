@@ -1,0 +1,184 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>会员后台管理系统</title>
+<link rel="stylesheet" href="__PUBLIC__/css/index.css" />
+<link rel="stylesheet" href="__PUBLIC__/css/easyui.css" />
+<link rel="stylesheet" href="__PUBLIC__/css/left/font-awesome.css" />
+<link rel="stylesheet" href="__PUBLIC__/css/left/index.css" />
+<script type="text/javascript" src="__PUBLIC__/js/sum/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/sum/jquery.easyui.min.1.2.2.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/left/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/left/style.js"></script>
+</head>
+<body class="easyui-layout" style="overflow-y: hidden" scroll="no">
+
+	<!--head开始-->
+	<div class="head" region="north" split="true" border="false"
+		style="overflow: hidden; height: 140px; background: url(__PUBLIC__/images/1.jpg)">
+		<div class="top">
+        	<img src="__PUBLIC__/images/4.jpg"/><a href="{:U('/vip')}">会员管理</a>
+        	<img src="__PUBLIC__/images/6.jpg"/><a href="{:U('/data')}">商品管理</a>
+        	<img src="__PUBLIC__/images/5.jpg"/><a href="{:U('/user')}">员工管理</a>
+        	<img src="__PUBLIC__/images/7.jpg"/><a href="{:U('/statistique')}">大数据</a>
+			<img src="__PUBLIC__/images/2.jpg" /><a href="{:U('/statistique')}">首页</a> 
+            <img src="__PUBLIC__/images/3.jpg" /><a href="{:U('/statistique/login/logout')}">退出</a>
+		</div>
+	</div>
+	<!--head结束-->
+	<!--***************************************************content开始*************************************-->
+	<!--**********************************left开始*********************************************************-->
+	<div region="west" hide="true" split="true" title="导航菜单"
+		style="width: 200px;" id="west">
+		<!-- ************* 导航内容****** -->
+		<div id="nav" class="easyui-accordion" fit="true" border="false"
+			style="border: 2px solid #99BBE8; border-top: 0px; background: url(__PUBLIC__/images/beijing.png);">
+			<div class="layout">
+				<div class="left_layout">
+					<!-- 主页目录 -->
+					<div class="homepage menu_color">
+						<div class="menu fa">
+							<a href="{:U('/statistique/client')}" target='frameContent'><span>会员统计</span></a>
+						</div>
+						<ul class="leftmenu">
+						</ul>
+					</div>
+					<div class="homepage menu_color">
+						<div class="menu fa">
+							<a href="{:U('/statistique/vip/cardTryFifty')}" target='frameContent'><span>积分成员50日提醒</span></a>
+						</div>
+						<ul class="leftmenu">
+						</ul>
+					</div>
+					<div class="homepage menu_color">
+						<div class="menu fa">
+							<a href="{:U('/statistique/vip/cardTrySixty')}" target='frameContent'><span>积分成员60日提醒</span></a>
+						</div>
+						<ul class="leftmenu">
+						</ul>
+					</div>
+					<!-- 财务处理 -->
+					<div class="financial_management menu_color">
+						<div class="menu fa">
+							<a href="{:U('/statistique/vip')}" target='frameContent'><span>会员卡统计</span></a>
+						</div>
+						<ul class="leftmenu hide">
+						</ul>
+					</div>
+					<!-- 开票流水查询 -->
+					<div class="invoice_flow_inquiry menu_color">
+						<div class="menu fa">
+							<a href="{:U('/statistique/recharger')}" target='frameContent'><span>充值统计</span></a>
+						</div>
+						<ul class="leftmenu hide">
+						</ul>
+					</div>
+					<!-- 开票流水查询 -->
+					<div class="invoice_flow_inquiry menu_color">
+						<div class="menu fa">
+							<a href="{:U('/statistique/retirer')}" target='frameContent'><span>提现统计</span></a>
+						</div>
+						<ul class="leftmenu hide">
+						</ul>
+					</div>
+					<div class="invoice_flow_inquiry menu_color">
+						<div class="menu fa">
+							<a href="{:U('/statistique/point')}" target='frameContent'><span>积分控制</span></a>
+						</div>
+						<ul class="leftmenu hide">
+						</ul>
+					</div>
+					<div class="invoice_flow_inquiry menu_color">
+						<div class="menu fa">
+							<a href="{:U('/statistique/conso')}" target='frameContent'><span>消费统计</span></a>
+						</div>
+						<ul class="leftmenu hide">
+						</ul>
+					</div>
+					<div class="invoice_flow_inquiry menu_color">
+						<div class="menu fa">
+							<a href="{:U('/statistique/conso/listOrder')}" target='frameContent'><span>订单列表</span></a>
+						</div>
+						<ul class="leftmenu hide">
+						</ul>
+					</div>
+					<div class="invoice_flow_inquiry menu_color">
+						<div class="menu fa">
+							<a href="{:U('/statistique/product')}" target='frameContent'><span>商品统计</span></a>
+						</div>
+						<ul class="leftmenu hide">
+						</ul>
+					</div>
+					<div class="invoice_flow_inquiry menu_color">
+						<div class="menu fa">
+							<a href="{:U('/statistique/Databak')}" target='frameContent'><span>数据备份</span></a>
+						</div>
+						<ul class="leftmenu hide">
+						</ul>
+					</div>
+					<div class="invoice_flow_inquiry menu_color">
+						<div class="menu fa">
+							<a href="{:U('/statistique/fois/already')}" target='frameContent'><span>计次消费</span></a>
+						</div>
+						<ul class="leftmenu hide">
+						</ul>
+					</div>
+					<div class="invoice_flow_inquiry menu_color">
+						<div class="menu fa">
+							<a href="{:U('/statistique/fois/rest')}" target='frameContent'><span>计次消费剩余</span></a>
+						</div>
+						<ul class="leftmenu hide">
+						</ul>
+					</div>
+					<div class="invoice_flow_inquiry menu_color">
+						<div class="menu fa">
+							<a href="{:U('/statistique/pointConso')}" target='frameContent'><span>通用积分消费情况</span></a>
+						</div>
+						<ul class="leftmenu hide">
+						</ul>
+					</div>
+					<div class="invoice_flow_inquiry menu_color">
+						<div class="menu fa">
+							<a href="{:U('/statistique/clientGroup')}" target='frameContent'><span>互助组统计</span></a>
+						</div>
+						<ul class="leftmenu hide">
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--**********************************left结束*********************************************************-->
+	<!--*****************************************************************************************right开始-->
+	<div id="mainPanle" region="center"
+		style="background: #d2e0f2; overflow-y: hidden; ">
+		<iframe name='frameContent' id='frameContent' src="{:U('/statistique/content')}" height='100%' width='99%' style="background: #eee;"></iframe>
+	</div>
+	<!--*******************************************************************************************right结束-->
+	<!--*************************************************content结束****************************************-->
+	<!--footer开始-->
+	<div region="south" split="true"
+		style="height: 30px; background: #1a7eba;">
+		<div class="footer">版权所有（A）河北驰宇网络科技有限公司</div>
+	</div>
+	<!--footer结束-->
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

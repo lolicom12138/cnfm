@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>addClient</title>
+<style>
+input[type=text], select {
+	width: 160px;
+	height: 25px;
+}
+select{
+	height: 28px;
+}
+input[type="submit"] {
+	height: 23px;
+	font-size: 10pt;
+	color: #003399;
+	border: 1px #93bee2 solid;
+	width: 40px;
+	background-color: #e8f4ff;
+	line-height: 18px;
+	position: absolute;
+	font-weight: bold;
+	cursor: pointer;
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+</style>
+</head>
+<body>
+	<form action='' method='POST' onsubmit='return goSubmit()' id='clientAdd'>
+		<table width="748" height="200" border="0" class="table1">
+			<tr>
+				<td width="84" id="name">姓名：</td>
+				<td width="211"><input type="text" name='name'></td>
+				<td width="113" id="card">身份证号码：</td>
+				<td width="312"><input type="text" name='identity'></td>
+			</tr>
+			<tr>
+				<td>性别：</td>
+				<td id="sex">
+					<select name='sex'>
+						<option value='男'>男</option>
+						<option value='女'>女</option>
+					</select>
+				</td>
+				<td>出生日期：</td>
+				<td id="date"><input type="date" name='dateBirth'></td>
+			</tr>
+			<tr>
+				<td>民族：</td>
+				<td><input type="text" name='nation'></td>
+				<td>手机号码:</td>
+				<td id="tel"><input type="text" name='tel'></td>
+			</tr>
+			<tr>
+				<td>互动组：</td>
+				<td><input type='text' name='group' /></td>
+				<td>服务人：</td>
+				<td id="service"><select name='serveur'>
+					<volist name='user' id='u'>
+						<option value='{$u.id}'>{$u.name}</option>
+					</volist>
+				</select></td>
+			</tr>
+			<tr>
+				<td>地址</td>
+				<td><input type='text' name='adresse'/></td>
+				<td>备注</td>
+				<td><input type='text' name='etc'/></td>
+			</tr>
+			<tr>
+				<td>介绍人:</td>
+				<td><input type="text" name="invite"/></td>
+			</tr>
+		</table>
+		<div class="table1"
+			style="width: 548px; text-align: right; margin-top: 10px;">
+			<input type="submit" value="添加" />
+		</div>
+	</form>
+
+	<script>
+	/*
+		$(".table1").click(function() {
+			if ($("#name").val() == "") {
+				alert("姓名不能为空！");
+				$("#name").focus();
+				return false;
+			}
+			if ($("#sex").val() == "") {
+				alert("性别不能为空！");
+				$("#sex").focus();
+				return false;
+			}
+			if ($("#date").val() == "") {
+				alert("出生日期不能为空！");
+				$("#date").focus();
+				return false;
+			}
+			if ($("#tel").val() == "") {
+				alert("手机号不能为空！");
+				$("#tel").focus();
+				return false;
+			}
+			if (!$("#service").is(":checked")) {
+				alert("服务人不能为空！");
+				$("#service").focus();
+				return false;
+			}
+		})
+		*/
+		function goSubmit(){
+			/*
+			if ($("#name").val() == "") {
+				alert("姓名不能为空！");
+				$("#name").focus();
+				return false;
+			}
+			if ($("#sex").val() == "") {
+				alert("性别不能为空！");
+				$("#sex").focus();
+				return false;
+			}
+			if ($("#date").val() == "") {
+				alert("出生日期不能为空！");
+				$("#date").focus();
+				return false;
+			}
+			if ($("#tel").val() == "") {
+				alert("手机号不能为空！");
+				$("#tel").focus();
+				return false;
+			}
+			if (!$("#service").is(":checked")) {
+				alert("服务人不能为空！");
+				$("#service").focus();
+				return false;
+			}
+			*/
+		}
+	</script>
+</body>
+</html>

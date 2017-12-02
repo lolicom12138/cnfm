@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>deleteSupplier</title>
+<style>
+input, textarea {
+	height: 23px;
+	width: 130px;
+}
+
+.button_blue {
+	display: inline-block;
+	height: 30px;
+	border-radius: 4px;
+	background: #2795dc;
+	border: none;
+	cursor: pointer;
+	border-bottom: 3px solid #0078b3;
+	*border-bottom: none;
+	color: #fff;
+	font-size: 15px;
+	padding: 0px 10px;
+	*width: 140px;
+	text-align: center;
+	outline: none;
+	font-family: "Microsoft Yahei", Arial, Helvetica, sans-serif;
+	line-height: 25px;
+}
+
+input.button_blue:hover {
+	background: #0081c1;
+	border-bottom: 3px solid #006698;
+	*border-bottom: none;
+	color: #fff;
+	text-decoration: none;
+}
+</style>
+</head>
+<body>
+	<form action='' method='POST'>
+		<table width="685" height="159" border="0">
+			<tr>
+				<td width="110">名称：</td>
+				<td width="559">{$supplier.name}</td>
+			</tr>
+			<tr>
+				<td>地址：</td>
+				<td>{$supplier.adresse}</td>
+			</tr>
+			<tr>
+				<td>负责人：</td>
+				<td>{$supplier.responsable}</td>
+			</tr>
+			<tr>
+				<td>联系电话：</td>
+				<td>{$supplier.tel}</td>
+			</tr>
+		</table>
+		<input type="submit" value="确认删除" style="width: 80px;"
+			class="button_blue" />
+	</form>
+</body>
+</html>

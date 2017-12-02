@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>detailSupplier</title>
+<style>
+input, textarea {
+	height: 23px;
+	width: 130px;
+}
+
+.button_blue {
+	display: inline-block;
+	height: 25px;
+	border-radius: 4px;
+	background: #2795dc;
+	border: none;
+	cursor: pointer;
+	border-bottom: 3px solid #0078b3;
+	*border-bottom: none;
+	color: #fff;
+	font-size: 14px;
+	padding: 0px 10px;
+	*width: 140px;
+	text-align: center;
+	outline: none;
+	font-family: "Microsoft Yahei", Arial, Helvetica, sans-serif;
+	line-height: 25px;
+}
+
+input.button_blue:hover {
+	background: #0081c1;
+	border-bottom: 3px solid #006698;
+	*border-bottom: none;
+	color: #fff;
+	text-decoration: none;
+}
+
+.table2 {
+	border-collapse: collapse;
+	text-align: center;
+	margin-top: 10px;
+}
+
+.table2 td, .table2 th {
+	border: 1px solid #000;
+}
+
+.table2 td a {
+	margin-right: 8px;
+}
+
+.table2 td a:last-child {
+	margin-right: 0px;
+}
+</style>
+</head>
+<body>
+	<table width="513" height="90" border="0">
+		<tr>
+			<td width="103">供货商名称：</td>
+			<td width="174">{$supplier.name}</td>
+			<td width="88">负责人：</td>
+			<td width="130">{$supplier.responsable}</td>
+		</tr>
+		<tr>
+			<td>联系电话：</td>
+			<td>{$supplier.tel}</td>
+			<td>地址：</td>
+			<td>{$supplier.adresse}</td>
+		</tr>
+	</table>
+	<table width="513" height="60" border="1" class="table2">
+		<tr>
+			<th width="33" height="28">id</th>
+			<th width="130">商品名称</th>
+			<th width="189">商品编号</th>
+			<th width="189">规格</th>
+			<th width="189">单位</th>
+			<th width="67">进价</th>
+			<th width="60">操作</th>
+		</tr>
+		<volist name='supplier.product' id='sp'>
+			<tr>
+				<td>{$sp.id}</td>
+				<td>{$sp.name}</td>
+				<td>{$sp.code}</td>
+				<td>{$sp.dimension}</td>
+				<td>{$sp.unit}</td>
+				<td>{$sp.pricein}</td>
+				<td><a href="{:U('/data/product/detailProduct',array("id"=>$sp[id]))}">详情</a></td>
+			</tr>
+		</volist>
+	</table>
+	<p>商品总数:{$numberProduct}</p>
+	<p>全部价值:{$total}</p>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="" method="POST">
+	<table>
+		<tr>
+			<td>店铺</td>
+			<td><input type="text" name="shop"/></td>
+			<td>商品</td>
+			<td><input type="text" name="product"/></td>
+		</tr>
+		<tr>
+			<td>开始时间</td>
+			<td><input type="date" name="timeBegin"/></td>
+			<td>结束时间</td>
+			<td><input type="date" name="timeEnd"/></td>
+		</tr>
+		<tr>
+			<td>审核人</td>
+			<td><input type="text" name="confirmer"/></td>
+		</tr>
+		<tr>
+			<td colspan='4'><input type="submit" name="confirm" value="查询"/></td>
+		</tr>
+	</table>
+	</form>
+	<div>
+		<p>总量:{$totalNombre}</p>
+		<p>总价:{$total}</p>
+	</div>
+	<table>
+		<tr>
+			<th>商品</th>
+			<th>编码</th>
+			<th>规格</th>
+			<th>单位</th>
+			<th>数量</th>
+			<th>售价</th>
+			<th>时间</th>
+			<th>店铺</th>
+			<th>操作人</th>
+			<th>审核</th>
+			<th>备注</th>
+		</tr>
+		<volist name="list" id="l">
+		<tr>
+			<td>{$l.product.name}</td>
+			<td>{$l.product.code}</td>
+			<td>{$l.product.dimension}</td>
+			<td>{$l.product.unit}</td>
+			<td>{$l.nombre}</td>
+			<td>{$l.product.priceout}</td>
+			<td>{$l.time}</td>
+			<td>{$l.shop.name}</td>
+			<td>{$l.operator.name}</td>
+			<td>{$l.confirmer}</td>
+			<td>{$l.etc}</td>
+		</tr>
+		</volist>
+	</table>
+</body>
+</html>

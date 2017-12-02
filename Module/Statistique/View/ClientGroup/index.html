@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#goSubmit").click(function(){
+		$('#result').html("");
+		$('#resume').html("");
+		//统计通用积分消费情况
+		timeBegin = $("#timeBegin").val();
+		timeEnd = $("#timeEnd").val();
+		name = $("#name").val();
+		leader = $("#leader").val();
+		serveur = $("#serveur").val();
+		$.ajax({
+			url:"{:U('/api/statistic/statisticClientGroup')}",
+			type:"POST",
+			async:"false",
+			data:{
+				timeBegin:timeBegin,
+				timeEnd:timeEnd,
+				name:name,
+				leader:leader,
+				serveur:serveur
+			},
+			dataType:"JSON",
+			success:function(data){
+				result = eval("("+data+")");
+				if(result['status'] == "ok"){
+					list = result["list"][0];
+					$('#result').append("<table>");
+					$('#result').append("<tr><td>名称</td><td>队长</td><td>负责人</td><td>成立时间</td></tr>");
+					for(i = 0;list[i];i++){
+						try{
+							$('#result').append("<tr><td>"+list[i][0]['name']+"</td><td>"+list[i][0]['leader'][0]['name']+"</td><td>"+list[i][0]['responsable'][0]['name']+"</td><td>"+list[i][0]['time']+"</td></tr>");
+						}catch(e){
+							try{
+								$('#result').append("<tr><td>"+list[i][0]['name']+"</td><td>"+list[i][0]['leader'][0]['name']+"</td><td></td><td>"+list[i][0]['time']+"</td></tr>");
+							}catch(e1){
+								$('#result').append("<tr><td>"+list[i][0]['name']+"</td><td></td><td></td><td>"+list[i][0]['time']+"</td></tr>");
+							}
+							
+						}
+					}
+					$("#result").append("</table>");
+					$("#resume").append("总计:"+result.count);
+				}else{
+					alert("错误");
+				}	
+			}
+		});
+	});
+});
+</script>
+</head>
+<body>
+	<table>
+		<tr>
+			<td>开始日期:</td>
+			<td><input type="date" id="timeBegin"/></td>
+			<td>结束日期:</td>
+			<td><input type="date" id="timeEnd"/></td>
+			<td>名称</td>
+			<td><input type="text" id="name"/></td>
+		</tr>
+		<tr>
+			<td>组长:</td>
+			<td><input type="text" id="leader"/></td>
+			<td>服务人</td>
+			<td><input type="text" id="serveur" list="serveurList"/></td>
+			<td><button id="goSubmit">查询</button></td>
+		</tr>
+	</table>
+	<div id="resume"></div>
+	<div id="result"></div>
+	<datalist id="serveurList">
+		<volist name="serveurList" id="s">
+			<option value="{$s.name}"/>
+		</volist>
+	</datalist>
+</body>
+</html>

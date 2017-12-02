@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	var cardNumber;
+	function getVip() {
+		cardNumber = document.getElementById("number").value;
+		if (!cardNumber) {
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("(" + result + ")");
+				if (result['status'] == "ok" && result.card == "生活卡") {
+					document.getElementById("cardNumber").innerHTML = cardNumber;
+					document.getElementById("card").innerHTML = result.card;
+					document.getElementById("credit").innerHTML = result.credit;
+					document.getElementById("creditGive").innerHTML = result.creditGive;
+					document.getElementById("pointRecharger").innerHTML = result.pointRecharger;
+					document.getElementById("pointGive").innerHTML = result.pointGive;
+					document.getElementById("pointConso").innerHTML = result.pointConso;
+					document.getElementById("pointHeal").innerHTML = result.pointHeal;
+					document.getElementById("pointTourism").innerHTML = result.pointTourism;
+					document.getElementById("dateCard").innerHTML = result.dateCard;
+					document.getElementById("dateActive").innerHTML = result.dateActive;
+					document.getElementById("dateExpire").innerHTML = result.dateExpire;
+				} else {
+					alert("未找到此会员卡号或此卡未激活");
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/vip/getVip')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("cardNumber=" + cardNumber);
+	}
+	function retirer(){
+		document.getElementById("confirm").disabled=true;
+		var sum = document.getElementById("sum").value;
+		var pwd = document.getElementById("pwd").value;
+		if(!sum){
+			return;
+		}
+		if(!pwd){
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("(" + result + ")");
+				if (result['status'] == "ok") {
+					alert("成功");
+					history.go(0);
+				} else {
+					alert(result['status']);
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/vip/retirer')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("cardNumber=" + cardNumber+"&sum="+sum+"&pwd="+pwd);
+	}
+</script>
+</head>
+<body>
+	会员卡号码输入:
+	<input type="text" id='number' />
+	<button onclick='javascript:getVip()'>查询</button>
+	<table width="1218" height="73" border="1" class="table1" style="margin-top:15px;">
+		<tr>
+			<th width="251">会员卡号</th>
+			<th width='100'>会员卡类型</th>
+			<th width="64">储值</th>
+			<th width="83"><p>赠送金额</p></th>
+			<th width="102">储值积分</th>
+			<th width="76">赠送积分</th>
+			<th width="76">消费积分</th>
+			<th width="76">调养积分</th>
+			<th width="76">旅游积分</th>
+			<th width="76">开卡日期</th>
+			<th width="76">激活日期</th>
+			<th width="86">到期日期</th>
+		</tr>
+		<tr>
+			<td id='cardNumber'></td>
+			<td id='card'></td>
+			<td id='credit'></td>
+			<td id='creditGive'></td>
+			<td id='pointRecharger'></td>
+			<td id='pointGive'></td>
+			<td id='pointConso'></td>
+			<td id='pointHeal'></td>
+			<td id='pointTourism'></td>
+			<td id='dateCard'></td>
+			<td id='dateActive'></td>
+			<td id='dateExpire'></td>
+		</tr>
+	</table>
+	<table style="margin-top:15px;height:120px;">
+		<tr><td>提现金额:</td><td><input type='text' id='sum'/></td></tr>
+		<tr><td>密码:</td><td><input type='password' id='pwd' maxlength='6'/></td>
+		<tr><td><button onclick='javascript:retirer()' id='confirm'>提现</button>
+	</table>
+</body>
+</html>

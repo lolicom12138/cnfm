@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>添加组</title>
+<style>
+table {
+	text-align: left;
+}
+
+date, input {
+	width: 150px;
+	height: 20px;
+}
+
+select {
+	width: 150px;
+	height: 24px;
+}
+
+input[type="submit"] {
+	height: 23px;
+	font-size: 10pt;
+	color: #003399;
+	border: 1px #93bee2 solid;
+	width: 40px;
+	background-color: #e8f4ff;
+	line-height: 19px;
+	position: absolute;
+	font-weight: bold;
+	cursor: pointer;
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+</style>
+</head>
+<body>
+	<form action="" method="POST">
+		<table width="385" height="156" border="0">
+			<tr>
+				<td width="76">名称：</td>
+				<td width="299"><input type="text" name='position'/></td>
+			</tr>
+			<tr>
+				<td>地址：</td>
+				<td><input type="text" name='adresse'/></td>
+			</tr>
+			<tr>
+				<td>负责人：</td>
+				<td><input type='text' name='responsable' list="userDataList" />
+					<datalist id='userDataList'>
+						<volist name='user' id='u'>
+						<option label='{$u.departement.departement}{$u.post.post}'
+							value='{$u.name}' />
+						</volist>
+					</datalist></td>
+			</tr>
+		</table>
+		<input type="submit" value="添加" />
+	</form>
+</body>
+</html>

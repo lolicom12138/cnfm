@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="" method="POST">
+		<table>
+			<tr>
+				<td>会员卡号:</td>
+				<td><input type="text" name="cardNumber"/></td>
+				<td>会员姓名或身份证号码:</td>
+				<td><input type="text" name="client"/></td>
+			</tr>
+			<tr>
+				<td>起始日期:</td>
+				<td><input type="date" name="timeBegin"/></td>
+				<td>截至日期:</td>
+				<td><input type="date" name="timeEnd"/></td>
+			</tr>
+			<tr>
+				<td colspan='4'><input type="submit" name="confirm" value="查找"/></td>
+			</tr>
+		</table>
+	</form>
+	
+	<table>
+		<tr>
+			<th>会员名称</th>
+			<th>当日首次签到时间</th>
+			<th>当日签退时间</th>
+		</tr>
+		<volist name='list' id='l'>
+			<tr>
+				<td>{$l.client.name}</td>
+				<td>{$l.timedebut}</td>
+				<td>{$l.timefin}</td>
+			</tr>
+		</volist>
+	</table>
+	<p>总计人次；{$count}
+</body>
+</html>

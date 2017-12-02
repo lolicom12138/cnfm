@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	function deleteDisease(id){
+		var conf = confirm("确定删除么？");
+		if(!conf){
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("("+result+")");
+				if(result['status'] == "ok"){
+					alert("成功");
+					history.go(0);
+				}else{
+					alert("失败");
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/client/deleteDisease')}", true);
+		xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		xmlhttp.send("client={$client.id}&disease="+id);
+	}
+	function newDisease(){
+		var disease = prompt("疾病名称:");
+		if(!disease){
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("("+result+")");
+				if(result['status'] == "ok"){
+					alert("成功");
+					history.go(0);
+				}else{
+					alert("失败");
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/client/newDisease')}", true);
+		xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		xmlhttp.send("client={$client.id}&disease="+disease);
+	}
+	function deletePharm(id){
+		var conf = confirm("确定删除么？");
+		if(!conf){
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("("+result+")");
+				if(result['status'] == "ok"){
+					alert("成功");
+					history.go(0);
+				}else{
+					alert("失败");
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/client/deletePharm')}", true);
+		xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		xmlhttp.send("client={$client.id}&pharm="+id);
+	}
+	function newPharm(){
+		var pharm = prompt("药物名称:");
+		if(!pharm){
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("("+result+")");
+				if(result['status'] == "ok"){
+					alert("成功");
+					history.go(0);
+				}else{
+					alert("失败");
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/client/newPharm')}", true);
+		xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		xmlhttp.send("client={$client.id}&pharm="+pharm);
+	}
+	function deleteHabbit(id){
+		var conf = confirm("确定删除么？");
+		if(!conf){
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("("+result+")");
+				if(result['status'] == "ok"){
+					alert("成功");
+					history.go(0);
+				}else{
+					alert("失败");
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/client/deleteHabbit')}", true);
+		xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		xmlhttp.send("client={$client.id}&habbit="+id);
+	}
+	function newHabbit(){
+		var habbit = prompt("习惯爱好:");
+		if(!habbit){
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("("+result+")");
+				if(result['status'] == "ok"){
+					alert("成功");
+					history.go(0);
+				}else{
+					alert("失败");
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/client/newHabbit')}", true);
+		xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		xmlhttp.send("client={$client.id}&habbit="+habbit);
+	}
+	function deleteHealthProduct(id){
+		var conf = confirm("确定删除么？");
+		if(!conf){
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("("+result+")");
+				if(result['status'] == "ok"){
+					alert("成功");
+					history.go(0);
+				}else{
+					alert("失败");
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/client/deleteHealthProduct')}", true);
+		xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		xmlhttp.send("client={$client.id}&healthProduct="+id);
+	}
+	function newHealthProduct(){
+		var healthProduct = prompt("保健品:");
+		if(!healthProduct){
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("("+result+")");
+				if(result['status'] == "ok"){
+					alert("成功");
+					history.go(0);
+				}else{
+					alert("失败");
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/client/newHealthProduct')}", true);
+		xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		xmlhttp.send("client={$client.id}&healthProduct="+healthProduct);
+	}
+	function updateProfile(){
+		var marriage = document.getElementById("marriage").value;
+		var marriageTime = document.getElementById("marriageTime").value;
+		var tall = document.getElementById("tall").value;
+		var amountPerMonth = document.getElementById("amountPerMonth").value;
+		var majorAreaBuy = document.getElementById("majorAreaBuy").value;
+		var majorLocationBuy = document.getElementById("majorLocationBuy").value;
+		var son = document.getElementById("son").value;
+		var daughter = document.getElementById("daughter").value;
+		var typeLive = document.getElementById("typeLive").value;
+		var politicalStatus = document.getElementById("politicalStatus").value;
+		var etc = document.getElementById("etc").value;
+		if(!healthProduct){
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				alert(result);
+				return;
+				result = eval("("+result+")");
+				if(result['status'] == "ok"){
+					alert("成功");
+					history.go(0);
+				}else{
+					alert("失败");
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/client/updateProfile')}", true);
+		xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		xmlhttp.send("client={$client.id}"
+			+"&marriage"+marriage
+			+"&marriageTime"+marriageTime
+			+"&tall"+tall
+			+"&amountPerMonth"+amountPerMonth
+			+"&majorAreaBuy"+majorAreaBuy
+			+"&majorLocationBuy"+majorLocationBuy
+			+"&son"+son
+			+"&daughter"+daughter
+			+"&typeLive"+typeLive
+			+"&politicalStatus"+politicalStatus
+			+"&etc"+etc
+		);
+	}
+</script>
+</head>
+<body>
+	<div id='disease'>
+		<table>
+			<tr>
+				<th>疾病</th>
+				<th>操作</th>
+			</tr>
+			<volist name='client.disease' id='cd'>
+			<tr>
+				<td>{$cd.disease}</td>
+				<td><a href='javascript:deleteDisease({$cd.id})'>删除</a></td>
+			</tr>
+			</volist>
+			<tr>
+				<th>添加新疾病</th>
+				<th><a href='javascript:newDisease()'>添加</a></th>
+			</tr>
+		</table>
+	</div>
+	<div id='pharm'>
+		<table>
+			<tr>
+				<th>药品</th>
+				<th>操作</th>
+			</tr>
+			<volist name='client.pharm' id='cd'>
+			<tr>
+				<td>{$cd.pharm}</td>
+				<td><a href='javascript:deletePharm({$cd.id})'>删除</a></td>
+			</tr>
+			</volist>
+			<tr>
+				<th>添加新常用药</th>
+				<th><a href='javascript:newPharm()'>添加</a></th>
+			</tr>
+		</table>
+	</div>
+	<div id='habbit'>
+		<table>
+			<tr>
+				<th>习惯爱好</th>
+				<th>操作</th>
+			</tr>
+			<volist name='client.habbit' id='cd'>
+			<tr>
+				<td>{$cd.habbit}</td>
+				<td><a href='javascript:deleteHabbit({$cd.id})'>删除</a></td>
+			</tr>
+			</volist>
+			<tr>
+				<th>添加习惯爱好</th>
+				<th><a href='javascript:newHabbit()'>添加</a></th>
+			</tr>
+		</table>
+	</div>
+	<div id='healthProduct'>
+		<table>
+			<tr>
+				<th>保健品</th>
+				<th>操作</th>
+			</tr>
+			<volist name='client.healthproduct' id='cd'>
+			<tr>
+				<td>{$cd.product}</td>
+				<td><a href='javascript:deleteHealthProduct({$cd.id})'>删除</a></td>
+			</tr>
+			</volist>
+			<tr>
+				<th>添加保健品</th>
+				<th><a href='javascript:newHealthProduct()'>添加</a></th>
+			</tr>
+		</table>
+	</div>
+	<form action="" method="POST">
+		<div id="profile">
+			<table>
+				<tr>
+					<td>婚姻状况：</td>
+					<td><input type="text" name="marriage" value="{$client.profile.marriage}"/></td>
+					<td>结婚时间</td>
+					<td><input type="date" name="marriageTime" value="{$client.profile.marriagetime}"/></td>
+					<td>身高</td>
+					<td><input type="text" name="tall" value="{$client.profile.tall}"/>cm</td>
+				</tr>
+				<tr>
+					<td>每月消费数量：</td>
+					<td><input type="text" name="amountPerMonth" value="{$client.profile.amountpermonth}"/>元</td>
+					<td>主要购买物品</td>
+					<td><input type="text" name="majorAreaBuy" value="{$client.profile.majorareabuy}"/></td>
+					<td>主要购物地点</td>
+					<td><input type="text" name="majorLocationBuy" value="{$client.profile.majorlocationbuy}"/></td>
+				</tr>
+				<tr>
+					<td>儿子数量：</td>
+					<td><input type="text" name="son" value="{$client.profile.son}"/></td>
+					<td>女儿数量</td>
+					<td><input type="text" name="daughter" value="{$client.profile.daughter}"/></td>
+					<td>居住方式</td>
+					<td><input type="text" name="typeLive" value="{$client.profile.typelive}"/></td>
+				</tr>
+				<tr>
+					<td>政治倾向：</td>
+					<td><input type="text" name="politicalStatus" value="{$client.profile.politicalstatus}"/></td>
+					<td>备注</td>
+					<td><input type="text" name="etc" value="{$client.profile.etc}"/></td>
+					<td colspan="2"><button onclick="javascript:updateProfile()">修改</button></td>
+				</tr>
+			</table>
+		</div>
+	</form>
+</body>
+</html>

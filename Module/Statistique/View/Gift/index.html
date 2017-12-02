@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	var dateBegin;
+	var dateEnd;
+	var client;
+	var operator;
+	var allPage = 0;
+	var page = 1;
+	$("#goSubmit").click(function(){
+		page = 1;
+		dateBegin = $("#dateBegin").val();
+		dateEnd = $("#dateEnd").val();
+		client = $("#client").val();
+		operator = $("#operator").val();
+		$.ajax({
+			url:"{:U('/api/statistic/statisticGift')}",
+			type:"POST",
+			async:true,
+			dataType:"JSON",
+			data:{
+				page:page
+				dateBegin:dateBegin,
+				dateEnd:dateEnd,
+				client:client,
+				operator:operator
+			},
+			success:function(data){
+				$("#resultList").html(data);
+			}
+		});
+	});
+});
+</script>
+</head>
+<body>
+	<table>
+		<tr>
+			<td>开始时间:</td>
+			<td><input type="date" id="dateBegin"/></td>
+			<td>结束时间:</td>
+			<td><input type="date" id="dateEnd"/></td>
+			<td>会员:</td>
+			<td><input type="text" id="client"/></td>
+			<td>操作人:</td>
+			<td><input type="text" id="operator" list="userList"/></td>
+			<td><button id="goSubmit">查找</button>
+		</tr>
+	</table>
+	<datalist id="userList">
+		<volist name="userList" id="u">
+			<option value="{$u.name}"/>
+		</volist>
+	</datalist>
+	<div id="resultList"></div>
+</body>
+</html>

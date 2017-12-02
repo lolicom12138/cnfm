@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>职位列表</title>
+<style>
+table {
+	text-align: center;
+	border-collapse: collapse;
+}
+
+table td, table th {
+	border: 1px solid #999;
+}
+
+table td a {
+	margin-right: 20px;
+	text-decoration:underline;
+}
+
+table td a:hover{
+	color:red;
+}
+
+table td a:last-child {
+	margin-right: 0;
+}
+</style>
+<script>
+	function deletePost(id) {
+		if (!id) {
+			return;
+		}
+		var conf = confirm("是否要删除？");
+		if (!conf) {
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("(" + result + ")");
+				if (result['status'] == "ok") {
+					alert("删除成功");
+					history.go(0);
+				} else {
+					alert("失败");
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/user/deletePost')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("id=" + id);
+	}
+</script>
+</head>
+<body>
+	<table width="511" height="100" border="0">
+		<tr>
+			<th width="51">序号</th>
+			<th width="200">职位名称</th>
+			<th width="294">操作</th>
+		</tr>
+		<volist name='list' id='l'>
+		<tr>
+			<td>{$l.id}</td>
+			<td>{$l.post}</td>
+			<td><a href="{:U('/user/admin/detailPost',array('id'=>$l[id]))}">详情</a><a
+				href="{:U('/user/admin/changePost',array('id'=>$l[id]))}">修改</a><a
+				href="javascript:deletePost({$l.id})">删除</a></td>
+		</tr>
+		</volist>
+	</table>
+
+</body>
+</html>

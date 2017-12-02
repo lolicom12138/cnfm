@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>添加活动</title>
+<style>
+a {
+	text-decoration: none;
+	font-weight: bold;
+}
+
+table {
+	text-align: left;
+}
+
+date, input {
+	width: 150px;
+	height: 20px;
+}
+
+select {
+	width: 150px;
+	height: 24px;
+}
+
+input[type="submit"] {
+	height: 23px;
+	font-size: 10pt;
+	color: #003399;
+	border: 1px #93bee2 solid;
+	width: 40px;
+	background-color: #e8f4ff;
+	line-height: 23px;
+	position: absolute;
+	font-weight: bold;
+	cursor: pointer;
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+</style>
+<script type='text/javascript'>
+	function setTag(){
+		
+	}
+</script>
+</head>
+<body>
+	<form action="" method="POST">
+		<table width="385" height="156" border="0">
+			<tr>
+				<td width="118">活动时间：</td>
+				<td width="257"><input type="datetime-local" name='time' value='{$activity.time}'/></td>
+			</tr>
+			<tr>
+				<td width="118">结束时间：</td>
+				<td width="257"><input type="datetime-local" name='timeEnd' value='{$activity.timeend}'/></td>
+			</tr>
+			<tr>
+				<td>活动名称：</td>
+				<td><input type="text" name='name' value='{$activity.name}'/></td>
+			</tr>
+			<tr>
+				<td>活动地点:</td>
+				<td><select name='position'>
+						<volist name='position' id='p'>
+							<neq name="p.id" value="$activity[positionid]">
+								<option value='{$p.id}'>{$p.position}</option>
+								<else/>
+								<option value='{$p.id}' selected='selected'>{$p.position}</option>
+							</neq>
+						</volist>
+				</select></td>
+			</tr>
+			<tr>
+				<td>活动类型：</td>
+				<td>
+					<input type='text' name='tag' value='{$tag}'/>
+				</td>
+			</tr>
+			<tr>
+				<td>赠送积分:</td>
+				<td><input type='number' name='point' min='0' max='50' value='{$activity.point}'/></td>
+			</tr>
+		</table>
+		<input type="submit" name='confirm' value="修改"/>
+	</form>
+</body>
+</html>

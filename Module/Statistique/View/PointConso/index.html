@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#goSubmit").click(function(){
+			//统计通用积分消费情况
+			timeBegin = $("#timeBegin").val();
+			timeEnd = $("#timeEnd").val();
+			type = $("#type").val();
+			$.ajax({
+				url:"{:U('/api/statistic/statisticPointConso')}",
+				type:"POST",
+				async:"false",
+				data:{
+					timeBegin:timeBegin,
+					timeEnd:timeEnd,
+					type:type
+				},
+				dataType:"JSON",
+				success:function(data){
+					result = eval("("+data+")");
+					if(result['status'] == "ok"){
+						$("#result").html("<span>总计:"+result['total']+"</span>");
+					}else{
+						alert("错误");
+						$('#result').html("");
+					}	
+				}
+			});
+		});
+	});
+</script>
+</head>
+<body>
+	<table>
+		<tr>
+			<td>开始日期:</td>
+			<td><input type="date" id="timeBegin"/></td>
+			<td>结束日期:</td>
+			<td><input type="date" id="timeEnd"/></td>
+			<td>类型</td>
+			<td><select id="type">
+				<option value="">--</option>
+				<option value="pointRecharger">储值积分</option>
+				<option value="pointGive">赠送积分</option>
+				<option value="pointConso">消费积分</option>
+			</select></td>
+			<td><button id="goSubmit">查询</button>
+		</tr>
+	</table>
+	<div id="result"></div>
+</body>
+</html>

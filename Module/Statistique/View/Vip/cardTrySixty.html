@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="__PUBLIC__/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$.ajax({
+		url:"{:U('/ApiNew/Remind/cardTrySixty')}",
+		dataType:"JSON",
+		success:function(result){
+			if(!result.status){
+				alert("失败！");
+				return;
+			}
+			console.log(result);
+			var content = "";
+			var list = result.list;
+			$.each(list,function(index,val,arr){
+				content += "<tr>";
+				content += "<td>"+val.cardnumber+"</td>";
+				content += "<td>"+val.client.name+"</td>";
+				content += "<td>"+val.client.tel+"</td>";
+				content += "</tr>";  
+			});
+			console.log(content);
+			$("#content").html(content);
+		}
+	});
+	$("#onButtonClear").click(function(){
+		var c = confirm("确定清理？");
+		if(c){
+			$.ajax({
+				url:"{:U('/ApiNew/Remind/cancelCardTrySixty')}",
+				dataType:"JSON",
+				success:function(result){
+					if(!result.status){
+						alert("失败！");
+						return;
+					}
+					alert("成功！");
+					history.go(0);
+				}
+			});
+		}
+	})
+})
+</script>
+</head>
+<body>
+	<table id="content">
+	</table>
+	<button id="onButtonClear">一键清理</button>
+</body>
+</html>

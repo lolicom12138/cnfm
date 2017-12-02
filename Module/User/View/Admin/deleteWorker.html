@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style>
+table {
+	text-align: left;
+}
+
+input, select {
+	height: 20px;
+	width: 150px;
+}
+
+input[type="date"] {
+	height: 23px;
+}
+
+select {
+	height: 25px;
+}
+
+input[type="submit"] {
+	height: 23px;
+	font-size: 10pt;
+	color: #003399;
+	border: 1px #93bee2 solid;
+	width: 70px;
+	background-color: #e8f4ff;
+	line-height: 23px;
+	position: absolute;
+	font-weight: bold;
+	cursor: pointer;
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+</style>
+</head>
+<body>
+	<form action='' method='post'>
+		<table width="637" height="200" border="0" cellpadding="0"
+			cellspacing="0">
+			<tr>
+				<td width="102" height="48">姓名：</td>
+				<td width="202">{$user.name}</td>
+				<td width="130">性别：</td>
+				<td width="175">{$user.sex}</td>
+			</tr>
+			<tr>
+				<td>民族：</td>
+				<td>{$user.nation}</td>
+				<td>出生日期：</td>
+				<td>{$user.datebirth}</td>
+			</tr>
+			<tr>
+				<td>入职日期：</td>
+				<td>{$user.datejoin}</td>
+				<td>部门名称：</td>
+				<td>{$user.departement.departement}</td>
+			</tr>
+			<tr>
+				<td>职位名称：</td>
+				<td>{$user.post.post}</td>
+				<td>上级主管人员：</td>
+				<td>{$user.boss.name}</td>
+			</tr>
+		</table>
+		<input type="submit" name='confirm' value="确定删除" />
+	</form>
+</body>
+</html>

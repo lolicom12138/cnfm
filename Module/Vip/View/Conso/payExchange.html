@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>rapidConso3</title>
+<style>
+input[type=text], textarea {
+	width: 160px;
+	height: 25px;
+}
+
+select {
+	height: 20px;
+}
+
+input[type=password] {
+	margin-right: 15px;
+	width: 100px;
+	height: 20px;
+}
+
+input[type="submit"] {
+	height: 20px;
+	font-size: 10pt;
+	color: #003399;
+	border: 1px #93bee2 solid;
+	width: 40px;
+	background-color: #e8f4ff;
+	line-height: 20px;
+	position: absolute;
+	font-weight: bold;
+	cursor: pointer;
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+table {
+	border-collapse: collapse;
+	text-align: center;
+	margin: 10px 0px;
+}
+
+td {
+	border: 1px solid #000;
+}
+</style>
+</head>
+<body>
+<form action='' method='POST' id='formConso'>
+		<table width="1005" height="73" border="1" class="table1">
+			<tr>
+				<th width="180" height="27">会员卡号</th>
+				<th width="45">储值</th>
+				<th width="45"><p>赠送金额</p></th>
+				<th width="45">储值积分</th>
+				<th width="45">赠送积分</th>
+				<th width="45">消费积分</th>
+				<th width="45">调养积分</th>
+				<th width="45">旅游积分</th>
+				<th width="45">开卡日期</th>
+				<th width="45">激活日期</th>
+				<th width="45">到期日期</th>
+			</tr>
+			<tr>
+				<td id='cardNumber'>{$order.vip.cardnumber}</td>
+				<td id='credit'>{$order.vip.credit}</td>
+				<td id='creditGive'>{$order.vip.creditgive}</td>
+				<td id='pointRecharger'>{$order.vip.pointrecharger}</td>
+				<td id='pointGive'>{$order.vip.pointgive}</td>
+				<td id='pointConso'>{$order.vip.pointconso}</td>
+				<td id='pointHeal'>{$order.vip.pointheal}</td>
+				<td id='pointTourism'>{$order.vip.pointtourism}</td>
+				<td id='dateCard'>{$order.vip.datecard}</td>
+				<td id='dateActive'>{$order.vip.dateactive}</td>
+				<td id='dateExpire'>{$order.vip.dateexpire}</td>
+			</tr>
+		</table>
+		<table width="323" height="102" border="0">
+			<tr>
+				<td width="125">商品</td>
+				<td width="186">单价</td>
+				<td width="186">数量</td>
+			</tr>
+			<volist name='order.content' id='oc'>
+				<tr>
+					<td width="125">{$oc.product.name}</td>
+					<td width="186">{$oc.product.pointout}</td>
+					<td width="186">{$oc.number}</td>
+				</tr>
+			</volist>
+			<tr>
+				<td>总价:</td>
+				<td>{$order.price}</td>
+			</tr>
+			<tr>
+				<td width='125'>支付方式:</td>
+				<td width="186">
+					<select name='typePay'>
+						<option value='pointConso'>通用积分</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td width='125'>支付密码:</td>
+				<td width="186"><input type='password' name='pwdPay' maxlength='6'/></td>
+			</tr>
+		</table>
+		<input type='hidden' name='cardNumber' /> <input type="submit"
+			value="提交" />
+	</form>
+</body>
+</html>

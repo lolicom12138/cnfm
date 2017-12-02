@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<th>会员卡号:</th>
+			<td>{$vip.cardnumber}</td>
+			<th>会员姓名:</th>
+			<td>{$vip.client.name}</td>
+		</tr>
+		<tr>
+			<th>储值:</th>
+			<td>{$vip.credit}</td>
+			<th>赠送金额:</th>
+			<td>{$vip.creditgive}</td>
+		</tr>
+		<tr>
+			<th>储值积分:</th>
+			<td>{$vip.pointrecharger}</td>
+			<th>赠送积分:</th>
+			<td>{$vip.pointgive}</td>
+		</tr>
+		<tr>
+			<th>消费积分:</th>
+			<td>{$vip.pointconso}</td>
+			<th>健康/调养积分:</th>
+			<td>{$vip.pointheal}</td>
+		</tr>
+		<tr>
+			<th>旅游积分:</th>
+			<td>{$vip.pointtourism}</td>
+		</tr>
+	</table>
+	<p>订单</p>
+	<table>
+		<tr>
+			<th>订单号</th>
+			<th>会员姓名</th>
+			<th>会员卡号</th>
+			<th>支付方式</th>
+			<th>总价</th>
+			<th>折后价</th>
+			<th>时间</th>
+			<th>状态</th>
+			<th>操作</th>
+		</tr>
+		<volist name='list' id='l'>
+			<tr>
+				<td>{$l.idorder}</td>
+				<td>{$l.client.name}</td>
+				<td>{$l.vip.cardnumber}</td>
+				<td>
+					<eq name='l.typepay' value='credit'>
+						储值
+					</eq>
+					<eq name='l.typepay' value='creditGive'>
+						赠送金额
+					</eq>
+					<eq name='l.typepay' value='pointConso'>
+						通用积分
+					</eq>
+					<eq name='l.typepay' value='pointHeal'>
+						调养/健康积分
+					</eq>
+					<eq name='l.typepay' value='pointTourism'>
+						旅游积分
+					</eq>
+				</td>
+				<td>{$l.price}</td>
+				<td>{$l.pricesold}</td>
+				<td>{$l.time}</td>
+				<td>{$l.status}</td>
+				<td>
+					<a href="{:U('/vip/conso/detailOrder',array('id'=>$l[id]))}">详情</a>&nbsp;
+					<a href="{:U('/vip/conso/rembourse',array('id'=>$l[id]))}">退单</a>&nbsp;
+				</td>
+			</tr>
+		</volist>
+	</table>
+	<p>自由卡政策</p>
+	<table>
+		<tr>
+			<td>养老补贴</td>
+			<td>剩余补贴次数</td>
+			<td>生活配送金额</td>
+			<td>剩余配送次数</td>
+		</tr>
+		<volist name="vip.policy" id="p">
+			<tr>
+				<td>{$p.pointgive}</td>
+				<td>{$p.timepointgive}</td>
+				<td>{$p.lifeshipping}</td>
+				<td>{$p.timelifeshipping}</td>
+			</tr>
+		</volist>
+	</table>
+</body>
+</html>

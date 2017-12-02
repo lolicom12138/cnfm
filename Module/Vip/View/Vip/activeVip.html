@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<th>会员卡号吗:</th>
+			<td>{$vip.cardnumber}</td>
+		</tr>
+		<tr>
+			<th>办卡日期:</th>
+			<td>{$vip.datecard}</td>
+		</tr>
+		<form action='' method='POST'>
+			<tr>
+				<th>到期日期:</th>
+				<td><input type='date' name='dateExpire' /></td>
+			</tr>
+			<tr>
+				<th>当前价格(尽显生活卡首次激活使用):</th>
+				<td><input type="text" name="price"/></td>
+			</tr>
+			<tr>
+				<th><input type='submit' value='确定' /></th>
+			</tr>
+		</form>
+	</table>
+</body>
+</html>

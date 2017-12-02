@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	window.onload = function(){
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("("+result+")");
+				var depart = result['departement'];
+				for(var i = 0;i < depart.length;i++){
+					document.getElementById("departement").innerHTML += "<tr><td id='"+depart[i]['id']+"'>"+depart[i]['name']+"</td><td><a href='javascript:bindShop("+depart[i]['id']+")'>绑定店铺</a></td></tr>";
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/user/getDepartement')}", true);
+		xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		xmlhttp.send();
+	}
+	function bindShop(id){
+		var str = "<input type='text' id='shop' list='shopList'/><button onclick='javascript:bind("+id+")'>绑定</button>";
+		document.getElementById("div2").innerHTML = str;
+		document.getElementById("div2").style.display = "block";
+	}
+	function bind(id){
+		var shop = document.getElementById('shop').value;
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("("+result+")");
+				if(result['status'] == "ok"){
+					alert("成功");
+					document.getElementById("div2").innerHTML = "<input type='text' id='shop' list='shopList'/>";
+				}else{
+					alert("失败");
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/user/bindShop')}", true);
+		xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		xmlhttp.send("departement="+id+"&shop="+shop);
+	}
+</script>
+</head>
+<body>
+	<div style='float:left;'>
+		<table id='departement'>
+		</table>
+	</div>
+	<div style='float:left;display:none;' id='div2'>
+		<input type='text' id='shop' list='shopList'/>
+	</div>
+	<datalist id='shopList'>
+		<volist name='shop' id='s'>
+			<option value='{$s.name}'/>
+		</volist>
+	</datalist>
+</body>
+</html>

@@ -1,0 +1,321 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>rapidConso3</title>
+<style>
+input[type=text], textarea {
+	width: 160px;
+	height: 25px;
+}
+
+select {
+	height: 20px;
+}
+
+input[type=password] {
+	margin-right: 15px;
+	width: 100px;
+	height: 20px;
+}
+/*
+input[type="submit"] {
+	height: 20px;
+	font-size: 10pt;
+	color: #003399;
+	border: 1px #93bee2 solid;
+	width: 40px;
+	background-color: #e8f4ff;
+	line-height: 20px;
+	position: absolute;
+	font-weight: bold;
+	cursor: pointer;
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+*/
+table {
+	border-collapse: collapse;
+	text-align: center;
+	margin: 10px 0px;
+}
+
+td {
+	border: 1px solid #000;
+}
+</style>
+<script type="text/javascript" src="__PUBLIC__/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+var order = null;
+var content = null;
+var vip = null;
+var total = {
+		priceNormal:0,
+		priceOut:0,
+		pointExchange:0
+};
+var totalPay = {
+		cashPay:0,
+		pointExchangePay:0
+};
+var totalNeedPay = {
+		cashPay:0,
+		pointExchangePay:0
+};
+var methodPayment = null;
+$(document).ready(function(){
+	
+	$("#divPay").hide();
+	$("#pNeedPay").hide();
+	$.ajax({
+		url:"{:U('/ApiNew/conso/getOrder')}",
+		method:"POST",
+		dataType:"JSON",
+		data:{
+			id:{$id}
+		},
+		success:function(result){
+			if(result.status){
+				order = result.order;
+				if(order.status == "已支付"){
+					alert("错误！");
+					history.go(-1);
+				}
+				content = result.content;
+				vip = order.vip;
+				vipDisplay();
+				orderDisplay();
+			}else{
+				alert("失败");
+				history.go(-1);
+			}
+		}
+	});
+	$("#pay").submit(function(){
+		var sumPay = $("#sum").val();
+		var typePay = $("#typePay").val();
+		if(typePay == ""){
+			alert("请选择支付方式！");
+			return false;
+		}else if(typePay == "pointExchange"){
+			if(sumPay > totalNeedPay.pointExchangePay){
+				alert("支付数额超过所需！");
+				return false;
+			}
+		}else{
+			if(sumPay > totalNeedPay.cashPay){
+				alert("支付数额超过所需！");
+				return false;
+			}
+		}
+		$("#buttonSubmit").attr("disabled",true);
+		var c = confirm("确定？");
+		if(!c){
+			return false;
+		}
+		$.ajax({
+			url:"{:U('/ApiNew/conso/pay')}",
+			method:"POST",
+			dataType:"JSON",
+			data:{
+				vip:vip,
+				order:order,
+				sum:sumPay,
+				pwdPay:$("#pwdPay").val(),
+				typePay:typePay
+			},
+			success:function(result){
+				if(result.status){
+					if($("#typePay").val() == "pointExchange"){
+						totalPay.pointExchangePay += parseInt(sumPay);
+						totalNeedPay.pointExchangePay -= parseInt(sumPay);
+					}else{
+						totalPay.cashPay += parseInt(sumPay);
+						totalNeedPay.cashPay -= parseInt(sumPay);
+					}
+					alert("成功！");
+					$("#pay")[0].reset();
+					if(totalNeedPay.cashPay == 0 && totalNeedPay.pointExchangePay == 0){
+						finishPay();
+					}
+					needPayDisplay();
+				}else{
+					alert("密码输入错误！");
+				}
+			}
+		});
+		$("#buttonSubmit").attr("disabled",false);
+		return false;
+	});
+	$("#choosePayNormal").click(function(){
+		var c = confirm("确定？（选择不可逆）");
+		if(c){
+			totalNeedPay.cashPay = total.priceNormal;
+			totalNeedPay.pointExchangePay = 0;
+			needPayDisplay();
+			$("#choosePayment").hide();
+			$("#divPay").show();
+		}
+	});
+	$("#choosePayVip").click(function(){
+		var c = confirm("确定？（选择不可逆）");
+		if(c){
+			totalNeedPay.cashPay = total.priceOut;
+			totalNeedPay.pointExchangePay = total.pointExchange;
+			if(vip.card == 7 || vip.card == 8 || vip.card == 9 || vip.card == 10){
+				totalNeedPay.pointExchangePay = 0;
+			}
+			needPayDisplay();
+			$("#choosePayment").hide();
+			$("#divPay").show();
+		}
+	});
+});
+function finishPay(){
+	$.ajax({
+		url:"{:U('/ApiNew/conso/payFinish')}",
+		method:"POST",
+		dataType:"JSON",
+		data:{
+			order:order,
+			totalPay:totalPay
+		},
+		success:function(result){
+			window.location.href="{:U('/vip/conso/payProductFinish')}?id={$id}";
+		}
+	});
+}
+function needPayDisplay(){
+	console.log(totalNeedPay);
+	$("#cashPay").html(totalNeedPay.cashPay);
+	$("#pointExchangePay").html(totalNeedPay.pointExchangePay);
+	$("#pNeedPay").show();
+}
+function vipDisplay(){
+	$("#cardNumber").html(vip.cardnumber);
+	$("#credit").html(vip.credit);
+	$("#creditGive").html(vip.creditgive);
+	$("#pointRecharger").html(vip.pointrecharger);
+	$("#pointGive").html(vip.pointgive);
+	$("#pointConso").html(vip.pointconso);
+	$("#pointHeal").html(vip.pointheal);
+	$("#pointTourism").html(vip.pointtourism);
+	$("#pointExchange").html(vip.pointexchange);
+	$("#pointValue").html(vip.pointvalue);
+	$("#dateCard").html(vip.datecard);
+	$("#dateActive").html(vip.dateactive);
+	$("#dateExpire").html(vip.dateexpire);
+}
+function orderDisplay(){
+	var str = "";
+	var i = 0;
+	while(content[i]){
+		str += "<tr>";
+		str += "<td>"+content[i].product.name+"</td>";
+		str += "<td>"+content[i].product.pricenormal+"</td>";
+		str += "<td>"+content[i].product.priceout+"</td>";
+		str += "<td>"+content[i].product.pointexchange+"</td>";
+		str += "<td>"+content[i].number+"</td>";
+		str += "</tr>";
+		total.priceNormal += parseFloat(content[i].product.pricenormal)*content[i].number;
+		total.priceOut += parseFloat(content[i].product.priceout)*content[i].number;
+		total.pointExchange += parseInt(content[i].product.pointexchange)*content[i].number;
+		i++;
+	}
+	$("#orderContent").html(str);
+	total.priceNormal *= parseFloat(order.sold);
+	total.priceOut *= parseFloat(order.sold);
+	$("#priceNormal").html(total.priceNormal);
+	$("#priceOut").html(total.priceOut);
+	$("#spanpointExchange").html(total.pointExchange);
+	$("#sold").html(order.sold);
+}
+</script>
+</head>
+<body>
+	<table width="1005" height="73" border="1" class="table1">
+		<tr>
+			<th width="180" height="27">会员卡号</th>
+			<th width="45">储值</th>
+			<th width="45"><p>赠送金额</p></th>
+			<th width="45">储值积分</th>
+			<th width="45">赠送积分</th>
+			<th width="45">消费积分</th>
+			<th width="45">调养积分</th>
+			<th width="45">旅游积分</th>
+			<th width="45">兑换积分</th>
+			<th width="45">价值积分</th>
+			<th width="45">开卡日期</th>
+			<th width="45">激活日期</th>
+			<th width="45">到期日期</th>
+		</tr>
+		<tr>
+			<td id='cardNumber'>{$order.vip.cardnumber}</td>
+			<td id='credit'>{$order.vip.credit}</td>
+			<td id='creditGive'>{$order.vip.creditgive}</td>
+			<td id='pointRecharger'>{$order.vip.pointrecharger}</td>
+			<td id='pointGive'>{$order.vip.pointgive}</td>
+			<td id='pointConso'>{$order.vip.pointconso}</td>
+			<td id='pointHeal'>{$order.vip.pointheal}</td>
+			<td id='pointTourism'>{$order.vip.pointtourism}</td>
+			<td id='pointExchange'>{$order.vip.pointexchange}</td>
+			<td id='pointValue'>{$order.vip.pointvalue}</td>
+			<td id='dateCard'>{$order.vip.datecard}</td>
+			<td id='dateActive'>{$order.vip.dateactive}</td>
+			<td id='dateExpire'>{$order.vip.dateexpire}</td>
+		</tr>
+	</table>
+	<table border="1">
+		<thead>
+			<tr>
+				<th width="199" height="41">商品名称</th>
+				<th width="142">商品平台价</th>
+				<th width="142">商品会员价</th>
+				<th width="142">会员价所需兑换积分</th>
+				<th width="142">商品数量</th>
+			</tr>
+		</thead>
+		<tbody id="orderContent">
+		
+		</tbody>
+	</table>
+	<p>折扣:<span id="sold"></span></p>
+	<p>总计:平台价:￥<span id="priceNormal"></span>&nbsp;会员价:￥<span id="priceOut"></span>+<span id="spanpointExchange"></span>兑换积分</p>
+	<p id="pNeedPay">待支付:积分/现金￥<span id="cashPay"></span>&nbsp;兑换积分:<span id="pointExchangePay"></span></p>
+	<div id="choosePayment">
+		<button id="choosePayNormal">平台价支付</button><button id="choosePayVip">会员价支付</button>
+	</div>
+	<div id="divPay">
+		<form action="" method="POST" id="pay">
+			<table>
+				<tr>
+					<td width='125'>支付方式:</td>
+					<td width="186"><select name='typePay' id="typePay">
+							<option value=''>请选择</option>
+							<option value='credit'>储值</option>
+							<option value='creditGive'>赠送金额</option>
+							<option value='pointRecharger'>储值积分</option>
+							<option value='pointGive'>赠送积分</option>
+							<option value='pointConso'>通用积分</option>
+							<option value='pointHeal'>调养/健康 积分</option>
+							<option value='pointTourism'>旅游积分</option>
+							<option value='pointExchange'>兑换积分</option>
+							<option value='cash'>现金</option>
+					</select></td>
+				</tr>
+				<tr>
+					<td width='125'>金额:</td>
+					<td width="186"><input type='number' id="sum" name='sum'
+						maxlength='6' /></td>
+				</tr>
+				<tr>
+					<td width='125'>支付密码:</td>
+					<td width="186"><input type='password' id="pwdPay" name='pwdPay'
+						maxlength='6' /></td>
+				</tr>
+			</table>
+			<input type="submit" id="buttonSubmit" value="提交" />
+		</form>
+	</div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+table {
+	text-align: left;
+}
+
+input[type="submit"] {
+	height: 23px;
+	font-size: 10pt;
+	color: #003399;
+	border: 1px #93bee2 solid;
+	width: 40px;
+	background-color: #e8f4ff;
+	line-height: 19px;
+	position: absolute;
+	font-weight: bold;
+	cursor: pointer;
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+</style>
+</head>
+<body>
+	<form action='' method='POST'>
+		<table height="116">
+			<tr>
+			<th>原始密码:</th>
+			<th><input type='password' name='pwdOld'/></th>
+			</tr>
+			<tr>
+				<th>新密码:</th>
+				<th><input type='password' name='pwd'/></th>
+			</tr>
+			<tr>
+				<th>确认新密码:</th>
+				<th><input type='password' name='pwdConfirm'/></th>
+			</tr>
+			<tr>
+				<th><input type='submit' name='confirm' value='提交'/></th>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

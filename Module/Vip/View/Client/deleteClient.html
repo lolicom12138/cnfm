@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>deleteClient</title>
+<style>
+input[type=text], select {
+	width: 160px;
+	height: 25px;
+}
+
+input[type="submit"] {
+	height: 23px;
+	font-size: 10pt;
+	color: #003399;
+	border: 1px #93bee2 solid;
+	width: 70px;
+	background-color: #e8f4ff;
+	line-height: 23px;
+	position: absolute;
+	font-weight: bold;
+	cursor: pointer;
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+</style>
+</head>
+<body>
+	<form action='' method='POST' onsubmit='return goSubmit()' id='clientAdd'>
+		<table width="748" height="151" border="0" class="table1">
+			<tr>
+				<td width="84" id="name">姓名：</td>
+				<td width="211">{$client.name}</td>
+				<td width="113" id="card">身份证号码：</td>
+				<td width="312">{$client.identity}</td>
+			</tr>
+			<tr>
+				<td>性别：</td>
+				<td id="sex">
+					{$client.sex}
+				</td>
+				<td>出生日期：</td>
+				<td id="date">{$client.datebirth}</td>
+			</tr>
+			<tr>
+				<td>民族：</td>
+				<td>{$client.nation}</td>
+				<td>手机号码:</td>
+				<td id="tel">{$client.tel}</td>
+			</tr>
+			<tr>
+				<td>互动组：</td>
+				<td>{$client.group.name}</td>
+				<td>服务人：</td>
+				<td id="service">
+					{$client.serveur.name}
+				</td>
+			</tr>
+			<tr>
+				<td>地址</td>
+				<td>{$client.adresse}</td>
+				<td>备注</td>
+				<td>{$client.etc}</td>
+			</tr>
+		</table>
+		<div class="table1"
+			style="width: 548px; text-align: right; margin-top: 10px;">
+			<input type="submit" value="删除" />
+		</div>
+	</form>
+</body>
+</html>

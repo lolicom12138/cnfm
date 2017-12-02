@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>部门详情</title>
+<style>
+a{text-decoration:none; font-weight:bold;}
+table{text-align:center;border-collapse:collapse;}
+table td,table th{border:1px solid #999;}
+table td a{margin-right:20px;}
+table td a:last-child{margin-right:0;}
+</style>
+</head>
+<body>
+<table>
+	<tr>
+		<td>绑定店铺</td>
+		<td>{$departement.shop.name}</td>
+	</tr>
+</table>
+<table width="654" height="100" border="0">
+  <tr>
+    <th width="49">序号</th>
+    <th width="200">部门名称</th>
+    <th width="127">姓名</th>
+    <th width="125">职位名称</th>
+    <th width="131">操作</th>
+  </tr>
+  <volist name='departement.worker' id='dw'>
+	  <tr>
+	    <td>{$dw.id}</td>
+	    <td>{$departement.departement}</td>
+	    <td>{$dw.name}</td>
+	    <td>{$dw.post|affichePost}</td>
+	    <td><a href="{:U('/user/admin/detailWorker',array('id'=>$dw['id']))}">员工详情</a></td>
+	  </tr>
+  </volist>
+</table>
+
+
+</body>
+</html>

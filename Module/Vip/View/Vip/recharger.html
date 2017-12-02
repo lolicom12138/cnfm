@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	var cardNumber;
+	function getVip(){
+		var cN = document.getElementById("cardNumber").value;
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("("+result+")");
+				if(result['status'] == "ok"){
+					console.log(result);
+					cardNumber = cN;
+					alert("会员卡号码检测成功,会员姓名"+result.name+",开卡日期"+result.dateActive);
+				}else{
+					alert("会员卡号码检测失败或卡已过期");
+				}
+				
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/vip/getVip')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("cardNumber="+cN);
+	}
+	function recharger(){
+		if(!cardNumber){
+			alert("请先查找会员卡号码");
+			return;
+		}
+		var sum = document.getElementById("sum").value;
+		var raison = document.getElementById("raison").value;
+		var type = document.getElementById("type").value;
+		var etc = document.getElementById("etc").value;
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				console.log(result);
+				result = eval("("+result+")");
+				if(result['status'] == "ok"){
+					alert("成功");
+					history.go(0);
+				}else{
+					alert("失败");
+				}
+				
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/vip/recharger')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("cardNumber="+cardNumber+"&sum="+sum+"&type="+type+"&raison="+raison+"&etc="+etc);
+	}
+</script>
+</head>
+<body>
+	<table>
+		<tr>
+			<th>会员卡号码:</th>
+			<td><input type='text' id='cardNumber' /><button onclick='javascript:getVip()'>查找</button></td>
+		</tr>
+		<tr>
+			<th>充值金额:</th>
+			<td><input type='text' id='sum'/>
+		</tr>
+		<tr>
+			<th>充值类型:</th>
+			<td><select id='type'>
+				<option value=''>请选择</option>
+				<option value='credit'>储值</option>
+				<option value='creditGive'>赠送金额</option>
+				<option value='pointRecharger'>储值积分</option>
+				<option value='pointGive'>赠送积分</option>
+				<option value='pointConso'>消费积分</option>
+				<option value='pointHeal'>调养积分</option>
+				<option value='pointTourism'>旅游积分</option>
+			</select></td>
+		</tr>
+		<tr>
+			<th>充值原因:</th>
+			<td><textarea id='raison'></textarea></td>
+		</tr>
+		<tr>
+			<th>备注:</th>
+			<td><textarea id='etc'></textarea></td>
+		</tr>
+		<tr>
+			<th><button onclick='javascript:recharger()'>充值</button></th>
+		</tr>
+	</table>
+</body>
+</html>

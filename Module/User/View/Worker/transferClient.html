@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<p>客户姓名:${client.name}</p>
+	<p>客户身份证号:${$client.identity}</p>
+	<form action="" mthod="POST">
+		<p>新服务人:<select name="serveur">
+			<volist name="list" id="l">
+				<option value="{$l.id}">{$l.name}&nbsp;{$l.departement.departement}&nbsp;{$l.post.post}</option>
+			</volist>
+		</select></p>
+		<p><input type="submit" name="confirm" value="确定"/></p>
+	</form>
+</body>
+</html>

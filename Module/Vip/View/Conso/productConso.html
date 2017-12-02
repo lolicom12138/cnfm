@@ -1,0 +1,199 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>productConso</title>
+<style>
+input[type=text], select, input[type="password"] {
+	width: 160px;
+	height: 25px;
+}
+
+.table2 {
+	border-collapse: collapse;
+	text-align: center;
+	margin-top: 15px;
+	font-size: 14px;
+}
+
+.table2 td, .table2 th {
+	border: 1px solid #000;
+}
+
+input[type="submit"] {
+	height: 27px;
+	font-size: 10pt;
+	color: #003399;
+	border: 1px #93bee2 solid;
+	width: 60px;
+	background-color: #e8f4ff;
+	line-height: 23px;
+	position: absolute;
+	font-weight: bold;
+	cursor: pointer;
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+	margin-top: 10px;
+	font-size: 16px;
+}
+
+.table1 {
+	border-collapse: collapse;
+	text-align: center;
+	margin: 15px 0;
+}
+
+.table1 td {
+	border: 1px solid #000;
+}
+.table1 tr a {
+	margin-right: 5px;
+	font-size: 13px;
+}
+
+.table1 tr a:last-child {
+	margin-right: 0;
+}
+</style>
+<script type="text/javascript" src="__PUBLIC__/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+var cart = null;
+$(document).ready(function(){
+	$("#productCodeEnter").keypress(function(event){
+		console.log(event);
+		if(event.originalEvent.charCode == 13){
+			newContent();
+		}
+	});
+	$("#gosubmit").click(function(){
+		$.ajax({
+			url:"{:U('/ApiNew/Conso/newOrder')}",
+			type:"POST",
+			dataType:"JSON",
+			data:{
+				cart:cart,
+				cardNumber:$("#cardNumber").val(),
+				sold:$("#sold").val()
+			},
+			success:function(result){
+				if(result.status){
+					window.location.href="{:U('/vip/conso/payProduct')}?id="+result.id;
+				}else{
+					alert("失败");
+					alert(result.message);
+				}
+			}
+		})
+	});
+});
+function newContent(){
+	var productCode = $("#productCodeEnter").val();
+	if(cart != null){
+		var i = 0;
+		while(cart[i]){
+			if(cart[i].product.code == productCode){
+				cart[i].number += 1;
+				break;
+			}
+			console.log(cart[i].product.code);
+			console.log(productCode);
+			i++;
+		}
+		cartDisplay();
+	}else{
+		$.ajax({
+			url:"{:U('/ApiNew/conso/getProduct')}",
+			type:"POST",
+			dataType:"JSON",
+			data:{
+				index:productCode
+			},
+			success:function(result){
+				if(result.status){
+					var temp = {
+							product:result.product,
+							number:1
+					};
+					if(cart){
+						cart.push(temp);
+					}else{
+						cart = [temp];	
+					}
+					cartDisplay();
+				}else{
+					alert("商品未找到！");
+					$("#productCodeEnter").val("");
+				}				
+			}
+		})
+	}
+	console.log(cart);
+	
+}
+function cartDisplay(){
+	if(cart){
+		$("#cartContent").html("");
+		var content = "";
+		var i = 0;
+		while(cart[i]){
+			content += "<tr>";
+			content += "<td>"+cart[i].product.name+"</td>";
+			content += "<td>"+cart[i].product.code+"</td>";
+			content += "<td>"+cart[i].product.pricenormal+"</td>";
+			content += "<td>"+cart[i].product.priceout+"</td>";
+			content += "<td>"+cart[i].product.pointexchange+"</td>";
+			content += "<td><input type='number' onchange='javascript:changeNumber(this)' id='content"+i+"' name='"+i+"' value='"+cart[i].number+"'/></td>";
+			content += "</tr>";
+			i++;
+		}
+		$("#cartContent").html(content);
+	}
+}
+function changeNumber(event){
+	console.log(event);
+	var index = event.name;
+	cart[index].number = $("#"+event.id).val();
+}
+</script>
+</head>
+<body>
+	商品名称/代码输入:
+<input type="text" id='productCodeEnter' /><button onclick='javascript:newContent()'>加入</button>
+	<table width="1006" height="45" border="0" class="table2" id='content'>
+		<thead>
+			<tr>
+				<th width="199" height="41">商品名称</th>
+			  	<th width="213">商品编码</th>
+				<th width="142">商品原价</th>
+				<th width="142">商品平台价</th>
+				<th width="142">所需兑换积分</th>
+				<th width="142">商品数量</th>
+			</tr>
+		</thead>
+		<tbody id="cartContent">
+		
+		</tbody>
+	</table>
+	<table>
+		<thead>
+			<tr>
+				<td>会员卡号码:</td>
+				<td><input type="text" id="cardNumber"/></td>
+			</tr>
+			<tr>
+				<td>折扣:</td>
+				<td><input type="text" id="sold"/></td>
+			</tr>
+		</thead>
+		<tbody id="orderContent">
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="2">
+					<input type="submit" id="gosubmit"/>
+				</td>
+			</tr>
+		</tfoot>
+	</table>
+</body>
+</html>

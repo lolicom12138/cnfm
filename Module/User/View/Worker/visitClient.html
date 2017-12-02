@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action='' method='POST'>
+		<p>客户名称:{$client.name}</p>
+		<p>访问类型:<select name='type'>
+			<option value='日常回访'>日常回访</option>
+			<option value='上门服务'>上门服务</option>
+		</select></p>
+		<p>时间:<input type='datetime-local' name='time'></p>
+		<p>内容:<textarea name='content'></textarea></p>
+		<p><input type='submit' name='confirm' value='提交'/></p>
+	</form>
+</body>
+</html>

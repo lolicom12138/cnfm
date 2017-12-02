@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>storageProduct</title>
+<style>
+input, textarea, select {
+	height: 23px;
+	width: 120px;
+}
+
+.button_blue {
+	display: inline-block;
+	height: 27px;
+	border-radius: 4px;
+	background: #2795dc;
+	border: none;
+	cursor: pointer;
+	border-bottom: 3px solid #0078b3;
+	*border-bottom: none;
+	color: #fff;
+	font-size: 14px;
+	padding: 0px 10px;
+	*width: 140px;
+	text-align: center;
+	outline: none;
+	font-family: "Microsoft Yahei", Arial, Helvetica, sans-serif;
+	line-height: 25px;
+}
+
+input.button_blue:hover {
+	background: #0081c1;
+	border-bottom: 3px solid #006698;
+	*border-bottom: none;
+	color: #fff;
+	text-decoration: none;
+}
+</style>
+<script>
+	function switchType() {
+		switch(form1.type.value){
+			case "out":
+				temp.innerHTML = "<td>出库店铺:</td><td><select name='shop'><volist name='shop' id='s'><option value='{$s.id}'>{$s.name}</option></volist></select></td>'";
+				break;
+			case "in":
+				temp.innerHTML = "<td>进货价格:</td><td><input type='text' name='priceIn'/></td>";
+				break;
+			default:
+				temp.innerHTML = "";
+		}
+	}
+</script>
+</head>
+<body>
+	<form action='' method='POST' id='form1'>
+		<table width="393" height="273" border="0">
+			<tr>
+				<td width="125" height="28">商品编码/名称：</td>
+				<td width="258"><input type="text" name='product'></td>
+			</tr>
+			<tr>
+				<td>数量：</td>
+				<td><input type='text' name='nombre'></td>
+			</tr>
+			<tr>
+				<td>出入库类型：</td>
+				<td><select name='type' onchange='switchType()'>
+						<option value=''>请选择</option>
+						<option value='in'>入库</option>
+						<option value='out'>出库</option>
+				</select></td>
+			</tr>
+			<tr id='temp'>
+			</tr>
+			<tr>
+				<td>备注：</td>
+				<td><textarea name='etc'></textarea></td>
+			</tr>
+			<tr>
+				<td>审核人：</td>
+				<td><input type='text' name='confirmer'/></td>
+			</tr>
+		</table>
+		<input type="submit" value="添加" style="width: 50px;"
+			class="button_blue" />
+	</form>
+</body>
+</html>

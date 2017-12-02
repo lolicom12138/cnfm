@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div style="clear:both;">
+	<p>统计:</p>
+	<volist name="statistic" id="s">
+		<p>&nbsp;{$s.value}分:{$s.number}&nbsp;</p>
+	</volist>
+	<p><a href="{:U('/data/statistic/pointgive')}">送分</a></p>
+	</div>
+	<div>
+	<volist name="list" id="l">
+		<p  style="float:left;">&nbsp;卡号:{$l.vip.cardnumber}&nbsp;姓名:{$l.client.name}&nbsp;金额:{$l.pointgive}&nbsp;</p>
+	</volist>
+	</div>
+	
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<th>活动名称:</th>
+			<td>{$activity.name}</td>
+			<th>活动时间:</th>
+			<td>{$activity.time}</td>
+			<th>活动地点:</th>
+			<td><a href="{:U('/user/worker/detailPosition',array('id'=>$activity[position][id]))}">{$activity.position.position}</a></td>
+		</tr>
+		<tr>
+			<th>活动类型:</th>
+			<td>
+				<volist name='activity.tag' id='at'>
+					{$at.tag}&nbsp;
+				</volist>
+			</td>
+			<th>赠送积分:</th>
+			<td>{$activity.point}</td>
+		</tr>
+	</table>
+	<p>参与者</p>
+	<table>
+		<tr>
+			<th>姓名</th>
+			<th>电话</th>
+			<th>服务人</th>
+			<th>互助组</th>
+			<th>操作</th>
+		</tr>
+		<volist name='activity.client' id='ac'>
+			<tr>
+				<td>{$ac.name}</td>
+				<td>{$ac.tel}</td>
+				<td>{$ac.serveur.name}</td>
+				<td>{$ac.group}</td>
+				<td><a href="{:U('/user/worker/detailClient',array('id'=>$ac[id]))}">详情</a></td>
+			</tr>
+		</volist>
+	</table>
+</body>
+</html>

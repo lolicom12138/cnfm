@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	function getClient() {
+		var identity = document.getElementById('identity').value;
+		if(!identity){
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("("+result+")");
+				if(result['status'] == "ok"){
+					var client = result['client'];
+					document.getElementById("clientName").innerHTML = client.name;
+					document.getElementById("clientSex").innerHTML = client.sex;
+					document.getElementById("clientBirth").innerHTML = client.dateBirth;
+					document.getElementById("clientIdentity").innerHTML = client.identity;
+					document.getElementById("client").value = client.id;
+				}else{
+					alert("未找到此身份证号码");
+				}
+				
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/client/getClientByIdentity')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("client="+identity);
+	}
+</script>
+<style>
+input[type="text"],select,textarea,input[type="password"]{
+		width:180px;height:25px;
+}
+select{
+	height:33px;
+}
+textarea{
+	height:35px;
+}
+.tablel {
+	margin-top:20px;
+	border-collapse: collapse;
+	text-align: center;
+}
+</style>
+</head>
+<body>
+	<table>
+		<tr>
+			<th>用户身份证号码:</th>
+			<td><input type='text' name='identity' id='identity' /></td>
+			<td><button onclick='javascript:getClient()'>查询</button>
+		</tr>
+	</table>
+	<table width="612" height="80" border="1" class="tablel">
+		<tr>
+			<th width="85">姓名:</th>
+			<td width="196" id='clientName'><input type='text'/></td>
+			<th width="108">性别:</th>
+			<td width="195" id='clientSex'><input type='text'/></td>
+		</tr>
+		<tr>
+			<th>出生日期:</th>
+			<td id='clientBirth'><input type='text'/></td>
+			<th>身份证号码:</th>
+			<td id='clientIdentity'><input type='text'/></td>
+		</tr>
+	</table>
+	<form action='' method='POST'>
+<input type='hidden' id='client' name='client' />
+		<p>会员卡号码:<input type='text' name='cardNumber'/></p>
+		<p>会员卡级别:<select name='card'>
+			<option value=''>请选择</option>
+			<volist name='card' id='c'>
+				<option value='{$c.id}'>{$c.name}{$c.level}</option>
+			</volist>
+		</select></p>
+		<p>会员卡支付密码:<input type='password' name='pwdPay' maxlength='6'/></p>
+		<p>升级用积分成员卡卡号:<input type='text' name='cardNumberOld'/></p>
+		<p>备注:<textarea name='etc'></textarea></p>
+		<p><input type='submit' name='confirm' value='提交'/></p>
+	</form>
+</body>
+</html>

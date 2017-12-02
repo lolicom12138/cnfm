@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="__PUBLIC__/js/jquery.js"></script>
+<script>
+	var dateBirthBegin;
+	var dateBirthEnd;
+	var name;
+	var nation;
+	var identity;
+	var majorAreaBuy;
+	var amoutnPerMonthMin;
+	var amoutnPerMonthMax;
+	var majorLocationBuy;
+	var politicalStatus;
+	var typeLive;
+	var disease;
+	var financing;
+	var pharm;
+	var healthProduct;
+	var habbit;
+	var tallMin;
+	var tallMax;
+	var sonMin;
+	var sonMax;
+	var daughterMin;
+	var daughterMax;
+	var sex;
+	var serveur;
+	var marriage;
+	var presentFois;
+	var presentTimeDebut;
+	var presentTimeEnd;
+	var typePresent;
+	var departement;
+	var page = 1;
+	var allPage = 0;
+	function goSubmit(){
+		page = 1;
+		dateBirthBegin = document.getElementById("dateBirthBegin").value;
+		dateBirthEnd = document.getElementById("dateBirthEnd").value;
+		name = document.getElementById("name").value;
+		nation = document.getElementById("nation").value;
+		identity = document.getElementById("identity").value;
+		majorAreaBuy = document.getElementById("majorAreaBuy").value;
+		amoutnPerMonthMin = document.getElementById("amoutnPerMonthMin").value;
+		amoutnPerMonthMax = document.getElementById("amoutnPerMonthMax").value;
+		majorLocationBuy = document.getElementById("majorLocationBuy").value;
+		politicalStatus = document.getElementById("politicalStatus").value;
+		typeLive = document.getElementById("typeLive").value;
+		disease = document.getElementById("disease").value;
+		financing = document.getElementById("financing").value;
+		pharm = document.getElementById("pharm").value;
+		healthProduct = document.getElementById("healthProduct").value;
+		habbit = document.getElementById("habbit").value;
+		tallMin = document.getElementById("tallMin").value;
+		tallMax = document.getElementById("tallMax").value;
+		sonMin = document.getElementById("sonMin").value;
+		sonMax = document.getElementById("sonMax").value;
+		daughterMin = document.getElementById("daughterMin").value;
+		daughterMax = document.getElementById("daughterMax").value;
+		sex = document.getElementById("sex").value;
+		serveur = document.getElementById("serveur").value;
+		marriage = document.getElementById("marriage").value;
+		presentFois = document.getElementById("presentFois").value;
+		presentTimeDebut = document.getElementById("presentTimeDebut").value;
+		presentTimeEnd = document.getElementById("presentTimeEnd").value;
+		typePresent = document.getElementById("typePresent").value;
+		departement = document.getElementById("departement").value;
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("(" + result + ")");
+				if (result['status'] = "ok") {
+					try{
+						var list = result['list'][0];
+						console.log(list);
+						var str = "";
+						str += "<table>";
+						str += "<tr><th>序号</th><th>会员姓名</th><th>身份证号码</th><th>地址</th><th>民族</th><th>出生日期</th><th>性别</th><th>电话</th><th>服务人</th><th>备注</th></tr>";
+						var i = 0;
+						while (list[i]) {
+							str += "<tr>";
+							str += "<td>" + (i+1) + "</td>";
+							str += "<td>" + list[i][0]['name'] + "</td>";
+							str += "<td>" + list[i][0]['identity'] + "</td>";
+							str += "<td>" + list[i][0]['adresse'] + "</td>";
+							str += "<td>" + list[i][0]['nation'] + "</td>";
+							str += "<td>" + list[i][0]['datebirth'] + "</td>";
+							str += "<td>" + list[i][0]['sex'] + "</td>";
+							str += "<td>" + list[i][0]['tel'] + "</td>";
+							str += "<td>" + list[i][0]['serveur'][0]['name'] + "</td>";
+							str += "<td>" + list[i][0]['etc'] + "</td>";
+							str += "</tr>";
+							i++;
+						}
+						str += "</table>";
+						if (!i) {
+							alert("无数据1");
+							document.getElementById("resultList").innerHTML = "";
+							var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button>";
+							document.getElementById("diVButton").innerHTML = strButton;
+							return;
+						}
+						
+						document.getElementById("resultList").innerHTML = str;
+						var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button>";
+						document.getElementById("diVButton").innerHTML = strButton;
+						allPage = result['allPage'];
+						var resume = "<p>总数:"+result['total']+"</p><p>总页数:"+result['allPage']+"</p>";
+						$("#resume").html(resume);
+					}catch(err){
+						
+						document.getElementById("resultList").innerHTML = "";
+						alert("无数据2");
+					}
+				} else {
+					
+					document.getElementById("resultList").innerHTML = "";
+					alert("无数据");
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/statistic/statisticClient')}", true);
+		//xmlhttp.open("POST", "http://localhost/cnfm/api/statistic/statisticRecharger", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send(
+				"dateBirthBegin="+dateBirthBegin
+				+"&dateBirthEnd="+dateBirthEnd
+				+"&name="+name
+				+"&nation="+nation
+				+"&identity="+identity
+				+"&majorAreaBuy="+majorAreaBuy
+				+"&amoutnPerMonthMin="+amoutnPerMonthMin
+				+"&amoutnPerMonthMax="+amoutnPerMonthMax
+				+"&majorLocationBuy="+majorLocationBuy
+				+"&politicalStatus="+politicalStatus
+				+"&typeLive="+typeLive
+				+"&disease="+disease
+				+"&financing="+financing
+				+"&pharm="+pharm
+				+"&healthProduct="+healthProduct
+				+"&habbit="+habbit
+				+"&tallMin="+tallMin
+				+"&tallMax="+tallMax
+				+"&sonMin="+sonMin
+				+"&sonMax="+sonMax
+				+"&daughterMin="+daughterMin
+				+"&daughterMax="+daughterMax
+				+"&sex="+sex
+				+"&serveur="+serveur
+				+"&marriage="+marriage
+				+"&presentFois="+presentFois
+				+"&presentTimeDebut="+presentTimeDebut
+				+"&presentTimeEnd="+presentTimeEnd
+				+"&typePresent="+typePresent
+				+"&page="+page
+		);
+	}
+	function lastPage(){
+		page -= 1;
+		if(page <= 0){
+			page = 1;
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("(" + result + ")");
+				if (result['status'] = "ok") {
+					try{
+						var list = result['list'][0];
+						console.log(list);
+						var str = "";
+						str += "<table>";
+						str += "<tr><th>序号</th><th>会员姓名</th><th>身份证号码</th><th>地址</th><th>民族</th><th>出生日期</th><th>性别</th><th>电话</th><th>服务人</th><th>备注</th></tr>";
+						var i = 0;
+						while (list[i]) {
+							str += "<tr>";
+							str += "<td>" + (i+1) + "</td>";
+							str += "<td>" + list[i][0]['name'] + "</td>";
+							str += "<td>" + list[i][0]['identity'] + "</td>";
+							str += "<td>" + list[i][0]['adresse'] + "</td>";
+							str += "<td>" + list[i][0]['nation'] + "</td>";
+							str += "<td>" + list[i][0]['datebirth'] + "</td>";
+							str += "<td>" + list[i][0]['sex'] + "</td>";
+							str += "<td>" + list[i][0]['tel'] + "</td>";
+							str += "<td>" + list[i][0]['serveur'][0]['name'] + "</td>";
+							str += "<td>" + list[i][0]['etc'] + "</td>";
+							str += "</tr>";
+							i++;
+						}
+						str += "</table>";
+						if (!i) {
+							alert("无数据1");
+							document.getElementById("resultList").innerHTML = "";
+							var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button>";
+							document.getElementById("diVButton").innerHTML = strButton;
+							return;
+						}
+						
+						document.getElementById("resultList").innerHTML = str;
+						var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button>";
+						document.getElementById("diVButton").innerHTML = strButton;
+						allPage = result['allPage'];
+						var resume = "<p>总数:"+result['total']+"</p><p>总页数:"+result['allPage']+"</p>";
+						$("#resume").html(resume);
+					}catch(err){
+						
+						document.getElementById("resultList").innerHTML = "";
+						alert("无数据2");
+					}
+				} else {
+					
+					document.getElementById("resultList").innerHTML = "";
+					alert("无数据");
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/statistic/statisticClient')}", true);
+		//xmlhttp.open("POST", "http://localhost/cnfm/api/statistic/statisticRecharger", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send(
+				"dateBirthBegin="+dateBirthBegin
+				+"&dateBirthEnd="+dateBirthEnd
+				+"&name="+name
+				+"&nation="+nation
+				+"&identity="+identity
+				+"&majorAreaBuy="+majorAreaBuy
+				+"&amoutnPerMonthMin="+amoutnPerMonthMin
+				+"&amoutnPerMonthMax="+amoutnPerMonthMax
+				+"&majorLocationBuy="+majorLocationBuy
+				+"&politicalStatus="+politicalStatus
+				+"&typeLive="+typeLive
+				+"&disease="+disease
+				+"&financing="+financing
+				+"&pharm="+pharm
+				+"&healthProduct="+healthProduct
+				+"&habbit="+habbit
+				+"&tallMin="+tallMin
+				+"&tallMax="+tallMax
+				+"&sonMin="+sonMin
+				+"&sonMax="+sonMax
+				+"&daughterMin="+daughterMin
+				+"&daughterMax="+daughterMax
+				+"&sex="+sex
+				+"&serveur="+serveur
+				+"&marriage="+marriage
+				+"&presentFois="+presentFois
+				+"&presentTimeDebut="+presentTimeDebut
+				+"&presentTimeEnd="+presentTimeEnd
+				+"&typePresent="+typePresent
+				+"&page="+page
+				+"&departement="+departement
+		);
+	}
+	function nextPage(){
+		page += 1;
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("(" + result + ")");
+				if (result['status'] = "ok") {
+					try{
+						var list = result['list'][0];
+						console.log(list);
+						var str = "";
+						str += "<table>";
+						str += "<tr><th>序号</th><th>会员姓名</th><th>身份证号码</th><th>地址</th><th>民族</th><th>出生日期</th><th>性别</th><th>电话</th><th>服务人</th><th>备注</th></tr>";
+						var i = 0;
+						while (list[i]) {
+							str += "<tr>";
+							str += "<td>" + (i+1) + "</td>";
+							str += "<td>" + list[i][0]['name'] + "</td>";
+							str += "<td>" + list[i][0]['identity'] + "</td>";
+							str += "<td>" + list[i][0]['adresse'] + "</td>";
+							str += "<td>" + list[i][0]['nation'] + "</td>";
+							str += "<td>" + list[i][0]['datebirth'] + "</td>";
+							str += "<td>" + list[i][0]['sex'] + "</td>";
+							str += "<td>" + list[i][0]['tel'] + "</td>";
+							str += "<td>" + list[i][0]['serveur'][0]['name'] + "</td>";
+							str += "<td>" + list[i][0]['etc'] + "</td>";
+							str += "</tr>";
+							i++;
+						}
+						str += "</table>";
+						if (!i) {
+							alert("无数据");
+							document.getElementById("resultList").innerHTML = "";
+							var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button>";
+							document.getElementById("diVButton").innerHTML = strButton;
+							return;
+						}
+						
+						document.getElementById("resultList").innerHTML = str;
+						var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button>";
+						document.getElementById("diVButton").innerHTML = strButton;
+						allPage = result['allPage'];
+						var resume = "<p>总数:"+result['total']+"</p><p>总页数:"+result['allPage']+"</p>";
+						$("#resume").html(resume);
+					}catch(err){
+						
+						document.getElementById("resultList").innerHTML = "";
+						alert("无数据");
+					}
+				} else {
+					
+					document.getElementById("resultList").innerHTML = "";
+					alert("无数据");
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/statistic/statisticClient')}", true);
+		//xmlhttp.open("POST", "http://localhost/cnfm/api/statistic/statisticRecharger", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send(
+				"dateBirthBegin="+dateBirthBegin
+				+"&dateBirthEnd="+dateBirthEnd
+				+"&name="+name
+				+"&nation="+nation
+				+"&identity="+identity
+				+"&majorAreaBuy="+majorAreaBuy
+				+"&amoutnPerMonthMin="+amoutnPerMonthMin
+				+"&amoutnPerMonthMax="+amoutnPerMonthMax
+				+"&majorLocationBuy="+majorLocationBuy
+				+"&politicalStatus="+politicalStatus
+				+"&typeLive="+typeLive
+				+"&disease="+disease
+				+"&financing="+financing
+				+"&pharm="+pharm
+				+"&healthProduct="+healthProduct
+				+"&habbit="+habbit
+				+"&tallMin="+tallMin
+				+"&tallMax="+tallMax
+				+"&sonMin="+sonMin
+				+"&sonMax="+sonMax
+				+"&daughterMin="+daughterMin
+				+"&daughterMax="+daughterMax
+				+"&sex="+sex
+				+"&serveur="+serveur
+				+"&marriage="+marriage
+				+"&presentFois="+presentFois
+				+"&presentTimeDebut="+presentTimeDebut
+				+"&presentTimeEnd="+presentTimeEnd
+				+"&typePresent="+typePresent
+				+"&page="+page
+				+"&departement="+departement
+		);
+	}
+	function finishPage(){
+		page = allPage;
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("(" + result + ")");
+				if (result['status'] = "ok") {
+					try{
+						var list = result['list'][0];
+						console.log(list);
+						var str = "";
+						str += "<table>";
+						str += "<tr><th>序号</th><th>会员姓名</th><th>身份证号码</th><th>地址</th><th>民族</th><th>出生日期</th><th>性别</th><th>电话</th><th>服务人</th><th>备注</th></tr>";
+						var i = 0;
+						while (list[i]) {
+							str += "<tr>";
+							str += "<td>" + (i+1) + "</td>";
+							str += "<td>" + list[i][0]['name'] + "</td>";
+							str += "<td>" + list[i][0]['identity'] + "</td>";
+							str += "<td>" + list[i][0]['adresse'] + "</td>";
+							str += "<td>" + list[i][0]['nation'] + "</td>";
+							str += "<td>" + list[i][0]['datebirth'] + "</td>";
+							str += "<td>" + list[i][0]['sex'] + "</td>";
+							str += "<td>" + list[i][0]['tel'] + "</td>";
+							str += "<td>" + list[i][0]['serveur'][0]['name'] + "</td>";
+							str += "<td>" + list[i][0]['etc'] + "</td>";
+							str += "</tr>";
+							i++;
+						}
+						str += "</table>";
+						if (!i) {
+							alert("无数据");
+							document.getElementById("resultList").innerHTML = "";
+							var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button>";
+							document.getElementById("diVButton").innerHTML = strButton;
+							return;
+						}
+						
+						document.getElementById("resultList").innerHTML = str;
+						var strButton = "<button onclick='javascript:lastPage()'>上一页</button>&nbsp;"+page+"&nbsp;<button onclick='javascript:nextPage()'>下一页</button>";
+						document.getElementById("diVButton").innerHTML = strButton;
+						allPage = result['allPage'];
+						var resume = "<p>总数:"+result['total']+"</p><p>总页数:"+result['allPage']+"</p>";
+						$("#resume").html(resume);
+					}catch(err){
+						
+						document.getElementById("resultList").innerHTML = "";
+						alert("无数据");
+					}
+				} else {
+					
+					document.getElementById("resultList").innerHTML = "";
+					alert("无数据");
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/statistic/statisticClient')}", true);
+		//xmlhttp.open("POST", "http://localhost/cnfm/api/statistic/statisticRecharger", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send(
+				"dateBirthBegin="+dateBirthBegin
+				+"&dateBirthEnd="+dateBirthEnd
+				+"&name="+name
+				+"&nation="+nation
+				+"&identity="+identity
+				+"&majorAreaBuy="+majorAreaBuy
+				+"&amoutnPerMonthMin="+amoutnPerMonthMin
+				+"&amoutnPerMonthMax="+amoutnPerMonthMax
+				+"&majorLocationBuy="+majorLocationBuy
+				+"&politicalStatus="+politicalStatus
+				+"&typeLive="+typeLive
+				+"&disease="+disease
+				+"&financing="+financing
+				+"&pharm="+pharm
+				+"&healthProduct="+healthProduct
+				+"&habbit="+habbit
+				+"&tallMin="+tallMin
+				+"&tallMax="+tallMax
+				+"&sonMin="+sonMin
+				+"&sonMax="+sonMax
+				+"&daughterMin="+daughterMin
+				+"&daughterMax="+daughterMax
+				+"&sex="+sex
+				+"&serveur="+serveur
+				+"&marriage="+marriage
+				+"&presentFois="+presentFois
+				+"&presentTimeDebut="+presentTimeDebut
+				+"&presentTimeEnd="+presentTimeEnd
+				+"&typePresent="+typePresent
+				+"&page="+page
+				+"&departement="+departement
+		);
+	}
+</script>
+<style>
+input[type=text], select, input[type="date"]{
+	width: 160px;
+	height: 23px;
+}
+select{
+	height: 25px;
+}
+button {
+	height: 25px;
+	font-size: 12pt;
+	color: #003399;
+	border: 1px #93bee2 solid;
+	width: 60px;
+	background-color: #e8f4ff;
+	line-height: 18px;
+	position: absolute;
+	font-weight: bold;
+	cursor: pointer;
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+</style>
+</head>
+<body>
+	<table width="768" height="492">
+		<tr>
+			<td width="174">出生日期起始:</td>
+			<td width="225"><input type='date' id='dateBirthBegin' /></td>
+			<td width="177">出生日期终止:</td>
+			<td width="172"><input type='date' id='dateBirthEnd' /></td>
+		</tr>
+		<tr>
+			<td>姓名:</td>
+			<td><input type='text' id='name' /></td>
+			<td>民族:</td>
+			<td><input type='text' id='nation' /></td>
+		</tr>
+		<tr>
+			<td>身份证号码:</td>
+			<td><input type='text' id='identity' /></td>
+			<td>主要购买物品:</td>
+			<td><input type='text' id='majorAreaBuy' /></td>
+		</tr>
+		<tr>
+			<td>每月花费最小值:</td>
+			<td><input type='text' id='amoutnPerMonthMin' /></td>
+			<td>每月花费最大值:</td>
+			<td><input type='text' id='amoutnPerMonthMax' /></td>
+		</tr>
+		<tr>
+			<td>主要购物场所:</td>
+			<td><input type='text' id='majorLocationBuy' /></td>
+			<td>政治倾向:</td>
+			<td><input type='text' id='politicalStatus' /></td>
+		</tr>
+		<tr>
+			<td>居住情况:</td>
+			<td><input type='text' id='typeLive' /></td>
+			<td>疾病:</td>
+			<td><input type='text' id='disease' /></td>
+		</tr>
+		<tr>
+			<td>理财方式:</td>
+			<td><input type='text' id='financing' /></td>
+			<td>常用药物:</td>
+			<td><input type='text' id='pharm' /></td>
+		</tr>
+		<tr>
+			<td>保健品:</td>
+			<td><input type='text' id='healthProduct' /></td>
+			<td>兴趣性格:</td>
+			<td><input type='text' id='habbit' /></td>
+		</tr>
+		<tr>
+			<td>身高最小值:</td>
+			<td><input type='text' id='tallMin' /></td>
+			<td>身高最大值:</td>
+			<td><input type='text' id='tallMax' /></td>
+		</tr>
+		<tr>
+			<td>儿子数量最小值:</td>
+			<td><input type='text' id='sonMin' /></td>
+			<td>儿子数量最大值:</td>
+			<td><input type='text' id='sonMax' /></td>
+		</tr>
+		<tr>
+			<td>女儿数量最小值:</td>
+			<td><input type='text' id='daughterMin' /></td>
+			<td>女儿数量最大值:</td>
+			<td><input type='text' id='daughterMax' /></td>
+		</tr>
+		<tr>
+			<td>性别:</td>
+			<td><select id='sex'>
+					<option value=''>请选择……</option>
+					<option value='男'>男</option>
+					<option value='女'>女</option>
+			</select></td>
+			<td>服务人:</td>
+			<td><input type='text' id='serveur' list='operatorlist' /></td>
+		</tr>
+		<tr>
+			<td>婚姻状况:</td>
+			<td><select id='marriage'>
+				<option value=''>请选择</option>
+				<option value='已婚'>已婚</option>
+				<option value='未婚'>未婚</option>
+				<option value='离异'>离异</option>
+				<option value='丧偶'>丧偶</option>
+			</select></td>
+			<td>签到次数:</td>
+			<td><input type='text' id='presentFois'/></td>
+		</tr>
+		<tr>
+			<td>签到开始日期:</td>
+			<td><input type='date' id='presentTimeDebut'/></td>
+			<td>签到结束日期:</td>
+			<td><input type='date' id='presentTimeEnd'/></td>
+		</tr>
+		<tr>
+			<td>签到次数判定类型:</td>
+			<td><select id='typePresent'>
+				<option value=''>请选择</option>
+				<option value='plus'>不少于</option>
+				<option value='moins'>不多于</option>
+			</select></td>
+			<td></td>
+		</tr>
+        <tr>
+        	<td>部门:</td>
+        	<td><input type="text" id="departement" /></td>
+        	<td colspan="2"><button onclick='javascript:goSubmit()'>查询</button></td>
+        </tr>
+	</table>
+	<datalist id='operatorlist'>
+		<volist name='list' id='l'>
+		<option value='{$l.name}' />
+		</volist>
+	</datalist>
+	<div id="resume"></div>
+	<div id='resultList'></div>
+	<div id="diVButton">
+	
+	</div>
+	
+</body>
+</html>

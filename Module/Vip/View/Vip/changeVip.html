@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+input[type="text"],select,textarea,input[type="password"]{
+		width:180px;height:25px;
+}
+select{
+	height:33px;
+}
+textarea{
+	height:35px;
+}
+.tablel {
+	margin-top:20px;
+	border-collapse: collapse;
+	text-align: center;
+}
+</style>
+</head>
+<body>
+	<form action='' method='POST'>
+		<p>会员卡号码:<input type='text' name='cardNumber' value="{$vip.cardnumber}"/></p>
+		<p>备注:<textarea name='etc'>{$vip.etc}</textarea></p>
+		<p><input type='submit' value='提交'/></p>
+	</form>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	var cardNumber;
+	function getFois(){
+		cardNumber = document.getElementById("cardNumber").value;
+		if(!cardNumber){
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("("+result+")");
+				if(result['status'] == "ok"){
+					var list = result['list'][0];
+					console.log(list);
+					var str = "";
+					str += "<tr><th>商品</th><th>次数</th><th>操作</th>";
+					var i = 0;
+					while(list[i]){
+						str += "<tr>";
+						str += "<td>"+list[i][0]["product"][0]['name']+"</td>";
+						str += "<td>"+list[i][0]['fois']+"</td>";
+						str += "<td><a href='javascript:useFois("+list[i][0]['id']+")'>消费</a></td>";
+						str += "</tr>";
+						i++;
+					}
+					document.getElementById("resultTab").innerHTML = str;
+				}else{
+					alert("未找到此会员卡号或此会员卡内没有计次消费次数");
+					document.getElementById("resultTab").innerHTML = "";
+				}
+				
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/conso/getFois')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("cardNumber="+cardNumber);
+	}
+	function useFois(id){
+		var str = "<input type='hidden' id='fois' value='"+id+"'/>";
+		str +="请输入密码:<input type='password' id='pwd'/><button onclick='javascript:useFoisReal()'>消费</button>";
+		document.getElementById("right").innerHTML = str;
+		/*
+		var pwd = prompt("请输入密码:");
+		if(!pwd){
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("("+result+")");
+				if(result['status'] == "ok"){
+					alert("成功");
+					history.go(0);
+				}else{
+					alert("失败");
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/conso/userFois')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("id="+id+"&pwd="+pwd+"&cardNumber="+cardNumber);
+		*/
+	}
+	function useFoisReal(){
+		var id = document.getElementById("fois").value;
+		var pwd = document.getElementById("pwd").value;
+		if(!pwd || !id){
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("("+result+")");
+				if(result['status'] == "ok"){
+					alert("成功");
+					history.go(0);
+				}else{
+					alert("失败");
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/conso/useFois')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("id="+id+"&pwd="+pwd+"&cardNumber="+cardNumber);
+	}
+</script>
+</head>
+<body>
+	<div id="left" style="float:left;">
+	<p>会员卡号码:<input type='text' id='cardNumber'/><button onclick='javascript:getFois()'>查询</button>
+	<table id="resultTab"></table>
+	</div>
+	<div id="right" style="float:left;">
+	
+	</div>
+</body>
+</html>

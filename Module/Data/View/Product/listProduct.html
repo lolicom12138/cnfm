@@ -1,0 +1,176 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>listProduct</title>
+<style>
+input, textarea, select {
+	height: 23px;
+	width: 120px;
+	margin-right: 8px;
+}
+
+.button_blue {
+	display: inline-block;
+	height: 27px;
+	border-radius: 4px;
+	background: #2795dc;
+	border: none;
+	cursor: pointer;
+	border-bottom: 3px solid #0078b3;
+	*border-bottom: none;
+	color: #fff;
+	font-size: 14px;
+	padding: 0px 10px;
+	*width: 140px;
+	text-align: center;
+	outline: none;
+	font-family: "Microsoft Yahei", Arial, Helvetica, sans-serif;
+	line-height: 25px;
+}
+
+input.button_blue:hover {
+	background: #0081c1;
+	border-bottom: 3px solid #006698;
+	*border-bottom: none;
+	color: #fff;
+	text-decoration: none;
+}
+
+#number {
+	width: 120px;
+	margin-right: 0px;
+}
+
+.table2 {
+	border-collapse: collapse;
+	text-align: center;
+	margin-top: 10px;
+}
+
+.table2 th, .table2 td {
+	border: 1px solid #000;
+}
+
+select {
+	margin-right: 0px;
+}
+
+.table2 td a {
+	margin-right: 10px;
+}
+
+.table2 td a:last-cild {
+	margin-right: 0px;
+}
+a:hover{
+	color:red;
+}
+</style>
+<script>
+	function deleteProduct(id) {
+		if (!id) {
+			return;
+		}
+		var conf = confirm("是否要删除？");
+		if (!conf) {
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("(" + result + ")");
+				if (result['status'] == "ok") {
+					alert("删除成功");
+					document.getElementById('product'+id).style.display='none';
+				} else {
+					alert(result['status']);
+					alert("失败");
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/data/deleteProduct')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("id=" + id);
+	}
+</script>
+</head>
+<body>
+	<form action="" method="POST">
+		<table>
+			<tr>
+				<td>编号:</td>
+				<td><input type="text" name="code"/></td>
+				<td>名称:</td>
+				<td><input type="text" name="name"/></td>
+				<td>分类:</td>
+				<td><select name="class">
+					<option value="">--</option>
+					<volist name="class" id="c">
+						<option value="{$c.id}">{$c.class}</option>
+					</volist>
+				</select></td>
+			</tr>
+			<tr>
+				<td>供货商:</td>
+				<td><select name="supplier">
+					<option value="">--</option>
+					<volist name="supplier" id="s">
+						<option value="{$s.id}">{$s.name}</option>
+					</volist>
+				</select></td>
+				<td>是否有库存:</td>
+				<td><select name="ifInventory">
+					<option value="">---</option>
+					<option value="0">否</option>
+					<option value="1">是</option>
+				</select></td>
+				<td><input type="submit" value="查找"/></td>
+			</tr>
+		</table>
+	</form>
+	<p>商品数:{$numberProduct}</p>
+	<table width="894" height="73" border="0" class="table2">
+		<tr>
+			<th width="78" height="26">商品名称</th>
+			<th width="74">商品代码</th>
+			<th width="111" height="26">分类</th>
+			<th width="141">供货商</th>
+			<th width="141">规格</th>
+			<th width="141">单位</th>
+			<th width="87">商品进价</th>
+			<th width="96">商品售价</th>
+			<th width="97">商品毛利润</th>
+			<th>库存总数</th>
+			<th width="176">操作</th>
+		</tr>
+		<volist name='list' id='l'>
+		<tr id='product{$l.id}'>
+			<td height="26">{$l.name}</td>
+			<td>{$l.code}</td>
+			<td>{$l.class.class}</td>
+			<td>{$l.supplier.name}</td>
+			<td>{$l.dimension}</td>
+			<td>{$l.unit}</td>
+			<td>{$l.pricein}</td>
+			<td>{$l.priceout}</td>
+			<td>{$l.taux}</td>
+			<td>{$l.inventory}</td>
+			<td><a href="{:U('/data/product/detailProduct',array("id"=>$l[id]))}">详情</a><a
+				href="{:U('/data/product/changeProduct',array("id"=>$l[id]))}">修改</a><a
+				href="javascript:deleteProduct({$l.id})"
+					style="margin-right:0px;">删除</a></td>
+		</tr>
+		</volist>
+
+	</table>
+
+</body>
+</html>

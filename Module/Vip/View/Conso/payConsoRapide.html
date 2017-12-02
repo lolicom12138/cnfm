@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>rapidConso2</title>
+<style>
+input[type=text], textarea {
+	width: 160px;
+	height: 25px;
+}
+
+select {
+	height: 20px;
+}
+
+input[type=password] {
+	margin-right: 15px;
+	width: 100px;
+	height: 20px;
+}
+
+input[type="submit"] {
+	height: 20px;
+	font-size: 10pt;
+	color: #003399;
+	border: 1px #93bee2 solid;
+	width: 40px;
+	background-color: #e8f4ff;
+	line-height: 20px;
+	position: absolute;
+	font-weight: bold;
+	cursor: pointer;
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+table {
+	border-collapse: collapse;
+	text-align: center;
+	margin: 10px 0px;
+}
+
+td {
+	border: 1px solid #000;
+}
+</style>
+</head>
+<body>
+	<!--  
+	会员卡号码输入:
+	<input type="text" />
+	<table width="589" height="242" border="1">
+		<tr>
+			<td width="107">储值积分</td>
+			<td width="124">23156</td>
+			<td width="124">23156</td>
+			<td width="124">23156</td>
+			<td width="124">23156</td>
+		</tr>
+		<tr>
+			<td>赠送积分</td>
+			<td>21515</td>
+			<td width="124">23156</td>
+			<td width="124">23156</td>
+			<td width="124">23156</td>
+		</tr>
+		<tr>
+			<td>消费积分</td>
+			<td>26</td>
+			<td width="124">23156</td>
+			<td width="124">23156</td>
+			<td width="124">23156</td>
+		</tr>
+		<tr>
+			<td>通用积分</td>
+			<td>5265</td>
+			<td width="124">23156</td>
+			<td width="124">23156</td>
+			<td width="124">23156</td>
+		</tr>
+		<tr>
+			<td>调养积分</td>
+			<td>15526</td>
+			<td width="124" colspan="3">支付方式选择： <select
+				style="margin-right: 25px;">
+					<option>哈哈哈哈</option>
+					<option>哈哈哈哈哈哈</option>
+					<option>哈哈哈哈</option>
+					<option>呵呵呵和</option>
+			</select>
+			</td>
+		</tr>
+		<tr>
+			<td>旅游积分</td>
+			<td>1525</td>
+			<td width="124" colspan="3" style="position: relative; left: -40px;">密码：<input
+				type="password" /><input type="submit" value="提交" /></td>
+		</tr>
+	</table>
+	-->
+<form action='' method='POST' id='formConso'>
+		<table width="1005" height="73" border="1" class="table1">
+			<tr>
+				<th width="180" height="27">会员卡号</th>
+				<th width="45">储值</th>
+				<th width="45"><p>赠送金额</p></th>
+				<th width="45">储值积分</th>
+				<th width="45">赠送积分</th>
+				<th width="45">消费积分</th>
+				<th width="45">调养积分</th>
+				<th width="45">旅游积分</th>
+				<th width="45">开卡日期</th>
+				<th width="45">激活日期</th>
+				<th width="45">到期日期</th>
+			</tr>
+			<tr>
+				<td id='cardNumber'>{$order.vip.cardnumber}</td>
+				<td id='credit'>{$order.vip.credit}</td>
+				<td id='creditGive'>{$order.vip.creditgive}</td>
+				<td id='pointRecharger'>{$order.vip.pointrecharger}</td>
+				<td id='pointGive'>{$order.vip.pointgive}</td>
+				<td id='pointConso'>{$order.vip.pointconso}</td>
+				<td id='pointHeal'>{$order.vip.pointheal}</td>
+				<td id='pointTourism'>{$order.vip.pointtourism}</td>
+				<td id='dateCard'>{$order.vip.datecard}</td>
+				<td id='dateActive'>{$order.vip.dateactive}</td>
+				<td id='dateExpire'>{$order.vip.dateexpire}</td>
+			</tr>
+		</table>
+		<table width="323" height="102" border="0">
+			<tr>
+				<td width="125">消费价格：</td>
+				<td width="186">{$order.price}</td>
+			</tr>
+			<tr>
+				<td width="125">消费内容输入：</td>
+				<td width="186">{$order.etc}</td>
+			</tr>
+			<tr>
+				<td width='125'>支付方式:</td>
+				<td width="186">
+					<select name='typePay'>
+						<option value=''>请选择</option>
+						<option value='credit'>储值</option>
+						<option value='creditGive'>赠送金额</option>
+						<option value='pointConso'>通用积分</option>
+						<option value='pointHeal'>调养/健康 积分</option>
+						<option value='pointTourism'>旅游积分</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td width='125'>支付密码:</td>
+				<td width="186"><input type='password' name='pwdPay' maxlength='6'/></td>
+			</tr>
+		</table>
+		<input type='hidden' name='cardNumber' /> <input type="submit"
+			value="提交" />
+	</form>
+</body>
+</html>

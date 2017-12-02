@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>会员后台管理系统</title>
+<link rel="stylesheet" href="__PUBLIC__/css/index.css" />
+<link rel="stylesheet" href="__PUBLIC__/css/easyui.css" />
+<link rel="stylesheet" href="__PUBLIC__/css/left/font-awesome.css" />
+<link rel="stylesheet" href="__PUBLIC__/css/left/index.css" />
+<script type="text/javascript" src="__PUBLIC__/js/sum/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/sum/jquery.easyui.min.1.2.2.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/left/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/left/style.js"></script>
+</head>
+<body class="easyui-layout" style="overflow-y: hidden" scroll="no">
+
+	<!--head开始-->
+	<div class="head" region="north" split="true" border="false"
+		style="overflow: hidden; height: 140px; background: url(__PUBLIC__/images/1.jpg)">
+		<div class="top">
+        	<img src="__PUBLIC__/images/4.jpg"/><a href="{:U('/vip')}">会员管理</a>
+        	<img src="__PUBLIC__/images/6.jpg"/><a href="{:U('/data')}">商品管理</a>
+        	<img src="__PUBLIC__/images/5.jpg"/><a href="{:U('/user')}">员工管理</a>
+        	<img src="__PUBLIC__/images/7.jpg"/><a href="{:U('/statistique')}">大数据</a>
+			<img src="__PUBLIC__/images/2.jpg" /><a href="{:U('/vip')}">首页</a> 
+            <img src="__PUBLIC__/images/3.jpg" /><a href="{:U('/vip/login/logout')}">退出</a>
+		</div>
+	</div>
+	<!--head结束-->
+	<!--***************************************************content开始*************************************-->
+	<!--**********************************left开始*********************************************************-->
+	<div region="west" hide="true" split="true" title="导航菜单"
+		style="width: 200px;" id="west">
+		<!-- ************* 导航内容****** -->
+		<div id="nav" class="easyui-accordion" fit="true" border="false"
+			style="border: 2px solid #99BBE8; border-top: 0px; background: url(__PUBLIC__/images/beijing.png);">
+			<div class="layout">
+				<div class="left_layout">
+					<!-- 主页目录 -->
+					<div class="homepage menu_color">
+						<div class="menu fa">
+							<span>会员管理</span>
+						</div>
+						<ul class="leftmenu">
+							<a href="{:U('/vip/client/addClient')}" target='frameContent'><li class="fa fa-plus-square-o">添加会员</li></a>
+							<a href="{:U('/vip/statistic/listClient')}" target='frameContent'><li class="fa fa-plus-square-o">会员列表</li></a>
+						</ul>
+					</div>
+					<!-- 财务处理 -->
+					<div class="financial_management menu_color">
+						<div class="menu fa">
+							<span>会员卡管理</span>
+						</div>
+						<ul class="leftmenu hide">
+							<a href="{:U('/vip/vip/addVip')}" target='frameContent'><li class="fa fa-plus-square-o">会员开卡</li></a>
+							<a href="{:U('/vip/vip/recharger')}" target='frameContent'><li class="fa fa-plus-square-o">会员卡充值</li></a>
+							<a href="{:U('/vip/vip/retirer')}" target='frameContent'><li class="fa fa-plus-square-o">会员卡提现</li></a>
+							<a href="{:U('/vip/vip/presentDaily')}" target='frameContent'><li class="fa fa-plus-square-o">会员签到</li></a>
+							<a href="{:U('/vip/vip/presentActivity')}" target='frameContent'><li class="fa fa-plus-square-o">活动签到</li></a>
+							<a href="{:U('/vip/statistic/listVip')}" target='frameContent'><li class="fa fa-plus-square-o">会员卡列表</li></a>
+							<a href="{:U('/vip/vip/listPresent')}" target='frameContent'><li class="fa fa-plus-square-o">签到列表</li></a>
+							<a href="{:U('/vip/statistic/listRecharger')}" target='frameContent'><li class="fa fa-plus-square-o">充值列表</li></a>
+						</ul>
+					</div>
+					<!-- 开票流水查询 -->
+					<div class="invoice_flow_inquiry menu_color">
+						<div class="menu fa">
+							<span>会员消费</span>
+						</div>
+						<ul class="leftmenu hide">
+							<a href="{:U('/vip/conso/rapideConso')}" target='frameContent'><li class="fa fa-plus-square-o">快速消费</li></a>
+							<a href="{:U('/vip/conso/productConso')}" target='frameContent'><li class="fa fa-plus-square-o">商品消费</li></a>
+							<a href="{:U('/vip/conso/exchange')}" target='frameContent'><li class="fa fa-plus-square-o">积分兑换</li></a>
+							<a href="{:U('/vip/conso/gift')}" target='frameContent'><li class="fa fa-plus-square-o">礼品领取</li></a>
+							<a href="{:U('/vip/conso/foisConso')}" target='frameContent'><li class="fa fa-plus-square-o">计次消费</li></a>
+							<a href="{:U('/vip/conso/listOrder')}" target='frameContent'><li class="fa fa-plus-square-o">订单列表</li></a>
+							<a href="{:U('/vip/conso/listFoisConso')}" target='frameContent'><li class="fa fa-plus-square-o">计次消费记录</li></a>
+							<a href="{:U('/vip/conso/rembourseDirect')}" target='frameContent'><li class="fa fa-plus-square-o">直接退款</li></a>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--**********************************left结束*********************************************************-->
+	<!--*****************************************************************************************right开始-->
+	<div id="mainPanle" region="center"
+		style="background: #d2e0f2; overflow-y: hidden;">
+		<iframe name='frameContent' id='frameContent' src='' height='100%' width='99%' style="background:#eee;"></iframe>
+	</div>
+	<!--*******************************************************************************************right结束-->
+	<!--*************************************************content结束****************************************-->
+	<!--footer开始-->
+	<div region="south" split="true"
+		style="height: 30px; background: #1a7eba;">
+		<div class="footer">版权所所有（A）河北驰宇网络科技有限公司</div>
+	</div>
+	<!--footer结束-->
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

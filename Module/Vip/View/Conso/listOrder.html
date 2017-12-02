@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="" method="POST">
+		<table>
+			<tr>
+				<td>订单号:</td>
+				<td><input type="text" name="idOrder" /></td>
+				<td>会员卡号:</td>
+				<td><input type="text" name="cardNumber"/></td>
+			</tr>
+			<tr>
+				<td>开始时间:</td>
+				<td><input type="datetime-local" name="timeBegin"/></td>
+				<td>结束时间:</td>
+				<td><input type="datetime-local" name="timeEnd"/></td> 
+			</tr>
+			<tr>
+				<td>订单类型:</td>
+				<td><select name="type">
+					<option value="">--</option>
+					<option value="product">商品消费</option>
+					<option value="rapide">快速消费</option>
+					<option value="gift">礼品领取</option>
+					<option value="exchange">积分兑换</option>
+				</select></td>
+				<td style="text-align:center;"><input type="submit" value="查找"/></td>
+			</tr>
+		</table>
+	</form>
+	<table>
+		<tr>
+			<th>订单号</th>
+			<th>会员姓名</th>
+			<th>会员卡号</th>
+			<th>支付方式</th>
+			<th>总价</th>
+			<th>折后价</th>
+			<th>时间</th>
+			<th>状态</th>
+			<th>操作</th>
+		</tr>
+		<volist name='list' id='l'>
+			<tr>
+				<td>{$l.idorder}</td>
+				<td>{$l.client.name}</td>
+				<td>{$l.vip.cardnumber}</td>
+				<td>
+					<eq name='l.typepay' value='credit'>
+						储值
+					</eq>
+					<eq name='l.typepay' value='creditGive'>
+						赠送金额
+					</eq>
+					<eq name='l.typepay' value='pointConso'>
+						通用积分
+					</eq>
+					<eq name='l.typepay' value='pointHeal'>
+						调养/健康积分
+					</eq>
+					<eq name='l.typepay' value='pointTourism'>
+						旅游积分
+					</eq>
+				</td>
+				<td>{$l.price}</td>
+				<td>{$l.pricesold}</td>
+				<td>{$l.time}</td>
+				<td>{$l.status}</td>
+				<td>
+					<a href="{:U('/vip/conso/detailOrder',array('id'=>$l[id]))}">详情</a>&nbsp;
+					<a href="{:U('/vip/conso/rembourse',array('id'=>$l[id]))}">退单</a>&nbsp;
+				</td>
+			</tr>
+		</volist>
+	</table>
+</body>
+</html>

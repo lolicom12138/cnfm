@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>login</title>
+<link rel="stylesheet" href="__PUBLIC__/Data/css/login.css" />
+<script type="text/javascript" src="__PUBLIC__/Data/js/jquery.min.js"></script>
+<script>
+	function goSubmit() {
+		$("#confirm").attr("disalbed", true);
+		if (!$("#login")[0].value) {
+			$("#confirm").attr("disable", false);
+			alert("请输入登录名");
+			return false;
+		}
+		if (!$("#pwd")[0].value) {
+			$("#confirm").attr("disable", false);
+			alert("请输入密码");
+			return false;
+		}
+		if ($("#verify")[0].value.length < 4) {
+			$("#confirm").attr("disable", false);
+			alert("验证码输入错误");
+			return false;
+		}
+
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				// TODO
+				var arrayJson = eval("(" + xmlhttp.responseText + ")");
+				$('#pwd').val(arrayJson['pwd']);
+				$('#code').val(arrayJson['code']);
+				vipLogin.submit();
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/chiffrement/chiffrementPwd')}", false);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("pwd=" + $("#pwd")[0].value);
+	}
+	function newVerify(){
+		document.getElementById("divVerify").innerHTML = "<img src='{:U('/api/verify')}' style='width:90px;height:40px;'/>";
+	}
+</script>
+</head>
+<body>
+<form action='' method='POST' id='vipLogin'>
+<input type='hidden' name='code' id='code'/>
+<div class="num">
+	<div class="content">
+    	<div class="input-wrap">
+            <span class="input-icon"></span>
+            <input class="startpage-input-text" type="text" name="login" id='login' value="" placeholder="用户名">
+        </div>
+        <div class="input-login-pwd">
+            <span class="input-pwd"></span>
+            <input class="startpage-input-pass" type="password" name="pwd" id='pwd' value="" placeholder="密码">
+        </div>
+        <div style="width:250px; height:35px; border-radius:8px;">
+            <div class="input-login-code" id="">
+                <span class="input-code"></span>
+                <input class="startpage-input-code" type="text" name="verify" id='verify' value="" placeholder="验证码">
+            </div>
+            <div class="code-right" id='divVerify' onclick='javascript:newVerify()'><img src="{:U('/api/verify')}" style='width:90px;height:40px;'/></div>
+        </div>
+        <div class="button-login"><a href="javascript:goSubmit()" style="color:#000;font-weight:bold;font-size:18px;">登陆</a></div>		
+    </div>
+    <div style="position:fixed; height:30px; background:#fff; bottom:0px; width:100%;color:#000;line-height:30px; text-align:center;
+    font-size:14px;">
+    技术支持（A）河北驰宇网络科技有限公司</div>
+</div>
+</form>
+<script type="text/javascript" src="__PUBLIC__/Data/js/scroll.js"></script>
+</body>
+</html>

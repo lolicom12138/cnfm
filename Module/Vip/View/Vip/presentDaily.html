@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	function present(){
+		var cardNumber = document.getElementById('cardNumber').value;
+		if(!cardNumber){
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("("+result+")");
+				switch(result['status']){
+				case "ok":
+					alert("成功");
+					break;
+				case "already":
+					alert("今天已经签到过了");
+					break;
+				case "not enough":
+					alert("还不够30分钟，如果一定要签退，请点击强制签退");
+					break;
+				case "no card number":
+					alert("请输入卡号");
+					break;
+				case "card not found":
+					alert("卡号未找到");
+					break;
+				case "card type invalid":
+					alert("此卡类型不允许签到");
+					break;
+				case "not active":
+					alert("卡未激活");
+					break;
+				case "time wrong":
+					alert("时间不符合规定");
+					break;
+				default:
+					alert("失败");
+					break;
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/vip/presentDaily')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("cardNumber="+cardNumber);
+	}
+	function presentConfirm(){
+		var cardNumber = document.getElementById('cardNumber').value;
+		if(!cardNumber){
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("("+result+")");
+				switch(result['status']){
+				case "ok":
+					alert("成功");
+					break;
+				case "already":
+					alert("今天已经签到过了");
+					break;
+				case "not enough":
+					alert("还不够30分钟，如果一定要签退，请点击强制签退");
+					break;
+				case "no card number":
+					alert("请输入卡号");
+					break;
+				case "card not found":
+					alert("卡号未找到");
+					break;
+				case "card type invalid":
+					alert("只有生活卡可以签到");
+					break;
+				case "not active":
+					alert("卡未激活");
+					break;
+				default:
+					alert("失败");
+					break;
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/vip/presentDaily')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("cardNumber="+cardNumber+"&confirm=1");
+	}
+	
+</script>
+</head>
+<body>
+	<p>会员卡号:<input type='text' id='cardNumber' /><button onclick='javascript:present()' >签到/签退</button><button onclick='javascript:presentConfirm()' >强制签退</button></p>
+</body>
+</html>

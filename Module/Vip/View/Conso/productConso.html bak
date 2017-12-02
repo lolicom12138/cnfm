@@ -1,0 +1,207 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>productConso</title>
+<style>
+input[type=text], select, input[type="password"] {
+	width: 160px;
+	height: 25px;
+}
+
+.table2 {
+	border-collapse: collapse;
+	text-align: center;
+	margin-top: 15px;
+	font-size: 14px;
+}
+
+.table2 td, .table2 th {
+	border: 1px solid #000;
+}
+
+input[type="submit"] {
+	height: 27px;
+	font-size: 10pt;
+	color: #003399;
+	border: 1px #93bee2 solid;
+	width: 60px;
+	background-color: #e8f4ff;
+	line-height: 23px;
+	position: absolute;
+	font-weight: bold;
+	cursor: pointer;
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+	margin-top: 10px;
+	font-size: 16px;
+}
+
+.table1 {
+	border-collapse: collapse;
+	text-align: center;
+	margin: 15px 0;
+}
+
+.table1 td {
+	border: 1px solid #000;
+}
+.table1 tr a {
+	margin-right: 5px;
+	font-size: 13px;
+}
+
+.table1 tr a:last-child {
+	margin-right: 0;
+}
+</style>
+<script>
+	function getVip() {
+		var cardNumber = document.getElementById("number").value;
+		if (!cardNumber) {
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("(" + result + ")");
+				if (result['status'] == "ok") {
+					formConso.cardNumber.value = cardNumber;
+					document.getElementById("cardNumber").innerHTML = cardNumber;
+					document.getElementById("name").innerHTML = result.name;
+					document.getElementById("card").innerHTML = result.card;
+					document.getElementById("credit").innerHTML = result.credit;
+					document.getElementById("creditGive").innerHTML = result.creditGive;
+					document.getElementById("pointRecharger").innerHTML = result.pointRecharger;
+					document.getElementById("pointGive").innerHTML = result.pointGive;
+					document.getElementById("pointConso").innerHTML = result.pointConso;
+					document.getElementById("pointHeal").innerHTML = result.pointHeal;
+					document.getElementById("pointTourism").innerHTML = result.pointTourism;
+					document.getElementById("dateCard").innerHTML = result.dateCard;
+					document.getElementById("dateActive").innerHTML = result.dateActive;
+					document.getElementById("dateExpire").innerHTML = result.dateExpire;
+				} else {
+					alert("未找到此会员卡号或此卡未激活");
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/vip/getVip')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("cardNumber=" + cardNumber);
+	}
+	function newContent(){
+		var product = document.getElementById("product").value;
+		var cardNumber = formConso.cardNumber.value;
+		var idOffre = formConso.idOrder.value;
+		if (!product) {
+			return;
+		}
+		if(!cardNumber){
+			alert("请先输入会员卡号码并查找");
+			return;
+		}
+		var xmlhttp;
+		if (window.XMLHttpRequest) {
+			xmlhttp = new XMLHttpRequest();
+		} else {
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var result = xmlhttp.responseText;
+				result = eval("(" + result + ")");
+				if (result['status'] == "ok") {
+					formConso.idOrder.value = result['idOrder'];
+					var tableContent = document.getElementById("content");
+					var str = "<tr><th width='199'>商品名称</th><th width='213'>商品编码</th><th width='142'>商品单价</th><th width='142'>商品数量</th></tr>";
+					var content = result['content'];
+					for(var i = 0;i < content.length;i++){
+						str += "<tr><th width='199'>"+content[i]['name']+"</th><th width='213'>"+content[i]['code']+"</th><th width='142'>"+content[i]['price']+"</th><th width='142'>"+content[i]['number']+"</th></tr>"
+					}
+					document.getElementById("content").innerHTML = str;
+					document.getElementById("product").value = "";
+				} else {
+					alert("未找到此商品或其他错误");
+				}
+			}
+		}
+		xmlhttp.open("POST", "{:U('/api/conso/newContent')}", true);
+		xmlhttp.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("cardNumber=" + cardNumber+"&product="+product+"&idOffre="+idOffre);
+		
+	}
+	function checkEnter(){
+		var x;
+		if(window.event){
+			x=event.keyCode;
+		}
+		else if(event.which){
+			x=event.which;
+		}
+		if(x == 13){
+			newContent();
+		}
+	}
+</script>
+</head>
+<body>
+	会员卡号码输入:
+	<input type="text" id='number' />
+	<button onclick='javascript:getVip()'>查询</button>
+	<table width="1233" height="73" border="1" class="table1">
+		<tr>
+			<th width="228">会员卡号</th>
+			<th>会员姓名</th>
+			<th width='96'>会员卡类型</th>
+			<th width="59">储值</th>
+			<th width="86"><p>赠送金额</p></th>
+			<th width="86">储值积分</th>
+			<th width="86">赠送积分</th>
+			<th width="86">消费积分</th>
+			<th width="86">调养积分</th>
+			<th width="86">旅游积分</th>
+			<th width="86">开卡日期</th>
+			<th width="86">激活日期</th>
+			<th width="86">到期日期</th>
+		</tr>
+		<tr>
+			<td id='cardNumber'></td>
+			<td id='name'></td>
+			<td id='card'></td>
+			<td id='credit'></td>
+			<td id='creditGive'></td>
+			<td id='pointRecharger'></td>
+			<td id='pointGive'></td>
+			<td id='pointConso'></td>
+			<td id='pointHeal'></td>
+			<td id='pointTourism'></td>
+			<td id='dateCard'></td>
+			<td id='dateActive'></td>
+			<td id='dateExpire'></td>
+		</tr>
+	</table>
+	商品名称/代码输入:
+<input type="text" id='product' onkeypress="javascript:checkEnter()"/><button onclick='javascript:newContent()'>加入</button>
+	<table width="1006" height="45" border="0" class="table2" id='content'>
+		<tr>
+			<th width="199" height="41">商品名称</th>
+		  <th width="213">商品编码</th>
+			<th width="142">商品单价</th>
+			<th width="142">商品数量</th>
+		</tr>
+	</table>
+	<form action='' method='POST' id='formConso'>
+  <input type='hidden' name='idOrder'/>
+		<input type='hidden' name='cardNumber'/>
+		<input type="submit" value="提交" />
+	</form>
+</body>
+</html>
